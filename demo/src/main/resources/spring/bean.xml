@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       default-lazy-init="false"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <beans profile="dev">
+        <context:component-scan base-package="com.github.whvixd.demo.springDemo"/>
+        <context:annotation-config/><!--AutowiredAnnotationBeanPostProcessor CommonAnnotationBeanPostProcessor
+    PersistenceAnnotationBeanPostProcessor RequiredAnnotationBeanPostProcessor 会动自动注入这个四个bean，可以使用这些注解-->
+        <bean id="student" class="com.github.whvixd.demo.Entity.Student" p:id="1" p:name="张三" lazy-init="true"
+              scope="singleton"/>
+        <!--lazy-init 懒加载对象不会在容器启动是初始化，而在第一次被调用时初始化,大大减少服务器启动时间，且lazy-init优先级比default-lazy-init="true"高-->
+        <bean id="course" class="com.github.whvixd.demo.Entity.Course" c:courseName="语文" c:score="99"/>
+        <bean id="container" class="com.github.whvixd.demo.springDemo.TestInitializingBean" init-method="init"
+              lazy-init="false"/>
+        <bean class="com.github.whvixd.demo.springDemo.TestBeanPostProcessor"/>
+        <bean class="com.github.whvixd.util.SystemRequestAspect"/>
+        <aop:aspectj-autoproxy/>
+
+
+        <!--<mvc:default-servlet-handler/>-->
+        <!--对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Servlet处理，
+        如果不是静态资源的请求，才由DispatcherServlet继续处理。-->
+
+
+        <!--<mvc:annotation-driven/>-->
+        <!--会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter两个Bean,这是Spring MVC为@Controller分发
+        请求所必需的，并且提供了数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持,@Valid支持读写XML的支持（JAXB）
+        和读写JSON的支持（默认Jackson）等功能。-->
+
+        <!-- 启用@AspectJ注解 -->
+       <!-- <aop:aspectj-autoproxy/>-->
+
+
+    </beans>
+</beans>

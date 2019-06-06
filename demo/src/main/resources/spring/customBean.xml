@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mycourse="http://www.qilixiang1118.top/schema/course"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.qilixiang1118.top/schema/course
+       http://www.qilixiang1118.top/schema/course.xsd">
+
+    <mycourse:course id="chinese" courseName="语文" score="99.0"/>
+
+</beans>

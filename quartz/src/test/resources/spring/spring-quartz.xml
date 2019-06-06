@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="jobTest" class="com.github.whvixd.quartz.SpringJobTest"/>
+
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="jobTest"/>
+        <property name="targetMethod" value="execute"/>
+    </bean>
+
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"/>
+        <property name="cronExpression" value="* * * ? * *"/>
+    </bean>
+
+
+    <bean id="jobTestTemp" class="com.github.whvixd.quartz.SpringJobTwo"/>
+
+    <bean id="jobDetailTemp" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="jobTestTemp"/>
+        <property name="targetMethod" value="execute"/>
+    </bean>
+
+    <bean id="triggerTemp" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetailTemp"/>
+        <property name="cronExpression" value="2/3 * * ? * *"/>
+    </bean>
+
+    <bean id="schedule" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails" ref="jobDetail"/>
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+                <ref bean="triggerTemp"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
