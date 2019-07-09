@@ -9,7 +9,13 @@
     <!--<context:component-scan base-package="com.github.whvixd.demo.springDemo" />-->
     <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.AsyncDemo"/>
     <bean id="service" class="com.github.whvixd.demo.springDemo.Service"/>
-    <task:executor id="asyncExecutor" pool-size="100-10000" queue-capacity="10"/>
+
+    <!--任务执行器配置详细参数说明：  
+task:executor/@pool-size：可以指定执行线程池的初始大小、最大大小 
+task:executor/@queue-capacity：等待执行的任务队列的容量 
+task:executor/@rejection-policy：当等待队列爆了时的策略，分为丢弃、由任务执行器直接运行等方式
+    -->
+    <task:executor id="asyncExecutor" pool-size="50-100" queue-capacity="10" rejection-policy="CALLER_RUNS"/>
     <!-- 支持异步方法执行 -->
     <task:annotation-driven executor="asyncExecutor"/>
 </beans>
