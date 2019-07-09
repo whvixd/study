@@ -18,8 +18,14 @@ public class Container {
 //        System.out.println(course);
 //        System.out.println(Long.toHexString(0xff).toUpperCase());
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/factory-bean.xml");
-        Bean tom = context.getBean(Bean.class);
-        System.out.println(tom);
+//        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/factory-bean.xml");
+//        Bean tom = context.getBean(Bean.class);
+//        System.out.println(tom);
+
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/temp-bean.xml");
+        AsyncDemo bean = context.getBean(AsyncDemo.class);
+        bean.asyncTest();
+        System.out.println("main");
     }
 }
