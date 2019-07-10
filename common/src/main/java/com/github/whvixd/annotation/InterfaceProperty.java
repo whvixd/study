@@ -1,4 +1,4 @@
-package com.github.whvixd.util.annotation;
+package com.github.whvixd.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

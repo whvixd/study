@@ -1,6 +1,6 @@
 package com.github.whvixd.demo.springDemo;
 
-import com.github.whvixd.util.annotation.InterfaceProperty;
+import com.github.whvixd.annotation.InterfaceProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

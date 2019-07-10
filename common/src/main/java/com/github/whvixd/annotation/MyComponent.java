@@ -1,4 +1,4 @@
-package com.github.whvixd.util.annotation;
+package com.github.whvixd.annotation;
 
 import org.springframework.stereotype.Component;
 

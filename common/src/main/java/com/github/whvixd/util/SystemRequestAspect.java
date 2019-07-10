@@ -1,6 +1,6 @@
 package com.github.whvixd.util;
 
-import com.github.whvixd.util.annotation.InterfaceProperty;
+import com.github.whvixd.annotation.InterfaceProperty;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

@@ -50,9 +50,11 @@ public class EventBusDemo {
     public static void main(String[] args) {
         //AsyncEventBus
         EventBus eventBus = new EventBus("helloListener");
+
+        //管理者，注册一个订阅者
         eventBus.register(new MessageListener());
 
-
+        //管理者发布推出消息给订阅者
         eventBus.post(new Message("helloMessage"));
         eventBus.post(new Message("helloMessage"));
 

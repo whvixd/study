@@ -22,14 +22,15 @@ import java.util.stream.Stream;
  * reduce
  */
 public class StreamDemo {
-    public static void main(String[] args) {
-        String[] strings = {"a","a","a","a","a"};
 
-        Stream stream = Stream.of("a","a","a","a","a");
+    public void test() {
+        String[] strings = {"a", "a", "a", "a", "a"};
+
+        Stream stream = Stream.of("a", "a", "a", "a", "a");
         Stream stream1 = Arrays.stream(strings);
         Stream stream2 = Stream.of(strings);
 
-        int []ii = new int[]{1,3,2};
+        int[] ii = new int[]{1, 3, 2};
 //        IntStream.of(ii).forEach(value -> {for(int i:ii){System.out.print(i);}});
 
 //        IntStream.range(1,10).forEach(System.out::print);//[1,10)
@@ -37,19 +38,24 @@ public class StreamDemo {
         /**
          * 九九乘法表
          */
-        IntStream.range(1,10).forEach(i->{for(int j=1;j<=i;j++){System.out.print(j+"*"+i+"="+i*j+"\t");}System.out.println();});
+        IntStream.range(1, 10).forEach(i -> {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j + "*" + i + "=" + i * j + "\t");
+            }
+            System.out.println();
+        });
 
-        IntStream.rangeClosed(3,4).forEach(System.out::print);//[3,4]
+        IntStream.rangeClosed(3, 4).forEach(System.out::print);//[3,4]
 
         String[] strings1 = (String[]) stream.toArray(String[]::new);//类型转换
         System.out.println(strings1[3]);
 
         Integer[] sixNums = {1, 2, 3, 4, 5, 6};
-        Integer[] evens = Stream.of(sixNums).filter(n -> n%2 == 0).toArray(Integer[]::new);
-        for (Integer i:evens) {
+        Integer[] evens = Stream.of(sixNums).filter(n -> n % 2 == 0).toArray(Integer[]::new);
+        for (Integer i : evens) {
             System.out.print(i);
         }
-System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
 
         Stream.of("one", "two", "three", "four")
                 .filter(e -> e.length() > 3)
@@ -58,17 +64,17 @@ System.out.println("----------------------------------------");
                 .peek(e -> System.out.println("Mapped value: " + e))
                 .collect(Collectors.toList());
 
-System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
 
 //        IntStream.of(3,12,1,2,1,3,21,3,21).filter(n -> n%10==1).peek(System.out::print).map(Integer::floatValue).collect(Collectors.toList());
-        Stream.of("a","b").peek(System.out::print).filter(n -> n=="a").map(String::valueOf).collect(Collectors.toList()).forEach(System.out::print);
+        Stream.of("a", "b").peek(System.out::print).filter(n -> n == "a").map(String::valueOf).collect(Collectors.toList()).forEach(System.out::print);
 
-        Stream.of(14,31,2,1).filter(n -> n/10==0).forEach(System.out::print);
+        Stream.of(14, 31, 2, 1).filter(n -> n / 10 == 0).forEach(System.out::print);
 
-System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
 
         List<Integer> ints = new ArrayList();
-        for (int i=1;i<3;i++){
+        for (int i = 1; i < 3; i++) {
             ints.add(i);
         }
 
@@ -79,6 +85,15 @@ System.out.println("----------------------------------------");
         /**
          * toMap 第三个入参是当k重复时，取哪个k的值，
          */
-        Stream.of(14,31,2,1,1).distinct().collect(Collectors.toMap(k->k,k->k,(v1,v2)->v2));
+        Stream.of(14, 31, 2, 1, 1).distinct().collect(Collectors.toMap(k -> k, k -> k, (v1, v2) -> v2));
+    }
+
+    public static void main(String[] args) {
+        int i = IntStream.range(0, 10).filter(k -> 2 == k).findFirst().orElse(1);
+        int i1 = IntStream.range(0, 10).filter(k -> -1 == k).findFirst().orElseGet(()-> 3);
+        System.out.println(i);
+        System.out.println(i1);
+        boolean present = IntStream.range(0, 10).filter(k -> -1 == k).findFirst().isPresent();
+        System.out.println(present);
     }
 }

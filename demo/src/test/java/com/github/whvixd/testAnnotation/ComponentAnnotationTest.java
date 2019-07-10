@@ -1,6 +1,6 @@
 package com.github.whvixd.testAnnotation;
 
-import com.github.whvixd.util.annotation.MyComponent;
+import com.github.whvixd.annotation.MyComponent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class ComponentAnnotationTest {
