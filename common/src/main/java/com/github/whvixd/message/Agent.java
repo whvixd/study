@@ -1,12 +1,9 @@
 package com.github.whvixd.message;
 
 import com.github.whvixd.annotation.Subscribe;
-import lombok.Data;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by wangzhx on 2019/7/10.
@@ -19,10 +16,10 @@ public class Agent {
      * 存储订阅者方法的信息
      * {className:SubscriberMessage}
      */
-    private Map<String, SubscriberMessage> container = new HashMap<>();
+    private Map<String, List<SubscriberMessage>> container;
 
     /**
-     * 1. 获取subscriber中的@Subscibe注解 class_method_argClass:1
+     * 注册订阅者
      */
     public void register(Object subscriber) {
         if (subscriber == null) {
@@ -39,60 +36,53 @@ public class Agent {
             return;
         }
         String key = report.getClazzName();
-        SubscriberMessage subscriberMessage = container.get(key);
-        if (subscriberMessage == null) {
-            return;
+        List<SubscriberMessage> messages = container.get(key);
+        if (messages != null && messages.size() != 0) {
+            //todo 异步
+            messages.forEach(message -> message.invoke(report.getContent()));
         }
-        subscriberMessage.invoke(report.getContent());
     }
 
-
-    private void setContainer(Object object) {
-        Class<?> clazz = object.getClass();
+    private void setContainer(Object subscriber) {
+        Class<?> clazz = subscriber.getClass();
         Method[] declaredMethods = clazz.getDeclaredMethods();
         if (declaredMethods.length != 0) {
-            for (int i = 0; i < declaredMethods.length; i++) {
-                Method method = declaredMethods[i];
+            for (Method method : declaredMethods) {
                 Subscribe subscribe = method.getAnnotation(Subscribe.class);
                 if (subscribe != null) {
-                    SubscriberMessage subscriberMessage = new SubscriberMessage();
-                    subscriberMessage.setClazz(clazz);
-                    subscriberMessage.setMethodMessage(method);
-                    subscriberMessage.setSubscriber(object);
-                    container.put(method.getParameterTypes()[0].getSimpleName(), subscriberMessage);
+                    SubscriberMessage message = SubscriberMessage.builder().
+                            methodMessage(method).
+                            subscriber(subscriber).
+                            clazz(clazz);
+                    initContainer(getKey(method), message);
                 }
             }
         }
     }
 
-
-    @Data
-    class SubscriberMessage {
-        private Object subscriber;
-        private Class clazz;
-        private Method method;
-        private int parameterCount = 1;
-        private Class<?> parameterType;
-
-        public void setMethodMessage(Method method) {
-            setMethod(method);
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes == null) {
-                setParameterCount(0);
-                throw new RuntimeException();
-            }
-            setParameterType(parameterTypes[0]);
+    private void initContainer(String key, SubscriberMessage message) {
+        if (key == null || message == null) {
+            return;
         }
-
-        void invoke(Object arg) {
-            try {
-                method.invoke(subscriber, arg);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException();
-            }
+        if (container == null) {
+            container = new HashMap<>();
+        }
+        List<SubscriberMessage> messages = container.get(key);
+        if (messages != null) {
+            messages.add(message);
+        } else {
+            messages = new ArrayList<>();
+            messages.add(message);
+            container.put(key, messages);
         }
     }
 
+    private String getKey(Method method) {
+        if (method == null || method.getParameterTypes().length == 0) {
+            return null;
+        }
+        return method.getParameterTypes()[0].getSimpleName();
+    }
 
     private String getFullKey(Class clazz, Method method) {
         if (clazz == null || method == null) {

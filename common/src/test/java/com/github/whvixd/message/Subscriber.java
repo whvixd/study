@@ -13,6 +13,11 @@ public class Subscriber {
 
     @Subscribe
     public void toDo(String action){
+        System.out.println(getClass().getSimpleName()+action);
+    }
+
+    @Subscribe
+    public void toDo(Integer action){
         System.out.println(action);
     }
 }
