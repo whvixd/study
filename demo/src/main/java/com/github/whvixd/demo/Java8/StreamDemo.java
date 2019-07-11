@@ -1,10 +1,10 @@
 package com.github.whvixd.demo.Java8;
 
 import com.github.whvixd.demo.Entity;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -88,12 +88,37 @@ public class StreamDemo {
         Stream.of(14, 31, 2, 1, 1).distinct().collect(Collectors.toMap(k -> k, k -> k, (v1, v2) -> v2));
     }
 
-    public static void main(String[] args) {
+    private void testOrElse() {
         int i = IntStream.range(0, 10).filter(k -> 2 == k).findFirst().orElse(1);
-        int i1 = IntStream.range(0, 10).filter(k -> -1 == k).findFirst().orElseGet(()-> 3);
+        int i1 = IntStream.range(0, 10).filter(k -> -1 == k).findFirst().orElseGet(() -> 3);
         System.out.println(i);
         System.out.println(i1);
         boolean present = IntStream.range(0, 10).filter(k -> -1 == k).findFirst().isPresent();
         System.out.println(present);
+    }
+
+    private void testToMap() {
+        List<String> list = Lists.newArrayList("a", "b", "c");
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("a", 1);
+        map.put("b", "2");
+        Map<String, Object> map1 = list.stream()
+                .collect(HashMap::new, (m, v) -> m.put(v, v), HashMap::putAll);
+
+        Map<String, Object> map2 = list.stream()
+                /**
+                 * 第三个参数：组合器—用于组合两个值的关联的、不干涉的、无状态的函数，必须与累加器函数兼容
+                 */
+                .collect(Maps::newHashMap, (m, k) -> m.put(k, map.get(k)), Map::putAll);
+        System.out.println(map2);
+        /**
+         * merge 操作判空 NPE
+         */
+        Map<String, Object> map3 = list.stream().collect(Collectors.toMap(k -> k, map::get, (k1, k2) -> k1));
+    }
+
+    public static void main(String[] args) {
+
+
     }
 }
