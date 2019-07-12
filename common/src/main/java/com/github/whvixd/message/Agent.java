@@ -21,7 +21,6 @@ public class Agent {
      * 存储订阅者方法的信息
      * {className:SubscriberMessage}
      */
-    @Setter
     private Map<String, List<SubscriberMessage>> container;
     /**
      * 线程池
