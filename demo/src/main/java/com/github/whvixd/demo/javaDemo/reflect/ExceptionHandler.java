@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.reflectionDemo;
+package com.github.whvixd.demo.javaDemo.reflect;
 
 import java.lang.annotation.*;
 import java.lang.reflect.InvocationTargetException;

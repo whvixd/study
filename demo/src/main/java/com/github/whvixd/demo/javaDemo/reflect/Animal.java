@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.reflectionDemo;
+package com.github.whvixd.demo.javaDemo.reflect;
 
 public interface Animal {
     String type(String type);

@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.reflectionDemo;
+package com.github.whvixd.demo.javaDemo.reflect;
 
 public class Dog implements Animal {
 

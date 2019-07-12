@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.reflectionDemo;
+package com.github.whvixd.demo.javaDemo.reflect;
 
 import com.google.common.collect.Maps;
 import com.google.common.reflect.Reflection;

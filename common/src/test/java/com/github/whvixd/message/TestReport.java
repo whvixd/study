@@ -11,6 +11,7 @@ public class TestReport {
     @Test
     public void test() throws IOException {
         Agent agent = new Agent();
+
         agent.register(new Subscriber());
         agent.register(new SubscriberTwo());
         agent.push(new Report("I come!"));

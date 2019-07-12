@@ -1,6 +1,4 @@
-package com.github.whvixd.demo.reflectionDemo;
-
-import java.lang.reflect.ParameterizedType;
+package com.github.whvixd.demo.javaDemo.reflect;
 
 /**
  * Created by wangzhx on 2019/3/14.
