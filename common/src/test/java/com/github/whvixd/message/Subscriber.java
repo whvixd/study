@@ -2,6 +2,8 @@ package com.github.whvixd.message;
 
 import com.github.whvixd.annotation.Subscribe;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by wangzhx on 2019/6/25.
  * 订阅者
@@ -12,7 +14,8 @@ import com.github.whvixd.annotation.Subscribe;
 public class Subscriber {
 
     @Subscribe
-    public void toDo(String action){
+    public void toDo(String action) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(10);
         System.out.println(getClass().getSimpleName()+action);
     }
 

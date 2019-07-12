@@ -1,7 +1,7 @@
 package com.github.whvixd.testDemo;
 
-import com.github.whvixd.demo.javaDemo.SocketClient;
-import com.github.whvixd.demo.javaDemo.SocketServer;
+import com.github.whvixd.demo.javaDemo.socket.SocketClient;
+import com.github.whvixd.demo.javaDemo.socket.SocketServer;
 import org.junit.Test;
 
 /**

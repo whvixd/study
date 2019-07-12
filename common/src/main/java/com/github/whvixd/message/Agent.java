@@ -1,9 +1,14 @@
 package com.github.whvixd.message;
 
 import com.github.whvixd.annotation.Subscribe;
+import lombok.Setter;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wangzhx on 2019/7/10.
@@ -16,7 +21,18 @@ public class Agent {
      * 存储订阅者方法的信息
      * {className:SubscriberMessage}
      */
+    @Setter
     private Map<String, List<SubscriberMessage>> container;
+    /**
+     * 线程池
+     */
+    @Setter
+    private ThreadPoolExecutor executor;
+
+    /**
+     * 是否异步，默认开启
+     */
+    private boolean isSync = true;
 
     /**
      * 注册订阅者
@@ -38,8 +54,16 @@ public class Agent {
         String key = report.getClazzName();
         List<SubscriberMessage> messages = container.get(key);
         if (messages != null && messages.size() != 0) {
-            //todo 异步
-            messages.forEach(message -> message.invoke(report.getContent()));
+            messages.forEach(message -> {
+                        if (isSync) {
+                            getDefaultThreadPool().execute(InvokeTask.newInstance(message, messageConsumer ->
+                                    messageConsumer.invoke(report.getContent())));
+                        } else {
+                            message.invoke(report.getContent());
+                        }
+                    }
+
+            );
         }
     }
 
@@ -65,7 +89,7 @@ public class Agent {
             return;
         }
         if (container == null) {
-            container = new HashMap<>();
+            container = new ConcurrentHashMap<>();
         }
         List<SubscriberMessage> messages = container.get(key);
         if (messages != null) {
@@ -75,6 +99,10 @@ public class Agent {
             messages.add(message);
             container.put(key, messages);
         }
+    }
+
+    private ThreadPoolExecutor getDefaultThreadPool() {
+        return new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     private String getKey(Method method) {
