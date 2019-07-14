@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 @Data
@@ -13,7 +15,7 @@ public class SubscriberMessage {
     private Method method;
     private int parameterCount = 1;
     private Class<?> parameterType;
-
+    private boolean isPrior;
 
     private SubscriberMessage() {
     }
@@ -54,4 +56,5 @@ public class SubscriberMessage {
             throw new RuntimeException();
         }
     }
+
 }

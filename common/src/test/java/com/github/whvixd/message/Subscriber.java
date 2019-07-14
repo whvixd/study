@@ -1,5 +1,6 @@
 package com.github.whvixd.message;
 
+import com.github.whvixd.annotation.Prior;
 import com.github.whvixd.annotation.Subscribe;
 
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ public class Subscriber {
     }
 
     @Subscribe
+    @Prior
     public void toDo(Integer action){
         System.out.println(action);
     }
