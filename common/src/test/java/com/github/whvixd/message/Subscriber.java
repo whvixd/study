@@ -15,14 +15,15 @@ import java.util.concurrent.TimeUnit;
 public class Subscriber {
 
     @Subscribe
+    @Prior
     public void toDo(String action) throws InterruptedException {
         TimeUnit.SECONDS.sleep(10);
-        System.out.println(getClass().getSimpleName()+action);
+        System.out.println(getClass().getSimpleName()+action.getClass().getSimpleName()+action);
     }
 
     @Subscribe
     @Prior
     public void toDo(Integer action){
-        System.out.println(action);
+        System.out.println(getClass().getSimpleName()+action.getClass().getSimpleName()+action);
     }
 }

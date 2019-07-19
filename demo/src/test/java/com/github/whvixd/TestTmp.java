@@ -3,10 +3,7 @@ package com.github.whvixd;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.whvixd.model.ApprovalComplete;
-import com.github.whvixd.util.FastjsonUtil;
-import com.github.whvixd.util.GsonUtil;
-import com.github.whvixd.util.JacksonUtil;
-import com.github.whvixd.util.StreamUtil;
+import com.github.whvixd.util.*;
 import com.github.whvixd.util.exception.ArgValidationException;
 import com.github.whvixd.util.exception.base.BusinessExceptionCode;
 import com.google.common.base.Joiner;
@@ -26,9 +23,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-import org.apache.avro.data.Json;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Test;
@@ -38,7 +33,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.stringtemplate.v4.ST;
 
-import javax.persistence.Transient;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -47,17 +41,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
-import java.text.Collator;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static com.alibaba.fastjson.serializer.SerializerFeature.WriteNonStringKeyAsString;
-import static com.alibaba.fastjson.serializer.SerializerFeature.WriteNonStringValueAsString;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class TestTmp {
@@ -582,10 +574,58 @@ public class TestTmp {
     @Test
     public void test34() {
         BigDecimal bigDecimal = new BigDecimal("21");
-        Map<String,Object> map = Maps.newHashMap();
-        map.put("bd",bigDecimal);
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("bd", bigDecimal);
         System.out.println(JacksonUtil.toJson(map));
 
+    }
+
+    @Test
+    public void test35() {
+        List l = Lists.newArrayList();
+        List objects = Lists.newArrayList();
+        objects.add(null);
+
+        l.addAll(objects);
+        System.out.println(l.size());
+
+    }
+
+    @Test
+    public void test36() {
+        Animal animal = new Dog();
+        Dog dog = (Dog) animal;
+        dog.name = "1";
+        System.out.println(dog.name);
+    }
+
+
+    @Test
+    public void test37() {
+        AtomicInteger count = new AtomicInteger();
+        IntStream.range(0, 10).forEach((k) -> {
+            List<String> list = Lists.newArrayList();
+            IntStream.range(0, 6).forEach((i) -> list.add(String.valueOf(i)));
+            List<List<String>> listFormSet = ListSubUtil.instance.getListGroup(list, 20, count.incrementAndGet());
+            System.out.println(listFormSet);
+        });
+    }
+
+    @Test
+    public void test38() throws InterruptedException {
+        IntStream.range(0, 100).forEach((i) -> {
+            try {
+                System.out.println("-");
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("-");
+            Thread.sleep(1000);
+        }
     }
 
 
@@ -664,6 +704,8 @@ public class TestTmp {
     }
 
     public class Dog extends Animal {
+        private String name;
+
         public void print() {
             int a = 10;
             System.out.println(a % 1);
