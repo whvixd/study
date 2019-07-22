@@ -1,5 +1,6 @@
 package com.github.whvixd.message;
 
+import com.github.whvixd.util.function.AgentConsumer;
 import lombok.Getter;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,8 +29,13 @@ public class InvokeTask extends Thread {
         };
     }
 
-    public static InvokeTask newInstance() {
-        return new InvokeTask();
+    public static InvokeTask newInstance(AgentConsumer agentConsumer) {
+        return new InvokeTask() {
+            @Override
+            public void run() {
+                agentConsumer.accept();
+            }
+        };
     }
 
     public void setInvokeTaskName(String name) {
@@ -37,7 +43,4 @@ public class InvokeTask extends Thread {
         this.invokeTaskName = name;
     }
 
-    public Runnable run(Runnable runnable) {
-        return runnable;
-    }
 }

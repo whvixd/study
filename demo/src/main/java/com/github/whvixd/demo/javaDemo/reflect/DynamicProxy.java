@@ -138,8 +138,8 @@ public interface DynamicProxy {
         public static void main(String[] args) throws NoSuchMethodException {
             LamborghiniProxy lamborghiniProxy = new LamborghiniProxy();
 //            Car car = lamborghiniProxy.getProxy(Lamborghini.class);
-            Car car = lamborghiniProxy.getProxyWithGuava(Car.class);
-//            Car car = lamborghiniProxy.getProxyWithCglib();
+//            Car car = lamborghiniProxy.getProxyWithGuava(Car.class);
+            Car car = lamborghiniProxy.getProxyWithCglib();
 //            System.out.println(car.run("速度:"));
             car.run("--");
             car.print();

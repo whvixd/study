@@ -13,10 +13,10 @@ public class TestReport {
         Agent agent = new Agent();
 
         agent.register(new Subscriber());
-//        agent.register(new SubscriberTwo());
+        agent.register(new SubscriberTwo());
         agent.push(new Report("I come!"));
         agent.push(new Report(21));
 
-        System.in.read();
+//        System.in.read();
     }
 }

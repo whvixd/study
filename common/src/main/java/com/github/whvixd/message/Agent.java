@@ -4,12 +4,10 @@ import com.github.whvixd.annotation.Prior;
 import com.github.whvixd.annotation.Subscribe;
 import lombok.Setter;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by wangzhx on 2019/7/10.
@@ -52,7 +50,8 @@ public class Agent {
         if (report == null) {
             return;
         }
-        execute(report.getClazzName(), report);
+        getThreadPool(getContainerCount()).execute(
+                InvokeTask.newInstance(() -> execute(report.getClazzName(), report)));
     }
 
     private void setContainer(Object subscriber) {
@@ -116,8 +115,14 @@ public class Agent {
         }
     }
 
-    private ThreadPoolExecutor getDefaultThreadPool() {
-        return new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+    private void initThreadPool() {
+        if (Objects.isNull(executor)) {
+            setExecutor(new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>()));
+        }
+    }
+
+    private ThreadPoolExecutor getThreadPool(int corePoolSize) {
+        return new ThreadPoolExecutor(corePoolSize, corePoolSize * 2, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     private String getKey(Method method) {
@@ -127,21 +132,35 @@ public class Agent {
         return method.getParameterTypes()[0].getSimpleName();
     }
 
-
     private void execute(String key, Report report) {
-        if (checkNullList(asyncContainer.get(key))) {
-            asyncContainer.get(key).forEach(message -> getDefaultThreadPool().execute(
-                    InvokeTask.newInstance(message, messageConsumer ->
-                            messageConsumer.invoke(report.getContent()))));
+        initThreadPool();
+        if (checkNullMap(asyncContainer) && checkNullList(asyncContainer.get(key))) {
+            asyncContainer.get(key).forEach(message -> executor.execute(
+                    InvokeTask.newInstance(() -> message.invoke(report.getContent()))));
         }
 
-        if (checkNullList(syncContainer.get(key))) {
+        if (checkNullMap(syncContainer) && checkNullList(syncContainer.get(key))) {
             syncContainer.get(key).forEach(message -> message.invoke(report.getContent()));
         }
     }
 
+    private Integer getContainerCount() {
+        int count = 0;
+        Field[] fields = getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType().isAssignableFrom(Map.class)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public boolean checkNullList(List<?> messages) {
         return messages != null && messages.size() != 0;
+    }
+
+    public boolean checkNullMap(Map<?, ?> container) {
+        return container != null && container.size() != 0;
     }
 
     private String getFullKey(Class clazz, Method method) {

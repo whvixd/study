@@ -13,6 +13,6 @@ public class SubscriberTwo {
 
     @Subscribe
     public void toDo(String action) {
-        System.out.println(getClass().getSimpleName() + action);
+        System.out.println(getClass().getSimpleName()+action.getClass().getSimpleName() + action);
     }
 }
