@@ -1,10 +1,15 @@
 package com.github.whvixd.demo.GuavaDemo;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wangzhx on 2018/6/7.
@@ -40,7 +45,7 @@ public class EventBusDemo {
             System.out.println(event + "number");
         }
 
-//        @Subscribe
+        //        @Subscribe
         public void listener(Long event) {
             System.out.println(Thread.currentThread().getName());
             System.out.println(event + "Long");
@@ -49,7 +54,8 @@ public class EventBusDemo {
 
     public static void main(String[] args) {
         //AsyncEventBus
-        EventBus eventBus = new EventBus("helloListener");
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 1000, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        EventBus eventBus = new AsyncEventBus(executor);
 
         //管理者，注册一个订阅者
         eventBus.register(new MessageListener());
