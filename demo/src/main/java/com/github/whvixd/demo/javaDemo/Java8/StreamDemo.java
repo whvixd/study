@@ -1,10 +1,17 @@
 package com.github.whvixd.demo.javaDemo.Java8;
 
 import com.github.whvixd.demo.Entity;
+import com.github.whvixd.util.GsonUtil;
+import com.github.whvixd.util.JacksonUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -86,6 +93,14 @@ public class StreamDemo {
          * toMap 第三个入参是当k重复时，取哪个k的值，
          */
         Stream.of(14, 31, 2, 1, 1).distinct().collect(Collectors.toMap(k -> k, k -> k, (v1, v2) -> v2));
+
+        /**
+         * toMap,v为空则NPE，k为空不会
+         */
+        List<String> list = Lists.newArrayList(null, "b", "c");
+        Map<String, Object> map = Maps.newHashMap();
+        System.out.println(list.stream().collect(Collectors.toMap(k->k,k->"1")));
+
     }
 
     private void testOrElse() {
@@ -108,6 +123,7 @@ public class StreamDemo {
         Map<String, Object> map2 = list.stream()
                 /**
                  * 第三个参数：组合器—用于组合两个值的关联的、不干涉的、无状态的函数，必须与累加器函数兼容
+                 * .parallelStream()
                  */
                 .collect(Maps::newHashMap, (m, k) -> m.put(k, map.get(k)), Map::putAll);
         System.out.println(map2);
@@ -115,10 +131,39 @@ public class StreamDemo {
          * merge 操作判空 NPE
          */
         Map<String, Object> map3 = list.stream().collect(Collectors.toMap(k -> k, map::get, (k1, k2) -> k1));
+
+        /**
+         * 每个stream元素的类型为String，接着我们调用了collect方法，collect方法第一个参数是创建一个StringBuilder对象，在第二个参数中
+         * ，我们打印了当前的线程id,和t,u的值方便调试。执行的操作也只是把String加入到StringBuilder中，第三个参数则把两个StringBuilder合并。
+         * 从输出结果中我们可以看见，在执行accumulator操作的时候t的值是空的，并且是4个线程同时进行了accumulator操作，
+         * 每个线程都把String加入到了StringBuilder中，而在执行combiner操作的时候，就由4个线程变成了2个，然后进行合并操作。最终结果为1234。由于是多线程的，所以每次输出的顺序是不一样的。
+         */
+        System.out.println(Arrays.asList("1","2","3","4").parallelStream().collect(
+                StringBuilder::new,
+                (t, u) -> {
+                    System.out.println("accumulator operate current thread:"+Thread.currentThread().getId()+"   t:"+t+" u:"+u);
+                    t.append(u);
+                    System.out.println("accumulator operate current thread:"+Thread.currentThread().getId()+"   result t:"+t+" u:"+u);
+                }
+                , (BiConsumer<StringBuilder, StringBuilder>) (t, u) -> {
+                    System.out.println("combiner operate current thread:"+Thread.currentThread().getId()+"   t:"+t+" u:"+u);
+                    t.append(u);
+                    System.out.println("combiner operate current thread:"+Thread.currentThread().getId()+"   result t:"+t+" u:"+u);
+                }));
     }
 
     public static void main(String[] args) {
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("name","a");
+        map.put("age",20);
+        System.out.println(JacksonUtil.fromJson(JacksonUtil.toJson(map),S.class));
 
+    }
 
+    static class S{
+//        @Setter
+        private String name;
+        @Getter
+        private int age;
     }
 }

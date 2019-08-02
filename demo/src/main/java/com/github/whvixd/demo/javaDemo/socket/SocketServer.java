@@ -22,13 +22,28 @@ public class SocketServer {
         }
     }
 
-    public void  startServerForever() {
-        try  {
+    public void startServerForever() {
+        try {
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
-            while (true){
+            while (true) {
                 Socket accept = serverSocket.accept();
                 InputStream inputStream = accept.getInputStream();
                 System.out.println(StreamUtil.readStream2String(inputStream));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void startServerForever(int port) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(port);
+            while (true) {
+                Socket accept = serverSocket.accept();
+                SocketServerTask task = new SocketServerTask();
+                task.setAccept(accept);
+                task.start();
             }
         } catch (IOException e) {
             e.printStackTrace();

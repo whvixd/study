@@ -29,6 +29,14 @@ public class JacksonUtil {
         }
     }
 
+    /**
+     * 需要setter or getter方法
+     *
+     * @param json
+     * @param tClass
+     * @param <T>
+     * @return
+     */
     public static <T> T fromJson(String json, Class<T> tClass) {
         try {
             return OBJECTMAPPER.readValue(json, tClass);
