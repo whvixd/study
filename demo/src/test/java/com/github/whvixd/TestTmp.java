@@ -628,6 +628,29 @@ public class TestTmp {
         }
     }
 
+    @Test
+    public void test39() {
+        List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 6, 6, 6);
+        List<Integer> listTemp = Lists.newArrayList();
+
+        for (int i = 0; i < list.size(); i++) {
+            Integer k = list.get(i);
+            try {
+                if (k == 1 || k == 2 || k == 6) {
+                    throw new RuntimeException();
+                }
+                listTemp.add(k);
+            } catch (Throwable e) {
+                list.remove(i);
+                i--;
+            }
+        }
+
+        System.out.println(list);
+        System.out.println(listTemp);
+
+    }
+
 
     @Data
     public class DataChangeBean {
