@@ -2,6 +2,7 @@ package com.github.whvixd;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.github.whvixd.message.InvokeTask;
 import com.github.whvixd.model.ApprovalComplete;
 import com.github.whvixd.util.*;
 import com.github.whvixd.util.exception.ArgValidationException;
@@ -605,7 +606,7 @@ public class TestTmp {
         AtomicInteger count = new AtomicInteger();
         IntStream.range(0, 10).forEach((k) -> {
             List<String> list = Lists.newArrayList();
-            IntStream.range(0, 6).forEach((i) -> list.add(String.valueOf(i)));
+            IntStream.range(0, 274).forEach((i) -> list.add(String.valueOf(i)));
             List<List<String>> listFormSet = ListSubUtil.instance.getListGroup(list, 20, count.incrementAndGet());
             System.out.println(listFormSet);
         });
@@ -649,6 +650,19 @@ public class TestTmp {
         System.out.println(list);
         System.out.println(listTemp);
 
+    }
+
+    @Test
+    public void test40() {
+        List<List<String>> listList = Lists.newArrayList();
+        List<String> list1 = Lists.newArrayList("1", "1", "1", "1", "1");
+        List<String> list2 = Lists.newArrayList("1", "1", "1", "1", "1", "1");
+        listList.add(list1);
+        listList.add(list2);
+        System.out.println(ListSubUtil.instance.getListGroup(list1, 5, 0));
+
+        InvokeTask.newInstance(() ->
+                System.out.println(ListSubUtil.instance.getListGroup(list2, 5, 0))).start();
     }
 
 

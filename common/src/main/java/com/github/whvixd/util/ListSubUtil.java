@@ -1,6 +1,7 @@
 package com.github.whvixd.util;
 
 import com.google.common.collect.Lists;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -9,35 +10,56 @@ import java.util.List;
  */
 public enum ListSubUtil {
     instance;
-    private int start, count, lastForCount;
+    private int start, count;
+    private Integer lastForCount;
     private List<List<String>> list = Lists.newArrayList();
 
-    public List<List<String>> getListGroup(List<String> objectIds, int subNumber) {
-        return getListGroup(objectIds, subNumber, 0);
+    public List<List<String>> getListGroup(List<String> elements, int subNumber) {
+        intAllArg();
+        return getListGroup(elements, subNumber, 0);
     }
 
-    public List<List<String>> getListGroup(List<String> objectIds, int subNumber, int forCount) {
-        if (lastForCount != forCount) {
+    /**
+     * 适用于for循环分割数组
+     * 两个线程就又问题
+     *
+     * @param elements
+     * @param subNumber
+     * @param forCount
+     * @return
+     */
+    public List<List<String>> getListGroup(List<String> elements, int subNumber, int forCount) {
+        if (lastForCount == null || lastForCount != forCount) {
             intArg();
         }
         this.lastForCount = forCount;
         int end = ++count * subNumber;
-        int size = objectIds.size();
+        int size = elements.size();
         if (size < end) {
             if (size % subNumber != 0) {
-                list.add(objectIds.subList(end - subNumber, size));
+                if (end - subNumber > size) {
+                    throw new IllegalArgumentException("last for count as same as current for count!");
+                }
+                list.add(elements.subList(end - subNumber, size));
             }
             return list;
         }
-        List<String> subList = objectIds.subList(start, end);
+        List<String> subList = elements.subList(start, end);
         list.add(subList);
         start = start + subNumber;
-        return getListGroup(objectIds, subNumber, forCount);
+        return getListGroup(elements, subNumber, forCount);
     }
 
     private void intArg() {
         this.count = 0;
         this.start = 0;
-        list = Lists.newArrayList();
+        this.list = Lists.newArrayList();
+    }
+
+    private void intAllArg() {
+        this.count = 0;
+        this.start = 0;
+        this.lastForCount = null;
+        this.list = Lists.newArrayList();
     }
 }

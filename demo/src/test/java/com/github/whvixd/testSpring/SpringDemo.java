@@ -49,7 +49,7 @@ public class SpringDemo {
         System.out.println("start");
         service.test();
 //        new Thread(()-> asyncDemo.asyncTest()).start();
-        TimeUnit.SECONDS.sleep(20L);
         System.out.println("end");
+        TimeUnit.SECONDS.sleep(20L);
     }
 }

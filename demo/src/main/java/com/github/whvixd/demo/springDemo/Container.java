@@ -5,7 +5,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Container {
-    @InterfaceProperty
     public static void main(String[] args) {
 
 //        AbstractApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/bean.xml");
