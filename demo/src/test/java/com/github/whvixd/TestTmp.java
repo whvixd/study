@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.whvixd.message.InvokeTask;
 import com.github.whvixd.model.ApprovalComplete;
+import com.github.whvixd.model.Bean;
 import com.github.whvixd.util.*;
 import com.github.whvixd.util.exception.ArgValidationException;
 import com.github.whvixd.util.exception.base.BusinessExceptionCode;
@@ -37,6 +38,7 @@ import org.stringtemplate.v4.ST;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -663,6 +665,31 @@ public class TestTmp {
 
         InvokeTask.newInstance(() ->
                 System.out.println(ListSubUtil.instance.getListGroup(list2, 5, 0))).start();
+    }
+
+    @Test
+    public void test41() {
+        List<Integer> collect = IntStream.range(0, 10).boxed().collect(Collectors.toList());
+        Integer integer = collect.stream().findFirst().orElse(100);
+        System.out.println(integer);
+    }
+
+    @Test
+    public void test42() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Map<String, Object> map = Maps.newHashMap();
+//        map.put("type", "a");
+        Bean bean = JacksonUtil.fromJson(JacksonUtil.toJson(map), Bean.class);
+        System.out.println(bean);
+
+        Set<ConstraintViolation<Bean>> constraintViolations = validator.validate(bean);
+        //如果ite中没有信息，就是正确的
+        Iterator<ConstraintViolation<Bean>> ite = constraintViolations.iterator();
+        while (ite.hasNext()) {
+            System.out.println(ite.next().getMessage());
+        }
     }
 
 
