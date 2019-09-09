@@ -50,6 +50,9 @@ public class Agent {
         if (report == null) {
             return;
         }
+        /**
+         * 同一订阅者中若有异步，则优先执行
+         */
         getThreadPool(getContainerCount()).execute(
                 InvokeTask.newInstance(() -> execute(report.getClazzName(), report)));
     }

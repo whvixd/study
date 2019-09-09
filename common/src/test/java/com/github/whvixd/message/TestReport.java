@@ -17,6 +17,7 @@ public class TestReport {
         agent.push(new Report("I come!"));
         agent.push(new Report(21));
 
-//        System.in.read();
+        System.out.println("end");
+        System.in.read();
     }
 }
