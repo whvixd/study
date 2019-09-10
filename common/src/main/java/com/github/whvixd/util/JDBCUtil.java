@@ -15,7 +15,7 @@ public class JDBCUtil {
     private static final String USER = "root";
     private static final String PASSWORD = "123456";
 
-    private static MyThreadLocal<Connection> container = new MyThreadLocal<>();
+    private static ThreadLocal<Connection> container = new ThreadLocal<>();
 
     public static Connection getConnection() {
         try {

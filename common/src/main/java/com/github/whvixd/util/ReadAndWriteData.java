@@ -45,13 +45,13 @@ public class ReadAndWriteData {
         try {
             if (StringUtils.isNotBlank(data)) {
                 char[] dataChar = data.toCharArray();
-                int ponit = 0;
+                int point = 0;
                 for (char c : dataChar) {
-                    container[ponit] = c;
-                    if (ponit >= container.length - 1 || ponit >= dataChar.length - 1) {
+                    container[point] = c;
+                    if (point >= container.length - 1 || point >= dataChar.length - 1) {
                         break;
                     }
-                    ponit++;
+                    point++;
                 }
             }
         } finally {

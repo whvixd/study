@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * 模仿ThreadLocal
  * Created by wangzhx on 2018/4/16.
  */
-public class MyThreadLocal<T> {
+public class ThreadLocal<T> {
     private Map<Thread, T> container = Maps.newConcurrentMap();
 //    private Map<Thread,T> con = Collections.synchronizedMap(Maps.newHashMap());
 
