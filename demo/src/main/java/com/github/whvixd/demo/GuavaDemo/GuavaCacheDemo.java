@@ -5,21 +5,20 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import lombok.Data;
 
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
  * GuavaCache Demo
- *
+ * <p>
  * Created by wangzhx on 2018/6/1.
  */
 public class GuavaCacheDemo {
 
-    LoadingCache<Object, Map<String, Object>> guavaCache = CacheBuilder.newBuilder()
+    LoadingCache<Object, Entity.Student> guavaCache = CacheBuilder.newBuilder()
 
             //expireAfterAccess(long, TimeUnit) 这个方法是根据某个键值对最后一次访问之后多少时间后移除
             .expireAfterAccess(30, TimeUnit.SECONDS)
@@ -28,15 +27,16 @@ public class GuavaCacheDemo {
             .initialCapacity(100)
             //CacheBuilder.recordStats()用来开启Guava Cache的统计功能。统计打开后，Cache.stats()方法会返回CacheStats对象以提供一些统计信息。具体信息可以查看CacheStats类的定义。
             .recordStats().build(
-                    new CacheLoader<Object, Map<String, Object>>() {
+                    new CacheLoader<Object, Entity.Student>() {
                         @Override
-                        public Map<String, Object> load(Object key) throws Exception {
+                        public Entity.Student load(Object key) throws Exception {
                             if (key instanceof String) {
-                                Map<String, Object> map = Maps.newHashMap();
-                                map.putIfAbsent((String) key, new Entity.Student(1, (String) key,
-                                        new Entity.Course("语文", 99.00)));
-                                return map;
+                                return new Entity.Student(1, (String) key, new Entity.Course("数学", 99.00));
+                            } else if (key instanceof CacheKey) {
+                                return new Entity.Student(1, ((CacheKey) key).getName(),
+                                        new Entity.Course(((CacheKey) key).getNode().getName(), 99.00));
                             }
+                            //null，直接异常
                             return null;
                         }
                     }
@@ -54,18 +54,59 @@ public class GuavaCacheDemo {
 
         */
         GuavaCacheDemo guavaCacheDemo = new GuavaCacheDemo();
-        Map<String, Object> map = guavaCacheDemo.guavaCache.get("张三");
+        CacheKey cacheKey1 = new CacheKey();
+        Node node1 = new Node();
+        node1.setName("math");
+        cacheKey1.setNode(node1);
+        cacheKey1.setName("1");
+
+        CacheKey cacheKey2 = new CacheKey();
+        Node node2 = new Node();
+        node2.setName("chinese");
+        cacheKey2.setNode(node2);
+        cacheKey2.setName("1");
+
+        System.out.println(cacheKey1.equals(cacheKey2));
+
+//        Map<String, Object> map = guavaCacheDemo.guavaCache.get("张三");
+        Entity.Student student1 = guavaCacheDemo.guavaCache.get(cacheKey1);
+        Entity.Student student2 = guavaCacheDemo.guavaCache.get(cacheKey2);
 
         CacheStats cacheStats = guavaCacheDemo.guavaCache.stats();
         System.out.println(cacheStats.toString());
 
-        map.forEach((k, v) -> {
-            System.out.println(k);
-            System.out.println(v);
-
-        });
-
+        System.out.println(student1);
+        System.out.println(student2);
         Ordering ordering = Ordering.arbitrary();
 
+    }
+
+    @Data
+    static class CacheKey {
+        private Node node;
+        private String name;
+
+        @Override
+        //单独去比较两个对象是否相同
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CacheKey cacheKey = (CacheKey) o;
+            return name != null ? name.equals(cacheKey.name) : cacheKey.name == null;
+        }
+
+        @Override
+        //HashMap k是用hashCode()去存放位置
+        public int hashCode() {
+            int result = name.hashCode();
+            result = 31 * result + (name != null ? name.hashCode() : 0);
+            return result;
+        }
+    }
+
+    @Data
+    static class Node {
+        int no;
+        String name;
     }
 }
