@@ -1,0 +1,10 @@
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th>module</th>
+        <th>message</th>
+    </tr>
+    <tr>
+        <td>$module</td>
+        <td>$message</td>
+    </tr>
+</table>
