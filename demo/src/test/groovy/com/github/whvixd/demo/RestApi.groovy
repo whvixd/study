@@ -1,9 +1,7 @@
 package com.github.whvixd.demo
 
 import com.github.whvixd.BaseTest
-import static spark.Spark.get
-import static spark.Spark.post
-import static spark.Spark.setPort
+import static spark.Spark.*
 
 /**
  * Created by wangzhx on 2019/3/4.
@@ -11,7 +9,7 @@ import static spark.Spark.setPort
 class RestApi extends BaseTest{
 
     static {
-        setPort(9999)
+        port(9999)
         get("/hello", { req, res -> "Hello World" })
         post("/helloParam", { req, res ->
             def body = req.body()
@@ -23,7 +21,7 @@ class RestApi extends BaseTest{
 
     def client(){
         given:
-        setPort(9999)
+        port(9999)
         get("/hello", { req, res -> "Hello World" })
         post("/helloParam", { req, res ->
             def body = req.body()

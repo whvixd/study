@@ -1,7 +1,4 @@
-package com.github.whvixd.groovySyntax
-
-import spock.lang.Specification
-
+package com.github.whvixd.syntax
 /**
  * Created by wangzhx on 2019/2/18.
  * 参考：https://www.jianshu.com/p/e8dec95c4326

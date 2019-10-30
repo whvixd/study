@@ -692,6 +692,62 @@ public class TestTmp {
         }
     }
 
+    @Test
+    public void test43(){
+        DataChangeBean dataChangeBean = new DataChangeBean();
+        System.out.println(hashKey(dataChangeBean));
+        System.out.println(12&hashKey(dataChangeBean));
+        System.out.println(100&hashKey(dataChangeBean));
+//        System.out.println(hashKey((int)'s'));
+//        System.out.println(hashKey("a"));
+    }
+
+    @Test
+    public void test44(){
+        HashMap hashMap = new HashMap();
+        //Node[]:若hashCode一样，equals不一样，在添加时往链表添加，equals一样时，则时覆盖原有的k，当一个node的size>8时转为红黑树
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"),"haha");
+
+        System.out.println(hashMap);
+    }
+
+    private int hashKey(Object key){
+        int h;
+        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+    class Node{
+        String name;
+
+        Node(String name){
+            this.name=name;
+        }
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
+
+//        @Override
+//        public boolean equals(Object obj) {
+//            return this.hashCode()==obj.hashCode();
+//        }
+    }
+
+
 
     @Data
     public class DataChangeBean {

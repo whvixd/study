@@ -1,16 +1,14 @@
-package com.github.whvixd.groovySyntax
+package com.github.whvixd.syntax
 
+import com.facishare.share.BaseTest
 import com.google.common.collect.Lists
+import lombok.AllArgsConstructor
 import lombok.Data
-import spock.lang.Unroll
 
-import com.github.whvixd.BaseTest
-
-class BaseOperation extends BaseTest {
+class SpecificationShare extends BaseTest {
     def "expect 断言（assert）"() {
         expect:
-
-        sum(1, 1) == 1
+        sum(1, 1) == 2
     }
 
     def "setup given"() {
@@ -30,11 +28,16 @@ class BaseOperation extends BaseTest {
 
     def "when then 配合使用，thrown()抛出异常"() {
         when:
-        def a = null
+        throw new NullPointerException("eqwe")
 
         then:
-        def exception = thrown(NullPointerException)
-        exception.cause == null
+        def e = thrown(rst)
+        e.message == message
+
+        where:
+        _ || rst              | message
+        _ || RuntimeException | "eqwe"
+
     }
 
     def "where"() {
@@ -42,22 +45,22 @@ class BaseOperation extends BaseTest {
         Math.max(a, b) == c
 
         where:
+        // 入参||结果
         a  | b  || c
         1  | 3  || 3
-        23 | 11 || 11
+        23 | 11 || 23
     }
 
-    @Unroll
-//会将对应的值三个参数的方法运行
-    def "@Unroll where"() {
+    def "<< where"() {
         expect:
-        Math.max(a, b) == c
+        Math.max(a, b) == expected
 
         where:
 
         a << [66, 1, 11]
         b << [11, 2, 11]
-        c << [3, 2, 11]
+
+        expected << [66, 2, 11]
     }
 
     def "expect where"() {
@@ -70,21 +73,18 @@ class BaseOperation extends BaseTest {
         2 | _
 
         b << [2, 1]
-
         c = a < b ? a : b
     }
 
     def "Mock"() {
         given:
-        Student stu1 = new Student(1, "张三", 21)
-        Student stu2 = new Student(2, "李四", 22)
+        def personA = [getName: { "Tom" }] as Person
 
-        def coder1 = [
-                getName: { "my name is whvixd" }
-        ] as Coder
+        Person personB = Mock(Person.class)
+        personB.getName() >> "Jam"
 
-        Coder coder2 = Mock([getName: { "coder2" }])
-        println coder2
+        println personA.getName()
+        println personB.getName()
     }
 
     def "<< 可以向集合中添加元素"() {
@@ -98,24 +98,19 @@ class BaseOperation extends BaseTest {
 
 
     def sum(a, b) {
-        return a + b
+        a + b
     }
 
     def ">>"() {
         given:
         def teacher = Mock(Teacher.class)
-//        def student = Mock(Student.class, teacher: teacher)
-
         def student = new Student(id: 1, name: "jams", age: 21, teacher: teacher)
-        student.getStudents(_) >> ["1000"] // 适用于Mock的对象
+        student.getStudents(_ as String) >> ["1000"]
         teacher.getName() >> "Tom"
 
         when:
-        List<String> students = student.getStudents("1")
         def name = student.getTeacherName()
-
         then:
-//        students == rst
         name == expectName
         where:
         rst      | expectName
@@ -124,35 +119,31 @@ class BaseOperation extends BaseTest {
 
     def "duplicate list element"() {
         given:
-        def list = ["_" * 2] * 3 + ["|"]
-        println list
+        def list = ["_" * 2] * 3 + ["|"]//__,__,__,|
+        println list//4
+
     }
 
     @Data
+    @AllArgsConstructor
     class Student {
         Integer id
         String name
         Integer age
         Teacher teacher
 
-        Student() {}
-
-        Student(int id, String name, int age) {
-            this.id = id
-            this.name = name
-            this.age = age
+        def getTeacherName() {
+            teacher.getName()
         }
 
-        String getTeacherName() {
-            return teacher.getName()
-        }
-
-        List<String> getStudents(String id) {
-            return Lists.newArrayList(id)
+        def getStudents(String id) {
+            Lists.newArrayList(id)
         }
 
     }
 
+    @Data
+    @AllArgsConstructor
     class Teacher {
         int id
         String name
@@ -163,7 +154,7 @@ class BaseOperation extends BaseTest {
         }
     }
 
-    interface Coder {
+    interface Person {
         String getName()
     }
 }
