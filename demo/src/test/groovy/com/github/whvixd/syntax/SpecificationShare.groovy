@@ -1,6 +1,6 @@
 package com.github.whvixd.syntax
 
-import com.facishare.share.BaseTest
+import com.github.whvixd.BaseTest
 import com.google.common.collect.Lists
 import lombok.AllArgsConstructor
 import lombok.Data

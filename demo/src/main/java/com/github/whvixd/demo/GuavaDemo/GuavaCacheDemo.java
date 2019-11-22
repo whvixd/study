@@ -20,9 +20,9 @@ public class GuavaCacheDemo {
 
     LoadingCache<Object, Entity.Student> guavaCache = CacheBuilder.newBuilder()
 
-            //expireAfterAccess(long, TimeUnit) 这个方法是根据某个键值对最后一次访问之后多少时间后移除
+            //expireAfterAccess(long, TimeUnit) 这个方法是根据某个键值对最后一次访问之后多少时间后移除，若一直读，就不会失效
             .expireAfterAccess(30, TimeUnit.SECONDS)
-            //expireAfterWrite(long, TimeUnit) 这个方法是根据某个键值对被创建或值被替换后多少时间移除
+            //expireAfterWrite(long, TimeUnit) 这个方法是根据某个键值对被创建或值被替换后多少时间移除，若key唯一，在一定时间内后失效
             //.expireAfterWrite(1, TimeUnit.SECONDS)
             .initialCapacity(100)
             //CacheBuilder.recordStats()用来开启Guava Cache的统计功能。统计打开后，Cache.stats()方法会返回CacheStats对象以提供一些统计信息。具体信息可以查看CacheStats类的定义。
