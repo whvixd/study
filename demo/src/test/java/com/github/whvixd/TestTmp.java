@@ -724,6 +724,24 @@ public class TestTmp {
         System.out.println(hashMap);
     }
 
+    @Test
+    public void test45(){
+        Set<Integer> strings = Sets.newConcurrentHashSet();
+        IntStream.range(0,4).forEach(strings::add);
+        for(Integer k:strings){
+            if(k==1){
+//                strings.remove(k);
+            }
+        }
+        Iterator<Integer> iterator = strings.iterator();
+        while (iterator.hasNext()){
+            Integer next = iterator.next();
+            if(next==1){
+                strings.remove(next);
+            }
+        }
+    }
+
     private int hashKey(Object key){
         int h;
         return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
