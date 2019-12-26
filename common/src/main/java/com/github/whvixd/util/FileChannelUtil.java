@@ -1,6 +1,5 @@
-package com.github.whvixd.demo.javaDemo.nio;
+package com.github.whvixd.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -9,28 +8,29 @@ import java.nio.channels.FileChannel;
 /**
  * Created by wangzhx on 2019/8/13.
  */
-public class FileChannelDemo {
-    private void readFile() {
-        try (RandomAccessFile file = new RandomAccessFile("/Users/whvixd/Documents/IdeaProjects/workspace/study/demo/src/main/resources/test/test.log", "rw")) {
+public class FileChannelUtil {
+    public static String getFileContent(String fileName) {
+        try (RandomAccessFile file = new RandomAccessFile(fileName, "r")) {
             FileChannel channel = file.getChannel();
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
             int read = channel.read(byteBuffer);
+            StringBuilder stringBuffer = new StringBuilder();
             while (read != -1) {
                 byteBuffer.flip();
                 while (byteBuffer.hasRemaining()) {
-                    System.out.print((char)byteBuffer.get());
+                    char c = (char) byteBuffer.get();
+                    stringBuffer.append(c);
                 }
                 byteBuffer.compact();
                 read = channel.read(byteBuffer);
             }
 
+            return stringBuffer.toString();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        new FileChannelDemo().readFile();
+        return null;
     }
 
 }

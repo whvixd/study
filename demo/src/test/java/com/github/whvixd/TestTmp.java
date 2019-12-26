@@ -2,7 +2,7 @@ package com.github.whvixd;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.github.whvixd.message.InvokeTask;
+import com.github.whvixd.util.InvokeTask;
 import com.github.whvixd.model.ApprovalComplete;
 import com.github.whvixd.model.Bean;
 import com.github.whvixd.util.*;

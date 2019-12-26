@@ -1,4 +1,4 @@
-package com.github.whvixd.message;
+package com.github.whvixd.util;
 
 import com.github.whvixd.util.function.AgentConsumer;
 import lombok.Getter;

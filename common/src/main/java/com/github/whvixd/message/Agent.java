@@ -2,6 +2,7 @@ package com.github.whvixd.message;
 
 import com.github.whvixd.annotation.Prior;
 import com.github.whvixd.annotation.Subscribe;
+import com.github.whvixd.util.InvokeTask;
 import lombok.Setter;
 
 import java.lang.reflect.Field;
