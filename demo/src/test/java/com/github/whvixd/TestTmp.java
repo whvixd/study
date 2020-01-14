@@ -2,7 +2,6 @@ package com.github.whvixd;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.github.whvixd.util.InvokeTask;
 import com.github.whvixd.model.ApprovalComplete;
 import com.github.whvixd.model.Bean;
 import com.github.whvixd.util.*;
@@ -609,7 +608,7 @@ public class TestTmp {
         IntStream.range(0, 10).forEach((k) -> {
             List<String> list = Lists.newArrayList();
             IntStream.range(0, 274).forEach((i) -> list.add(String.valueOf(i)));
-            List<List<String>> listFormSet = ListSubUtil.instance.getListGroup(list, 20, count.incrementAndGet());
+            List<List<String>> listFormSet = ListUtil.instance.getListGroup(list, 20, count.incrementAndGet());
             System.out.println(listFormSet);
         });
     }
@@ -661,10 +660,11 @@ public class TestTmp {
         List<String> list2 = Lists.newArrayList("1", "1", "1", "1", "1", "1");
         listList.add(list1);
         listList.add(list2);
-        System.out.println(ListSubUtil.instance.getListGroup(list1, 5, 0));
+        System.out.println(ListUtil.instance.getListGroup(list1, 5, 0));
+        System.out.println(ListUtil.instance.getListGroup(list2, 5, 0));
 
-        InvokeTask.newInstance(() ->
-                System.out.println(ListSubUtil.instance.getListGroup(list2, 5, 0))).start();
+//        InvokeTask.newInstance(() ->
+//                System.out.println(ListSubUtil.instance.getListGroup(list2, 5, 0))).start();
     }
 
     @Test

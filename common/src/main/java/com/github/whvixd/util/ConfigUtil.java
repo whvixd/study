@@ -69,7 +69,7 @@ public class ConfigUtil {
             try {
                 finalWatchService.close();
             } catch (IOException e) {
-                log.error("", e);
+                log.error(EMPTY, e);
             }
         }));
     }
