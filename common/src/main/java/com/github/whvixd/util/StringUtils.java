@@ -3,7 +3,9 @@ package com.github.whvixd.util;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -191,5 +193,47 @@ public class StringUtils {
         }
         matcher.appendTail(stringBuffer);
         return stringBuffer.toString();
+    }
+
+
+    /**
+     * @param in a:3,b:5,c:2@a:1,b:2
+     * @return a:2,b:3,c:2
+     */
+    public static String getResult(String in) {
+        int atIndex = in.indexOf("@");
+        String beginString = in.substring(0, atIndex);
+        String endString = in.substring(atIndex + 1, in.length());
+
+        Map<String, Integer> beginMap = getMap(beginString.split(","));
+        Map<String, Integer> endMap = new LinkedHashMap<>();
+        if (endString.length() > 0) {
+            endMap = getMap(endString.split(","));
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (String key : beginMap.keySet()) {
+            Integer i = beginMap.get(key);
+            if (endMap.containsKey(key)) {
+                i = beginMap.get(key) - endMap.get(key);
+            }
+            result.append(key).append(":").append(i).append(",");
+        }
+        return result.substring(0, result.length() - 1);
+    }
+
+
+    private static Map<String, Integer> getMap(String[] split) {
+        Map<String, Integer> map = new LinkedHashMap<>();
+        for (String s : split) {
+            String[] string = s.split(":");
+            String first = string[0];//a
+            Integer second = Integer.valueOf(string[1]);//2
+            if (second == 0) {
+                continue;
+            }
+            map.put(first, second);
+        }
+        return map;
     }
 }
