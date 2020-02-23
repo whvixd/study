@@ -32,6 +32,7 @@ public class ErrorCollectorDemo {
         System.out.println(out);
 
         System.out.println("World");
+
     }
 
 }
