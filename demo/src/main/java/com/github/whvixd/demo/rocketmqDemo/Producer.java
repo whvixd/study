@@ -11,7 +11,7 @@ public class Producer {
 
     public static void main(String[] args) throws Exception {
         DefaultMQProducer defaultMQProducer = new DefaultMQProducer("defaultMQPushConsumerGroup");
-        defaultMQProducer.setNamesrvAddr("192.168.0.102:9876");
+        defaultMQProducer.setNamesrvAddr("192.168.0.103:9876");
         defaultMQProducer.start();
         for (int i = 0; i < 100; i++) {
             Message message = new Message("TopicA", "A", ("Hello Mq" + i).getBytes("UTF-8"));
