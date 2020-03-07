@@ -43,4 +43,9 @@ public class InvokeTask extends Thread {
         this.invokeTaskName = name;
     }
 
+    public InvokeTask invokeTaskName(String name) {
+        super.setName(name);
+        this.invokeTaskName = name;
+        return this;
+    }
 }
