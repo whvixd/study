@@ -1,7 +1,6 @@
 package com.github.whvixd.testSpring;
 
 import com.github.whvixd.demo.Entity;
-import com.github.whvixd.demo.springDemo.AsyncDemo;
 import com.github.whvixd.demo.springDemo.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

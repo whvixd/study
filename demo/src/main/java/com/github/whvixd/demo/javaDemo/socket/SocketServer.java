@@ -5,6 +5,7 @@ import com.github.whvixd.util.StreamUtil;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.function.BiConsumer;
 
 /**
  * Created by wangzhx on 2018/10/12.
@@ -49,6 +50,16 @@ public class SocketServer {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public void r(final String a){
+        r(a, (o, o2) -> {
+            System.out.println(a);
+        });
+    }
+
+    public void r(String a, BiConsumer b){
+
     }
 
 }

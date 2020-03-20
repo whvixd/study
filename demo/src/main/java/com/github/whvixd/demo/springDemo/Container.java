@@ -1,6 +1,7 @@
 package com.github.whvixd.demo.springDemo;
 
-import com.github.whvixd.annotation.InterfaceProperty;
+import com.github.whvixd.demo.springDemo.model.AsyncDemo;
+import com.github.whvixd.demo.springDemo.model.Model1;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,8 +24,9 @@ public class Container {
 
 
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/temp-bean.xml");
+//        context.getBean(Model1.class);
         AsyncDemo bean = context.getBean(AsyncDemo.class);
-        bean.asyncTest();
-        System.out.println("main");
+//        bean.asyncTest();
+//        bean.aopDemo();
     }
 }

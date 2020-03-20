@@ -1,6 +1,10 @@
-package com.github.whvixd.demo.springDemo;
+package com.github.whvixd.demo.springDemo.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -10,23 +14,38 @@ import java.util.concurrent.Executor;
 /**
  * Created by wangzhx on 2019/7/9.
  */
+
 /**
- 1. 返回值：不要返回值直接void；需要返回值用AsyncResult或者CompletableFuture
- 2. 可自定义执行器并指定例如：@Async("otherExecutor")
- 3. @Async必须不同类间调用： A类—>B类.C方法()（@Async注释在B类/方法中），如果在同一个类中调用，会变同步执行,例如:A类.B()—>A类.@Async C()。
- 4. @Async也可以加到类，表示这个类的所有方法都是异步执行，并且方法上的注解会覆盖类上的注解。但一般不这么用！
+ * 1. 返回值：不要返回值直接void；需要返回值用AsyncResult或者CompletableFuture
+ * 2. 可自定义执行器并指定例如：@Async("otherExecutor")
+ * 3. @Async必须不同类间调用： A类—>B类.C方法()（@Async注释在B类/方法中），如果在同一个类中调用，会变同步执行,例如:A类.B()—>A类.@Async C()。
+ * 4. @Async也可以加到类，表示这个类的所有方法都是异步执行，并且方法上的注解会覆盖类上的注解。但一般不这么用！
  */
 
 //implements AsyncConfigurer 实现抱错
-public class AsyncDemo  {
+//@ToString
+public class AsyncDemo {
+    @Setter
+    @Getter
+    private String name = "AsyncDemo";
+
+    @Setter
+    @Autowired
+    @Getter
+    private Model1 model1;
+
     @Async
     public void asyncTest() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
 
         }
         System.out.println("----asyncTest----");
+    }
+
+    public void aopDemo(){
+        System.out.println("invoke this method");
     }
 
 //    @Override

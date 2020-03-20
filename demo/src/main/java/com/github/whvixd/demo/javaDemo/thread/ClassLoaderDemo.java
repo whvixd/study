@@ -4,20 +4,22 @@ import lombok.AllArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 /**
+ * 0. 编译 java->class
+ * 1. 定位到class文件，链接:校验class是否合法，准备，将符号引用转为直接引用，转为jvm内部的对象
+ * 2.
  * Created by wangzhx on 2018/3/18 10:27.
  */
-
-
 @AllArgsConstructor
 public class ClassLoaderDemo {
 
     public Integer test = 9;
-    public static Class<? extends Object> get(String name) throws ClassNotFoundException {
+    public static Class<?> getClass(String name) throws ClassNotFoundException {
         ClassLoader classLoader = new ClassLoader() {
             @Override
             public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -39,8 +41,12 @@ public class ClassLoaderDemo {
         return classLoader.loadClass(name);
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        String name = "ClassLoaderDemo";
-        Class clazz = get(name);
+    public static void main(String[] args) throws Exception{
+        String name = "com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo";
+        Class clazz = getClass(name);
+        System.out.println();
+//        Class<?> name = Class.forName("com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo");
+//        Constructor<?> declaredConstructor = name.getDeclaredConstructor(Integer.class);
+//        Object o = declaredConstructor.newInstance(2);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.whvixd.demo.springDemo;
 
+import com.github.whvixd.demo.springDemo.model.AsyncDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

@@ -742,6 +742,13 @@ public class TestTmp {
         }
     }
 
+    @Test
+    public void test46(){
+        HashMap map = new HashMap();
+        map.put(1,1);
+        System.out.println(map.size());
+    }
+
     private int hashKey(Object key){
         int h;
         return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);

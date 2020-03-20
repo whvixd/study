@@ -7,7 +7,7 @@
     <!--<context:annotation-config />-->
     <!--扫描注解 -->
     <!--<context:component-scan base-package="com.github.whvixd.demo.springDemo" />-->
-    <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.AsyncDemo"/>
+    <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.model.AsyncDemo"/>
     <bean id="service" class="com.github.whvixd.demo.springDemo.Service"/>
 
     <!--任务执行器配置详细参数说明：  

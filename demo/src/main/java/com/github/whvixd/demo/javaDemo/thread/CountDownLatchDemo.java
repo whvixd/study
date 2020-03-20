@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.javaDemo.util;
+package com.github.whvixd.demo.javaDemo.thread;
 
 import com.github.whvixd.util.InvokeTask;
 

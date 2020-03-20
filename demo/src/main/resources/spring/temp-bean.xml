@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:annotation-config/> <!--若用注解，需要扫描的方式注入-->
+    <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.model.AsyncDemo"/>
+    <bean id="model1" class="com.github.whvixd.demo.springDemo.model.Model1"/>
 
-    <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.AsyncDemo"/>
+    <aop:config>
+        <aop:aspect ref="model1">
+            <aop:pointcut id="aopDemo" expression="execution(void com.github.whvixd.demo.springDemo.model.AsyncDemo.*(..))"/>
+            <aop:around method="round" pointcut-ref="aopDemo"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>

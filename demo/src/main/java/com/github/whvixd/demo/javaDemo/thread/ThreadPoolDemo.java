@@ -2,6 +2,7 @@ package com.github.whvixd.demo.javaDemo.thread;
 
 import java.io.IOException;
 import java.util.concurrent.*;
+import java.util.stream.IntStream;
 
 /**
  * 1
@@ -48,16 +49,22 @@ public class ThreadPoolDemo {
 
     public static void main(String[] args) throws IOException {
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 3, 1,
+                TimeUnit.SECONDS, new LinkedBlockingDeque<>());
         executor.prestartAllCoreThreads();//启动所有核心线程
-        executor.execute(() -> {
+        Runnable runnable = () -> {
             //do something
             System.out.println("run");
+        };
+        IntStream.range(0, 10).forEach(e -> {
+            executor.execute(runnable);
+            BlockingQueue<Runnable> queue = executor.getQueue();
+            System.out.println(queue.size());
         });
         if (!executor.isShutdown()) {
             executor.shutdown();
         }
 
-        System.in.read();//阻塞主线程
+//        System.in.read();//阻塞主线程
     }
 }
