@@ -10,4 +10,16 @@ public class ListNode {
     ListNode(int x) {
         val = x;
     }
+
+    public static void print(ListNode l) {
+        ListNode head = l;
+        while (head != null) {
+            System.out.print(head.val);
+            head = head.next;
+            if (head != null) {
+                System.out.print("->");
+            }
+        }
+
+    }
 }

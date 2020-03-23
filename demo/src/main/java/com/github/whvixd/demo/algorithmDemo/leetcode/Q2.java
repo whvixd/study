@@ -75,16 +75,9 @@ public enum Q2 {
         l2.next = new ListNode(6);
         l2.next.next = new ListNode(9);
 
-        printNodes(Q2.instance.addTwoNumbers(l1, l2));
+        ListNode.print(Q2.instance.addTwoNumbers(l1, l2));
     }
 
-    public static void printNodes(ListNode l) {
-        ListNode head = l;
-        while (head != null) {
-            System.out.println(head.val);
-            head = head.next;
-        }
 
-    }
 
 }
