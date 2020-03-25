@@ -55,6 +55,35 @@ public enum Q8 {
         }
     }
 
+    public ListNode swapPairs1(ListNode head) {
+        ListNode newHead = new ListNode(0);
+        if(head!=null){
+            addNode(head,newHead,true);
+            return newHead.next;
+        }else {
+            return newHead.next;
+        }
+    }
+
+    public void addNode(ListNode p,ListNode q,boolean flag){
+        if(p==null){
+            return;
+        }
+        ListNode pNext = p.next;
+        if(flag){
+            q.next=p;
+            p.next=null;
+            flag=false;
+        }else {
+            p.next=q.next;
+            q.next=p;
+            q=q.next.next;
+            flag=true;
+        }
+        p = pNext;
+        addNode(p,q,flag);
+    }
+
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
         head.next = new ListNode(3);
@@ -64,6 +93,6 @@ public enum Q8 {
         head.next.next.next.next.next = new ListNode(7);
         head.next.next.next.next.next.next = new ListNode(8);
         head.next.next.next.next.next.next.next = new ListNode(10);
-        ListNode.print(Q8.instance.swapPairs(head));
+        ListNode.print(Q8.instance.swapPairs1(head));
     }
 }
