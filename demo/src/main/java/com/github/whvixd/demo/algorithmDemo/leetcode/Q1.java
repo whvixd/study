@@ -16,8 +16,9 @@ import java.util.Arrays;
  *  用hashmap 效率高
  * Created by wangzhx on 2020/3/20.
  */
-public class Q1 {
+public enum  Q1 {
 
+    instance;
     public int[] twoSum(int[] nums, int target) {
         int[] result = new int[2];
         for (int i = 0; i < nums.length; i++) {
@@ -37,7 +38,7 @@ public class Q1 {
     }
 
     public static void main(String[] args) {
-        int[] ints = new Q1().twoSum(new int[]{-1, -2, -3, -4, -5}, -8);
-        Arrays.stream(ints).forEach(k -> System.out.println(k));
+        int[] ints = Q1.instance.twoSum(new int[]{-1, -2, -3, -4, -5}, -8);
+        Arrays.stream(ints).forEach(System.out::println);
     }
 }
