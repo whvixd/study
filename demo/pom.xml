@@ -152,11 +152,13 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
             <version>${spock.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -378,6 +380,11 @@
             <version>3.4.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.whvixd</groupId>
+            <artifactId>restful-client</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
 
