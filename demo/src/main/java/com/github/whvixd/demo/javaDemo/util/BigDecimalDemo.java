@@ -23,5 +23,11 @@ public class BigDecimalDemo {
         System.out.println(bToS);
         NumberUtils.isNumber("1.1");
         System.out.println(BigDecimal.valueOf(1.34E5).toPlainString());//1.34E5 = 1.34*10^5
+
+        double a = 19.01;
+        int b = 100;
+        System.out.println(a*b);
+        System.out.println(Math.round(a*b));
+        System.out.println(Math.round(11.5));
     }
 }
