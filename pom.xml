@@ -68,6 +68,7 @@
         <velocity.version>1.7</velocity.version>
         <reflections.version>0.9.11</reflections.version>
         <selenium.version>3.141.59</selenium.version>
+        <testng.version>6.14.3</testng.version>
     </properties>
 
     <build>
