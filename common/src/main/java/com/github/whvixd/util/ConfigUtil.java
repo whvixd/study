@@ -1,5 +1,6 @@
 package com.github.whvixd.util;
 
+import com.sun.nio.file.SensitivityWatchEventModifier;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +13,9 @@ import java.util.function.Consumer;
 
 /**
  * 监听的文件目录（只能监听目录）
+ * 配置文件修改需要在target中修改
+ *
+ * todo 配置内容可以用zk
  * Created by wangzhx on 2019/8/9.
  */
 @Slf4j
@@ -25,14 +29,16 @@ public class ConfigUtil {
         fileName = fileName.startsWith(SLASH) ? fileName : SLASH + fileName;
         URL config = ConfigUtil.class.getClassLoader().getResource(CONFIG);
         String path = config == null ? EMPTY : config.getPath();
+        log.info("file path:{}", path);
         consumer.accept(FileChannelUtil.getFileContent(path + fileName));
         WatchService watchService = null;
         try {
             watchService = FileSystems.getDefault().newWatchService();
             Path p = Paths.get(path);
-            p.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY,
-                    StandardWatchEventKinds.ENTRY_DELETE,
-                    StandardWatchEventKinds.ENTRY_CREATE);
+            p.register(watchService, new WatchEvent.Kind[]
+                    {StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_CREATE,
+                            StandardWatchEventKinds.ENTRY_DELETE}, SensitivityWatchEventModifier.HIGH);
+
         } catch (IOException e) {
             log.error(EMPTY, e);
         }
