@@ -7,6 +7,9 @@ import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
 
 /**
+ * 消息消费如何保证消息不被重复消费？
+ * 1. 消费端消费后会响应broker，更新offset，但是响应时broker挂了，但成功消费了，可以利用redis，校验消息是否已消费
+ *
  * Created by wangzhx on 2018/6/20.
  */
 public class Consumer {

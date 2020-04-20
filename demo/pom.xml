@@ -408,6 +408,12 @@
             <version>${testng.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>${zk.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

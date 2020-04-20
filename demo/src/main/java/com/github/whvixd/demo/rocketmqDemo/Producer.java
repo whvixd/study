@@ -7,6 +7,12 @@ import com.alibaba.rocketmq.client.producer.TransactionMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
 
 /**
+ * 1. 如何保证mq消息不丢失？
+ *  a. producer:i. 提供事务操作，若发送事务失败，回滚;ii. broker接受成功后，会响应ack，若失败了，则重试发送
+ *  b. broker:自身维护 commitLog,支持主从异步、同步复制策略，broker挂了，消息也不会丢失
+ *  c. consumer: 消费成功响应broker，更新offset，自身也会维护offset，若broker挂了，消费端也会重试
+ *
+ *
  * Created by wangzhx on 2018/6/20.
  */
 public class Producer {
