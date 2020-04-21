@@ -10,8 +10,8 @@
 
     <aop:config>
         <aop:aspect ref="model1">
-            <aop:pointcut id="aopDemo" expression="execution(void com.github.whvixd.demo.springDemo.model.AsyncDemo.*(..))"/>
-            <aop:around method="round" pointcut-ref="aopDemo"/>
+            <aop:pointcut id="aopDemo" expression="execution(void com.github.whvixd.demo.springDemo.model.AsyncDemo.*(..))"/><!-- 对哪些方法作为 切点-->
+            <aop:around method="round" pointcut-ref="aopDemo"/> <!-- 通知，增强类型：环绕，前置，后置，跑出，引入 -->
         </aop:aspect>
     </aop:config>
 
