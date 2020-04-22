@@ -24,19 +24,22 @@ public class LinkedList<T> {
     }
 
     private static class Node<T>{
-        T o;
+        T value;
         Node<T> next;
         Node<T> prev;
-        public Node(T o,Node<T> next,Node<T> prev){
-            this.o=o;
+        public Node(T value, Node<T> next, Node<T> prev){
+            this.value = value;
             this.next=next;
             this.prev=prev;
         }
-        public Node(T o){
-            this.o=o;
+        public Node(T value){
+            this.value = value;
         }
         public Node(){}
 
+        public T getValue() {
+            return value;
+        }
     }
 
     public LinkedList(){
@@ -78,10 +81,40 @@ public class LinkedList<T> {
         }
     }
 
-    // TODO: 2020/4/22  
     // 头删
-    // 尾删
+    public Node<T> headDelete(){
+        if(size()>0){
+            Node<T> deleteNode = head.next;
+            Node<T> pointNode = deleteNode.next;
+            head.next=pointNode;
+            pointNode.prev=head;
+            return deleteNode;
+        }
+        return null;
+    }
 
+    public T headDeleteNode(){
+        return headDelete().getValue();
+    }
+
+    // 尾删
+    public Node<T> tailDelete(){
+        if(size()>0){
+            Node<T> deleteNode = tail.prev;
+            Node<T> pointNode = deleteNode.prev;
+            pointNode.next=tail;
+            tail.prev=pointNode;
+            return deleteNode;
+        }
+        return null;
+    }
+
+    public T tailDeleteNode(){
+        return tailDelete().getValue();
+    }
+
+    // TODO: 2020/4/22
+    //根据 T 删除
     // 改
     // 查
 
@@ -89,7 +122,10 @@ public class LinkedList<T> {
     public void print(Node<T> node){
         Node<T> pointNode = node==null?head.next:node;
         while (pointNode!=tail&&pointNode!=null){
-            System.out.println("node.value:"+String.valueOf(pointNode.o));
+            System.out.print(String.valueOf(pointNode.value));
+            if(pointNode.next!=tail){
+                System.out.print("->");
+            }
             pointNode=pointNode.next;
         }
     }
