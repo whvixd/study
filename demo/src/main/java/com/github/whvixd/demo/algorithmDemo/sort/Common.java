@@ -8,7 +8,9 @@ import java.util.Random;
  * Created by wangzhx on 2020/4/21.
  */
 public class Common {
-    public static int[] staticArray = {3,1,-1,0,9,2,10};
+    public static int[] staticArray = {3, 1, -1, 0, 9, 2, 10};
+
+    private static int[] originArray = generateRandomArray();
 
     public static int[] generateRandomArray(int size) {
         Random random = new Random();
@@ -23,17 +25,18 @@ public class Common {
         try {
             T o = clazz.newInstance();
             Method sort = clazz.getDeclaredMethod("sort", int[].class);
-            int[] origin = generateRandomArray();
-            if (origin.length <= 0) {
+            if (originArray.length <= 0) {
                 System.out.println("sort origin array is empty!");
                 return;
             }
             System.out.println("=============" + clazz.getSimpleName() + "=============");
-            System.out.println("origin:" + Arrays.toString(origin));
+            System.out.println("origin:" + Arrays.toString(originArray));
             sort.setAccessible(true);
+            int[] array = Arrays.copyOf(originArray, originArray.length);
+
             long currentTimeMillis = System.currentTimeMillis();
-            sort.invoke(o, origin);
-            int[] result = origin;
+            sort.invoke(o, array);
+            int[] result = array;
             long elapsed = System.currentTimeMillis() - currentTimeMillis;
             System.out.println("result:" + Arrays.toString(result));
             System.out.println("elapsed:" + elapsed + "(ms)");
@@ -47,5 +50,8 @@ public class Common {
         sort(BubbleSort.class);
         sort(QuickSort.class);
         sort(MergeSort.class);
+        sort(HeapSort.class);
+        sort(SelectSort.class);
+        sort(InsertSort.class);
     }
 }
