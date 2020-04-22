@@ -16,8 +16,8 @@
  *
  * todo:
  * O(N):
- *      桶排:{@link com.github.whvixd.demo.algorithmDemo.sort.BucketSort}
  *      计数:{@link com.github.whvixd.demo.algorithmDemo.sort.CountSort}
+ *      桶排:{@link com.github.whvixd.demo.algorithmDemo.sort.BucketSort}
  *      基数:{@link com.github.whvixd.demo.algorithmDemo.sort.RadixSort}
  *
  * 执行:

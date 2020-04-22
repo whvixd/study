@@ -41,6 +41,7 @@ public class Common {
             System.out.println("result:" + Arrays.toString(result));
             System.out.println("elapsed:" + elapsed + "(ms)");
             System.out.println("        👆");
+            System.out.println("💩💩💩💩💩💩💩💩💩💩💩💩💩");
         } catch (Throwable e) {
             e.printStackTrace();
         }
