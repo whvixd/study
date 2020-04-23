@@ -49,7 +49,8 @@ public class LinkedListTest {
     @Test
     public void testTailDelete(){
         linkedList.print();
-        linkedList.tailDelete();
+        System.out.println();
+        System.out.println(linkedList.tailDeleteNode());
         System.out.println();
         linkedList.print();
     }

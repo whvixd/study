@@ -3,7 +3,7 @@ package com.github.whvixd.demo.dataStructure;
 /**
  * Created by wangzhx on 2020/4/22.
  */
-public class LinkedList<T> {
+public class LinkedList<T> implements Queue<T>{
 
     // 头节点
     private Node<T> head;
@@ -23,6 +23,11 @@ public class LinkedList<T> {
         return size;
     }
 
+    @Override
+    public boolean isEmpty() {
+        return size()==0;
+    }
+
     private static class Node<T>{
         T value;
         Node<T> next;
@@ -40,6 +45,11 @@ public class LinkedList<T> {
         public T getValue() {
             return value;
         }
+
+        @Override
+        public String toString() {
+            return "Node.value="+String.valueOf(value);
+        }
     }
 
     public LinkedList(){
@@ -54,7 +64,7 @@ public class LinkedList<T> {
     }
 
     // 头插
-    public void headInsert(T o){
+    public boolean headInsert(T o){
         Node<T> newNode = new Node<>(o);
         if(head.next!=null){
             newNode.next=head.next;
@@ -65,10 +75,11 @@ public class LinkedList<T> {
             head.next=newNode;
             newNode.prev=head;
         }
+        return true;
     }
 
     // 尾插
-    public void tailInsert(T o){
+    public boolean  tailInsert(T o){
         Node<T> newNode = new Node<>(o);
         if(tail.prev!=null){
             newNode.next=tail;
@@ -79,6 +90,7 @@ public class LinkedList<T> {
             tail.prev=newNode;
             newNode.next=newNode;
         }
+        return true;
     }
 
     // 头删
@@ -118,6 +130,15 @@ public class LinkedList<T> {
     // 改
     // 查
 
+    @Override
+    public boolean add(T value){
+        return headInsert(value);
+    }
+
+    @Override
+    public T poll(){
+        return tailDeleteNode();
+    }
 
     public void print(Node<T> node){
         Node<T> pointNode = node==null?head.next:node;

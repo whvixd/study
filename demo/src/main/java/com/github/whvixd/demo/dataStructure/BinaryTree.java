@@ -1,8 +1,5 @@
 package com.github.whvixd.demo.dataStructure;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * 二叉树
  * Created by wangzhx on 2020/4/22.
@@ -65,7 +62,7 @@ public class BinaryTree<T> {
         }
     }
 
-    // 前序遍历
+    // 先序遍历
     public void preOrderFind(Node<T> node){
         if(node==null){
             return;
@@ -112,6 +109,24 @@ public class BinaryTree<T> {
             postOrderFind(right);
         }
         print(node);
+    }
+
+    // 交换左子树与右子树
+    public void exchangeLeftInRight(Node<T> node){
+        if(node.left==null||node.right==null){
+            return;
+        }
+        Node<T> tempNode = node.left;
+        node.left = node.right;
+        node.right=tempNode;
+
+        exchangeLeftInRight(node.left);
+        exchangeLeftInRight(node.right);
+    }
+
+    // 交换左子树与右子树
+    public void exchangeLeftInRight(){
+        exchangeLeftInRight(root);
     }
 
     private void print(Node<T> node){
