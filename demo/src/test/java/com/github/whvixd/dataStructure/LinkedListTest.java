@@ -1,6 +1,6 @@
 package com.github.whvixd.dataStructure;
 
-import com.github.whvixd.demo.dataStructure.LinkedList;
+import com.github.whvixd.util.dataStructure.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 

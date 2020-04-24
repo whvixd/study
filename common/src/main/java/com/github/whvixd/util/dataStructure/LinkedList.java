@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.dataStructure;
+package com.github.whvixd.util.dataStructure;
 
 /**
  * Created by wangzhx on 2020/4/22.

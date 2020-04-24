@@ -1,6 +1,6 @@
 package com.github.whvixd.dataStructure;
 
-import com.github.whvixd.demo.dataStructure.LRU;
+import com.github.whvixd.util.dataStructure.LRU;
 import org.junit.Test;
 
 /**

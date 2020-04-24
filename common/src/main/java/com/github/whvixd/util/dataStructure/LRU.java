@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.dataStructure;
+package com.github.whvixd.util.dataStructure;
 
 /**
  * 最久未使用淘汰算法

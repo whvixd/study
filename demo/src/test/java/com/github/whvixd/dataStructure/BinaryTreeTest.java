@@ -1,6 +1,6 @@
 package com.github.whvixd.dataStructure;
 
-import com.github.whvixd.demo.dataStructure.BinaryTree;
+import com.github.whvixd.util.dataStructure.BinaryTree;
 import org.junit.Before;
 import org.junit.Test;
 
