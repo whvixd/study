@@ -1,8 +1,8 @@
 package com.github.whvixd;
 
-import com.github.whvixd.demo.enumDemo.Car;
+import com.github.whvixd.demo.jdk.enumeration.Car;
 
-import com.github.whvixd.demo.enumDemo.Factory;
+import com.github.whvixd.demo.jdk.enumeration.Factory;
 import org.junit.Assert;
 import org.junit.Test;
 

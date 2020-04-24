@@ -209,7 +209,7 @@ public class TestTmp {
     @Test
     public void test5() {
 
-        com.github.whvixd.testUtil.Student student = com.github.whvixd.testUtil.Student.getInstance();
+        com.github.whvixd.util.Student student = com.github.whvixd.util.Student.getInstance();
         System.out.println(student.getName());
 
         Person person = Person.builder()
@@ -283,7 +283,7 @@ public class TestTmp {
 
     @Test
     public void test10() {
-        com.github.whvixd.testUtil.Student student = com.github.whvixd.testUtil.Student.getInstance();
+        com.github.whvixd.util.Student student = com.github.whvixd.util.Student.getInstance();
         String name = student.getName();
 
         System.out.println(name);

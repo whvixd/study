@@ -29,6 +29,6 @@
     </environments>
 
     <mappers>
-        <package name="com.github.whvixd.demo.mybatisDemo.mapper"/>
+        <package name="com.github.whvixd.demo.mybatis.mapper"/>
     </mappers>
 </configuration>

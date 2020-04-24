@@ -3,14 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="testLookup" class="com.github.whvixd.demo.springDemo.LookupReplaceMethodEntity.TestLookup">
+    <bean id="testLookup" class="com.github.whvixd.demo.spring.LookupReplaceMethodEntity.TestLookup">
         <lookup-method name="getBean" bean="zhangsan"/><!--动态的实现抽象类中的返回值方法-->
     </bean>
 
-    <bean id="zhangsan" class="com.github.whvixd.demo.springDemo.LookupReplaceMethodEntity.Zhangsan">
+    <bean id="zhangsan" class="com.github.whvixd.demo.spring.LookupReplaceMethodEntity.Zhangsan">
         <replaced-method name="showMessage" replacer="testMethodReplacer"/><!--可以替换某个类中的方法体-->
     </bean>
 
-    <bean id="persion" class="com.github.whvixd.demo.springDemo.LookupReplaceMethodEntity.Persion"/>
-    <bean id="testMethodReplacer" class="com.github.whvixd.demo.springDemo.LookupReplaceMethodEntity.TestMethodReplacer"/>
+    <bean id="persion" class="com.github.whvixd.demo.spring.LookupReplaceMethodEntity.Persion"/>
+    <bean id="testMethodReplacer" class="com.github.whvixd.demo.spring.LookupReplaceMethodEntity.TestMethodReplacer"/>
 </beans>

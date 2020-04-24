@@ -5,12 +5,12 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <context:annotation-config/> <!--若用注解，需要扫描的方式注入-->
-    <bean id="asyncDemo" class="com.github.whvixd.demo.springDemo.model.AsyncDemo"/>
-    <bean id="model1" class="com.github.whvixd.demo.springDemo.model.Model1"/>
+    <bean id="asyncDemo" class="com.github.whvixd.demo.spring.model.AsyncDemo"/>
+    <bean id="model1" class="com.github.whvixd.demo.spring.model.Model1"/>
 
     <aop:config>
         <aop:aspect ref="model1">
-            <aop:pointcut id="aopDemo" expression="execution(void com.github.whvixd.demo.springDemo.model.AsyncDemo.*(..))"/><!-- 对哪些方法作为 切点-->
+            <aop:pointcut id="aopDemo" expression="execution(void com.github.whvixd.demo.spring.model.AsyncDemo.*(..))"/><!-- 对哪些方法作为 切点-->
             <aop:around method="round" pointcut-ref="aopDemo"/> <!-- 通知，增强类型：环绕，前置，后置，跑出，引入 -->
         </aop:aspect>
     </aop:config>
