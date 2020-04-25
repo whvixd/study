@@ -8,7 +8,13 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class CLHLock implements Lock {
     private AtomicReference<Node> tail;
+    /**
+     * 当前节点
+     */
     private ThreadLocal<Node> node;
+    /**
+     * 前置节点
+     */
     private ThreadLocal<Node> prev;
 
     public CLHLock(){
@@ -17,23 +23,20 @@ public class CLHLock implements Lock {
         prev = ThreadLocal.withInitial(() -> null);
 
     }
+    // 线程一 进入，拿到node false，执行代码块，并将tail更新为true
+    // 线程二进入，此时线程一没有执行完，拿到node true，等线程一执行完之后，更新node为false，更新到prev中，则线程一跳出自旋
     @Override
     public void lock() {
-        Node node = this.node.get();
-        node.state=true;
-        // 旧值
-        Node prev = tail.getAndSet(node);
+        node.get().state=true;
+        Node prev = tail.getAndSet(node.get());
         this.prev.set(prev);
-        while (prev.state){
-            System.out.println("wait");
-        }
+        for (;prev.state;);
     }
 
     @Override
     public void unlock() {
-        Node node = this.node.get();
-        node.state=false;
-        this.node.set(this.prev.get());
+        node.get().state=false;
+        node.set(prev.get());
     }
 
     class Node{
