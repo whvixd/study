@@ -414,6 +414,12 @@
             <version>${zk.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro-core.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
