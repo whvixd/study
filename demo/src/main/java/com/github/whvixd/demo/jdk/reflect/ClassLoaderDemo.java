@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.jdk.thread;
+package com.github.whvixd.demo.jdk.reflect;
 
 import lombok.AllArgsConstructor;
 

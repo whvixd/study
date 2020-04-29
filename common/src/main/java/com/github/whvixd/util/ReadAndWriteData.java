@@ -60,6 +60,7 @@ public class ReadAndWriteData {
 
     }
 
+    // 读数据
     public synchronized String read() {
         readLock.lock();
         try {
