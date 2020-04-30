@@ -12,7 +12,8 @@ import com.github.whvixd.annotation.Subscribe;
 public class SubscriberTwo {
 
     @Subscribe
-    public void toDo(String action) {
+    public void toDo(String action) throws InterruptedException {
+        Thread.sleep(100);
         System.out.println(getClass().getSimpleName()+action.getClass().getSimpleName() + action);
     }
 }

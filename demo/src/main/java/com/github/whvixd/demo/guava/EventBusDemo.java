@@ -52,7 +52,7 @@ public class EventBusDemo {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //AsyncEventBus
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 1000, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
         EventBus eventBus = new AsyncEventBus(executor);
@@ -74,6 +74,12 @@ public class EventBusDemo {
         eventBus.post(new Message("helloMessage"));
         eventBus.post(new Message("helloMessage"));
         eventBus.post("world");
+
+
+//        EventBus eventBus1 = new EventBus();
+//        eventBus1.register(new MessageListener());
+//        eventBus1.post(new Message("helloMessage"));
+//        eventBus1.post(new Message("helloMessage"));
 
 
     }

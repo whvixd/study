@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created by wangzhx on 2019/7/14.
- * 特权
+ * 同一类型下的优先排序
  */
 @Target(value = {ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -4,6 +4,7 @@ import lombok.ToString;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -51,6 +52,27 @@ public class ClassDemo {
             throw new NullPointerException();
         }
         return t;
+    }
+
+    private String getFullKey(Class clazz, Method method) {
+        if (clazz == null || method == null) {
+            return null;
+        }
+        StringBuilder stringBuffer = new StringBuilder();
+        String simpleName = clazz.getSimpleName();
+        String methodName = method.getName();
+        stringBuffer.append(simpleName).append("_").append(methodName).append("_");
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        for (int i = 0; i < parameterTypes.length; i++) {
+            Class<?> parameterType = parameterTypes[i];
+            String paramClazzName = parameterType.getSimpleName();
+            if (i != parameterTypes.length - 1) {
+                stringBuffer.append(paramClazzName).append("_");
+            } else {
+                stringBuffer.append(paramClazzName);
+            }
+        }
+        return stringBuffer.toString();
     }
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {

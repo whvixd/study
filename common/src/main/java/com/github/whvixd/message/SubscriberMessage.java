@@ -4,10 +4,10 @@ import lombok.Data;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
 
-
+/**
+ * 订阅者信息
+ */
 @Data
 public class SubscriberMessage {
     private Object subscriber;

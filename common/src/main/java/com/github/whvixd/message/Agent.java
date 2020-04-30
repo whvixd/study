@@ -3,12 +3,16 @@ package com.github.whvixd.message;
 import com.github.whvixd.annotation.Prior;
 import com.github.whvixd.annotation.Subscribe;
 import com.github.whvixd.util.InvokeTask;
-import lombok.Setter;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wangzhx on 2019/7/10.
@@ -21,18 +25,27 @@ public class Agent {
      * 存储订阅者方法的信息
      * {className:SubscriberMessage}
      * <p>
-     * 同步容器
+     * 容器
      */
-    private Map<String, List<SubscriberMessage>> syncContainer;
+    private Map<String, List<SubscriberMessage>> container;
     /**
-     * 异步容器
+     * vip容器
      */
-    private Map<String, List<SubscriberMessage>> asyncContainer;
+    private Map<String, List<SubscriberMessage>> priorContainer;
     /**
      * 线程池
      */
-    @Setter
     private ThreadPoolExecutor executor;
+
+    private boolean isAsync;
+
+
+    public Agent() {
+    }
+
+    public Agent(boolean isAsync) {
+        this.isAsync = isAsync;
+    }
 
     /**
      * 注册订阅者
@@ -54,10 +67,13 @@ public class Agent {
         /**
          * 同一订阅者中若有异步，则优先执行
          */
-        getThreadPool(getContainerCount()).execute(
-                InvokeTask.newInstance(() -> execute(report.getClazzName(), report)));
+        execute(report.getClazzName(), report);
     }
 
+    /**
+     * 若类添加了@Prior，则添加@Subscribe的所有方法都是优先级较高
+     * 若方法添加了@Prior，则添加@Subscribe的方法是优先级较高
+     */
     private void setContainer(Object subscriber) {
         Class<?> clazz = subscriber.getClass();
         Prior clazzPrior = clazz.getDeclaredAnnotation(Prior.class);
@@ -86,16 +102,15 @@ public class Agent {
             return;
         }
         if (prior != null) {
-            if (asyncContainer == null) {
-                asyncContainer = new ConcurrentHashMap<>();
+            if (priorContainer == null) {
+                priorContainer = new ConcurrentHashMap<>();
             }
-
-            setMessages(key, message, getMessages(key, asyncContainer), asyncContainer);
+            setMessages(key, message, getMessages(key, priorContainer), priorContainer);
         } else {
-            if (syncContainer == null) {
-                syncContainer = new ConcurrentHashMap<>();
+            if (container == null) {
+                container = new ConcurrentHashMap<>();
             }
-            setMessages(key, message, getMessages(key, syncContainer), syncContainer);
+            setMessages(key, message, getMessages(key, container), container);
         }
     }
 
@@ -121,12 +136,9 @@ public class Agent {
 
     private void initThreadPool() {
         if (Objects.isNull(executor)) {
-            setExecutor(new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>()));
+            ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+            setExecutor(executor);
         }
-    }
-
-    private ThreadPoolExecutor getThreadPool(int corePoolSize) {
-        return new ThreadPoolExecutor(corePoolSize, corePoolSize * 2, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     private String getKey(Method method) {
@@ -136,27 +148,23 @@ public class Agent {
         return method.getParameterTypes()[0].getSimpleName();
     }
 
-    private void execute(String key, Report report) {
-        initThreadPool();
-        if (checkNullMap(asyncContainer) && checkNullList(asyncContainer.get(key))) {
-            asyncContainer.get(key).forEach(message -> executor.execute(
-                    InvokeTask.newInstance(() -> message.invoke(report.getContent()))));
-        }
-
-        if (checkNullMap(syncContainer) && checkNullList(syncContainer.get(key))) {
-            syncContainer.get(key).forEach(message -> message.invoke(report.getContent()));
-        }
+    private void execute(String containerKey, Report report) {
+        doExecute(containerKey, report, priorContainer);
+        doExecute(containerKey, report, container);
     }
 
-    private Integer getContainerCount() {
-        int count = 0;
-        Field[] fields = getClass().getDeclaredFields();
-        for (Field field : fields) {
-            if (field.getType().isAssignableFrom(Map.class)) {
-                count++;
+    private void doExecute(String containerKey, Report report, Map<String, List<SubscriberMessage>> container) {
+        if (isAsync) {
+            initThreadPool();
+            if (checkNullMap(container) && checkNullList(container.get(containerKey))) {
+                container.get(containerKey).forEach(message -> executor.execute(
+                        InvokeTask.newInstance(() -> message.invoke(report.getContent()))));
+            }
+        } else {
+            if (checkNullMap(container) && checkNullList(container.get(containerKey))) {
+                container.get(containerKey).forEach(message -> message.invoke(report.getContent()));
             }
         }
-        return count;
     }
 
     public boolean checkNullList(List<?> messages) {
@@ -167,25 +175,8 @@ public class Agent {
         return container != null && container.size() != 0;
     }
 
-    private String getFullKey(Class clazz, Method method) {
-        if (clazz == null || method == null) {
-            return null;
-        }
-        StringBuilder stringBuffer = new StringBuilder();
-        String simpleName = clazz.getSimpleName();
-        String methodName = method.getName();
-        stringBuffer.append(simpleName).append("_").append(methodName).append("_");
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        for (int i = 0; i < parameterTypes.length; i++) {
-            Class<?> parameterType = parameterTypes[i];
-            String paramClazzName = parameterType.getSimpleName();
-            if (i != parameterTypes.length - 1) {
-                stringBuffer.append(paramClazzName).append("_");
-            } else {
-                stringBuffer.append(paramClazzName);
-            }
-        }
-        return stringBuffer.toString();
+    public void setExecutor(ThreadPoolExecutor executor) {
+        this.executor = executor;
     }
 
 }
