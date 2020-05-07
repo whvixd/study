@@ -136,7 +136,8 @@ public class Agent {
 
     private void initThreadPool() {
         if (Objects.isNull(executor)) {
-            ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+            ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10,
+                    10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(), new ThreadPoolExecutor.CallerRunsPolicy());
             setExecutor(executor);
         }
     }
