@@ -49,18 +49,20 @@ public class ThreadPoolDemo {
 
     public static void main(String[] args) throws IOException {
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 3, 1,
-                TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 10, 60,
+                TimeUnit.SECONDS, new LinkedBlockingDeque<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
         executor.prestartAllCoreThreads();//启动所有核心线程
         Runnable runnable = () -> {
             //do something
+            System.out.println(Thread.currentThread().getName());
             System.out.println("run");
         };
-        IntStream.range(0, 10).forEach(e -> {
+        IntStream.range(0, 100).forEach(e -> {
             executor.execute(runnable);
             BlockingQueue<Runnable> queue = executor.getQueue();
             System.out.println(queue.size());
         });
+
         if (!executor.isShutdown()) {
             executor.shutdown();
         }

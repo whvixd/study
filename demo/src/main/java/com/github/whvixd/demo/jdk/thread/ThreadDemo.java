@@ -84,6 +84,20 @@ public class ThreadDemo {
 //        new ThreadDemo().thread();
         new ThreadDemo().executorServiceTest1();
 
+        Runnable runnable1 = () -> {
+            //do something
+            System.out.println(Thread.currentThread().getName());
+            System.out.println("run");
+        };
+
+        Runnable runnable2 = () -> {
+            //do something
+            System.out.println(Thread.currentThread().getName());
+            System.out.println("run");
+        };
+
+runnable1.run();
+runnable2.run();
     }
 
 
