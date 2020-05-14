@@ -1,38 +1,35 @@
 package com.github.whvixd.demo.jdk.thread;
 
-import com.github.whvixd.util.InvokeTask;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
 /**
- * Created by wangzhx on 2020/4/26.
+ * Created by wangzhx on 2020/5/12.
  */
 public class ReentrantLockDemo {
-    ReadWriteLock lock = new ReentrantReadWriteLock();
-    Lock readLock = lock.readLock();
-    Lock writeLock = lock.writeLock();
-    Map<Integer,Integer> map = new HashMap<>();
+   private volatile int count;
+   private final ReentrantLock lock = new ReentrantLock(true);
 
-    public void read() {
-        readLock.lock();
-        map.put(1,1);
-        System.out.println(map);
-        readLock.unlock();
+    public void add() {
+        lock.lock();
+        try {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            count++;
+            System.out.println(Thread.currentThread().getName()+" add,count:"+count);
+        }finally {
+            lock.unlock();
+        }
+
     }
+
 
     public static void main(String[] args) {
         ReentrantLockDemo demo = new ReentrantLockDemo();
-
-        IntStream.range(0,10).forEach(e->{
-            InvokeTask.newInstance(()->{
-                demo.read();
-            }).start();
-        });
-
+        IntStream.range(0, 100).forEach(e ->
+                new Thread(demo::add).start());
     }
 }
