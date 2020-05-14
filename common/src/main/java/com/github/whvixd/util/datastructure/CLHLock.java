@@ -11,35 +11,50 @@ public class CLHLock implements Lock {
     /**
      * 当前节点
      */
-    private ThreadLocal<Node> node;
+    private ThreadLocal<Node> cur;
     /**
      * 前置节点
      */
     private ThreadLocal<Node> prev;
 
     public CLHLock(){
+        // 初始化尾节点
         tail = new AtomicReference<>(new Node());
-        node = ThreadLocal.withInitial(Node::new);
+        // 初始化节点
+        cur = ThreadLocal.withInitial(Node::new);
+        // 初始化前置节点，值为空
         prev = ThreadLocal.withInitial(() -> null);
 
     }
-    // 线程一 进入，拿到node false，执行代码块，并将tail更新为true
-    // 线程二进入，此时线程一没有执行完，拿到node true，等线程一执行完之后，更新node为false，更新到prev中，则线程一跳出自旋
+
     @Override
     public void lock() {
-        node.get().state=true;
-        Node prev = tail.getAndSet(node.get());
+        // 加锁过程
+
+        // get():若Node为空，则新建Node；再锁定
+        cur.get().locked=true;
+        // getAndSet()方法修改尾节点，返回tail修改前的值
+        Node prev = tail.getAndSet(cur.get());
+        // 设置前置
         this.prev.set(prev);
-        for (;prev.state;);
+        // 当前线程自旋(堵塞)，依赖前置线程的cur，一直到前置线程解锁，才跳出自旋
+        for (;prev.locked;);
     }
 
     @Override
     public void unlock() {
-        node.get().state=false;
-        node.set(prev.get());
+        // 解锁
+        cur.get().locked=false;
+        // 前置赋值给当前节点
+        cur.set(prev.get());
+        // help gc prev node
+        prev.remove();
     }
 
     class Node{
-        volatile boolean state;
+        volatile boolean locked;
+//        Node(){
+//            System.out.println(Thread.currentThread().getName()+" ,Node init");
+//        }
     }
 }

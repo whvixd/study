@@ -11,30 +11,43 @@ import java.util.stream.IntStream;
  * Created by wangzhx on 2020/4/24.
  */
 public class CLHLockTest {
-    CLHLock clhLock = new CLHLock();
-    int i =0;
+    private final CLHLock clhLock = new CLHLock();
+    private final OptionalCLHLock lock = new OptionalCLHLock();
+    private int i = 0;
 
-    private void testLock(){
+    private void testLock() {
         clhLock.lock();
-        i++;
-        System.out.println(Thread.currentThread().getName()+":"+i);
-        clhLock.unlock();
+        try {
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            i++;
+            System.out.println(Thread.currentThread().getName() + ":" + i);
+        } finally {
+            clhLock.unlock();
+        }
     }
+
+    private void testOptionalLock() {
+        lock.lock();
+        try {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            i++;
+            System.out.println(Thread.currentThread().getName() + ":" + i);
+        } finally {
+            lock.unlock();
+        }
+    }
+
     public static void main(String[] args) {
-        CLHLockTest test = new CLHLockTest();
-
-
-        IntStream.range(0,100).forEach(e->{
-            new Thread(()->{
-                test.testLock();
-            }).start();
-        });
-
-//        ExecutorService executorService = Executors.newFixedThreadPool(20);
-//        IntStream.range(0,20).forEach(e->
-//                executorService.execute(invokeTask)
-//        );
-//        executorService.shutdown();
-
+        CLHLockTest lock = new CLHLockTest();
+        IntStream.range(0, 100).forEach(e -> new Thread(lock::testLock).start());
     }
 }
