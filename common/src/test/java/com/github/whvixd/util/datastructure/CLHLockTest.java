@@ -1,10 +1,5 @@
 package com.github.whvixd.util.datastructure;
 
-import com.github.whvixd.util.InvokeTask;
-
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 /**
