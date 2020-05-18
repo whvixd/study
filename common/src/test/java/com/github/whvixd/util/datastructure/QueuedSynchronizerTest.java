@@ -7,18 +7,19 @@ import java.util.stream.IntStream;
  * Created by wangzhx on 2020/5/15.
  */
 public class QueuedSynchronizerTest {
-    private static final QueuedSynchronizer lock = new QueuedSynchronizer();
+    private static final QueuedSynchronizer lock = new QueuedSynchronizer(true);
     private static final ReentrantLock reentrantLock = new ReentrantLock();
     private volatile int i;
 
     public void testLock(){
+
         lock.lock();
         try {
-//            try {
-//                Thread.sleep(10);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             i++;
             System.out.println(Thread.currentThread().getName()+" ,i="+i);
         }finally {
@@ -44,6 +45,9 @@ public class QueuedSynchronizerTest {
 
     private void printQueue(){
         QueuedSynchronizer.Node point = lock.getHead();
+        if(point==null){
+            return;
+        }
         System.out.println("head:"+point.getThread().getName());
         while (point.getNext()!=null){
             System.out.println(point.getThread().getName());
@@ -54,14 +58,17 @@ public class QueuedSynchronizerTest {
     public static void main(String[] args) {
         QueuedSynchronizerTest instance = new QueuedSynchronizerTest();
 
-
         // 过多线程有问题
-        IntStream.range(0,10000).forEach(e->{
+        IntStream.range(0,2000).forEach(e->{
             new Thread(()->{
                 instance.testLock();
             }).start();
         });
 
+//        printThread(instance);
+    }
+
+    private static void printThread(QueuedSynchronizerTest instance){
         new Thread(()->{
             while (true){
 

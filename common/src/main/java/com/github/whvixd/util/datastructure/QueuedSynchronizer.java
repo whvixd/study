@@ -15,13 +15,23 @@ public class QueuedSynchronizer implements Lock{
     private transient volatile Node head;
     private transient volatile Node tail;
 
-    public QueuedSynchronizer(){}
+    private transient boolean isPrintLog =false;
+
+    public QueuedSynchronizer(){
+    }
+
+    public QueuedSynchronizer(boolean isPrintLog){
+        this.isPrintLog=isPrintLog;
+    }
 
     @Override
     public void lock() {
         // 谁先cas修改state成功，获取锁资源
         if(compareAndSetState(0,1)){
             setExclusiveOwnerThread(Thread.currentThread());
+            if(isPrintLog){
+                System.out.println(Thread.currentThread().getName()+" lock,cas success");
+            }
         }else {
             // 未修改成功，再次获取，若没有成功，则添加队列中，并堵塞
             acquire(1);
@@ -37,31 +47,49 @@ public class QueuedSynchronizer implements Lock{
     private void acquire(int state){
         // 再次获取锁资源
         if(!tryAcquire(state)){
+            if(isPrintLog){
+                System.out.println(Thread.currentThread().getName()+" lock,try acquire fail");
+            }
             // 没有获取成功的线程，进入堵塞队列，并修改线程状态
             addWaiter();
+            if(isPrintLog){
+                System.out.println(Thread.currentThread().getName()+" lock,addWaiter success");
+            }
             LockSupport.park(this);
             // 线程堵塞，解锁后，需要获取锁资源
             for(;!tryAcquire(state););
         }
-        System.out.println("tryAcquire is true");
+
+        if(isPrintLog){
+            System.out.println(Thread.currentThread().getName()+" lock,try acquire success");
+        }
     }
 
     private void release(int expectState) {
         //// todo 解锁有问题
+        Node head = getHead();
         if(tryRelease(expectState)){
-            System.out.println(Thread.currentThread().getName()+" skip tryRelease");
+            if(isPrintLog){
+                System.out.println(Thread.currentThread().getName()+" unlock,try release success，state:"+state);
+            }
             if(head==null){
-                System.out.println("head is null");
+                if(isPrintLog){
+                    System.out.println(Thread.currentThread().getName()+" unlock,head is null");
+                }
                 return;
             }
-            LockSupport.unpark(head.getThread());
             Node next = head.getNext();
-            if(next!=tail&&next!=null){
+            if(next!=null){
+                if(isPrintLog){
+                    System.out.println(Thread.currentThread().getName()+" unlock,next != null");
+                }
                 setHead(next);
                 next.setPrev(null);
+                LockSupport.unpark(next.getThread());
             }else {
-                setHead(tail);
-                System.out.println(Thread.currentThread().getName()+" setHead(tail);");
+                if(isPrintLog){
+                    System.out.println(Thread.currentThread().getName()+" unlock,next == null");
+                }
             }
         }
 
@@ -88,14 +116,18 @@ public class QueuedSynchronizer implements Lock{
     private boolean tryRelease(int expectState){
         int state=getState();
         boolean released=false;
+        int count=0;
         for(;;){
-            System.out.println(Thread.currentThread().getName()+"tryRelease loop");
+            if(isPrintLog){
+                System.out.println(Thread.currentThread().getName()+" unlock,try release loop,count:"+count);
+            }
             if(state<=0){
                 released=true;
             }
             else if(state==1){
                 int newState=state-expectState;
                 if(compareAndSetState(state,newState)){
+                    setExclusiveOwnerThread(null);
                     released=true;
                 }
             }else {
@@ -108,6 +140,7 @@ public class QueuedSynchronizer implements Lock{
             if(released){
                 break;
             }
+            count++;
         }
         return true;
     }
@@ -117,27 +150,15 @@ public class QueuedSynchronizer implements Lock{
     private Node addWaiter(){
         Thread currentThread = Thread.currentThread();
         Node newNode = new Node(currentThread);
-        Node tail=getTail();
-        Node head=getHead();
-        if(head==null&&tail==null){
-            boolean added=false;
-            for(;;){
-                System.out.println("set head and tail start");
-                if(compareAndSetHead(getHead(),newNode)&&compareAndSetTail(getTail(),newNode)){
-                    System.out.println("head :"+getHead().getThread().getName());
-                    System.out.println("tail :"+getTail().getThread().getName());
-                    added=true;
+        for(;;){
+            if(getTail()==null){
+                if(compareAndSetHead(head,new Node())){
+                    setTail(head);
                 }
-                if(added){
-                    break;
-                }
-            }
-            return newNode;
-        }else {
-            for(;;){
-                Node prev=tail;
+            }else {
+                Node prev=getTail();
                 if(compareAndSetTail(tail,newNode)){
-                    newNode.prev=prev;
+                    newNode.prev= prev;
                     prev.next=newNode;
                     return newNode;
                 }
@@ -159,8 +180,8 @@ public class QueuedSynchronizer implements Lock{
             if(nextState<0){
                 throw new Error("nextState is illegal");
             }
-            setState(nextState);
-            return true;
+            return compareAndSetState(state,nextState);
+
         }
         return false;
     }
@@ -203,11 +224,15 @@ public class QueuedSynchronizer implements Lock{
         this.tail = tail;
     }
 
+    public void setPrintLog(boolean printLog) {
+        isPrintLog = printLog;
+    }
+
     class Node{
         Node next;
         Node prev;
         Thread thread;
-
+        Node(){}
         Node(Thread thread){
             this.thread=thread;
         }
