@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.moderate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  *
  * Created by wangzhx on 2020/3/25.
  */
-public enum Q9 {
+public enum Q41 {
     instance;
 
     // todo 未解出来
@@ -55,6 +55,6 @@ public enum Q9 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Q9.instance.firstMissingPositive(new int[]{4,2,3,5}));
+        System.out.println(Q41.instance.firstMissingPositive(new int[]{4,2,3,5}));
     }
 }

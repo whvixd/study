@@ -4,10 +4,10 @@ package com.github.whvixd.demo.algorithm.leetcode;
  * Created by wangzhx on 2020/3/21.
  */
 public class ListNode {
-     int val;
-    ListNode next;
+    public  int val;
+    public ListNode next;
 
-    ListNode(int x) {
+    public ListNode(int x) {
         val = x;
     }
 

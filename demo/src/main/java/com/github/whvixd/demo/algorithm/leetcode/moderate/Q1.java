@@ -1,4 +1,4 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.moderate;
 
 import java.util.Arrays;
 

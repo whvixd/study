@@ -1,4 +1,6 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.moderate;
+
+import com.github.whvixd.demo.algorithm.leetcode.ListNode;
 
 /**
  * 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
@@ -16,7 +18,7 @@ package com.github.whvixd.demo.algorithm.leetcode;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  * Created by wangzhx on 2020/3/25.
  */
-public enum Q8 {
+public enum Q24 {
     instance;
 
     public ListNode swapPairs(ListNode head) {
@@ -93,6 +95,6 @@ public enum Q8 {
         head.next.next.next.next.next = new ListNode(7);
         head.next.next.next.next.next.next = new ListNode(8);
         head.next.next.next.next.next.next.next = new ListNode(10);
-        ListNode.print(Q8.instance.swapPairs1(head));
+        ListNode.print(Q24.instance.swapPairs1(head));
     }
 }

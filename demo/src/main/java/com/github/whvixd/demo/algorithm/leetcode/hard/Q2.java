@@ -1,4 +1,6 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.hard;
+
+import com.github.whvixd.demo.algorithm.leetcode.ListNode;
 
 /**
  * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)

@@ -1,4 +1,6 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.moderate;
+
+import com.github.whvixd.demo.algorithm.leetcode.ListNode;
 
 /**
  * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
@@ -16,7 +18,7 @@ package com.github.whvixd.demo.algorithm.leetcode;
  todo 优化，用两个指针，间隔为n
  * Created by wangzhx on 2020/3/23.
  */
-public enum Q6 {
+public enum Q19 {
     instance;
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
@@ -56,7 +58,7 @@ public enum Q6 {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
-        ListNode listNode = Q6.instance.removeNthFromEnd(head, 3);
+        ListNode listNode = Q19.instance.removeNthFromEnd(head, 3);
         ListNode.print(listNode);
     }
 }

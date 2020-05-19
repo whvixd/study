@@ -1,4 +1,6 @@
-package com.github.whvixd.demo.algorithm.leetcode;
+package com.github.whvixd.demo.algorithm.leetcode.hard;
+
+import com.github.whvixd.demo.algorithm.leetcode.ListNode;
 
 /**
  * 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
@@ -19,7 +21,7 @@ package com.github.whvixd.demo.algorithm.leetcode;
  * <p>
  * Created by wangzhx on 2020/3/23.
  */
-public enum Q7 {
+public enum Q23 {
     instance;
 
     public ListNode mergeKLists(ListNode[] lists) {
@@ -84,6 +86,6 @@ public enum Q7 {
         listNodes[2] = h3;
         ListNode.print("h1:",h1);
         ListNode.print("h2:",h2);
-        ListNode.print("result:",Q7.instance.mergeKLists(listNodes));
+        ListNode.print("result:", Q23.instance.mergeKLists(listNodes));
     }
 }
