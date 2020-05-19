@@ -23,9 +23,9 @@ public class HttpServer {
         this.port = port;
     }
 
-//    public static void main(String[] args) throws InterruptedException {
-//        new HttpServer(12705).start();
-//    }
+    public static void main(String[] args) throws InterruptedException {
+        new HttpServer(12705).start();
+    }
 
     /**
      * Netty Server
