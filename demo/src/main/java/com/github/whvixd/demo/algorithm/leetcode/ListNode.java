@@ -39,4 +39,14 @@ public class ListNode {
     public static void print(ListNode l, String postMessage) {
         print(l, null, postMessage);
     }
+
+    public static ListNode createByArray(int[] array){
+        if(array.length==0) return null;
+        ListNode head =new ListNode(0);
+        ListNode point=head;
+        for(int e:array){
+            point=point.next=new ListNode(e);
+        }
+        return head.next;
+    }
 }
