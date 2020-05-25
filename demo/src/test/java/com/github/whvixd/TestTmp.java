@@ -39,6 +39,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -749,11 +753,21 @@ public class TestTmp {
         System.out.println(map.size());
     }
 
+    @Test
+    public void test47() throws IntrospectionException {
+        BeanInfo beanInfo = Introspector.getBeanInfo(Node.class);
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for(PropertyDescriptor propertyDescriptor:propertyDescriptors){
+            System.out.println(propertyDescriptor);
+        }
+    }
+
     private int hashKey(Object key){
         int h;
         return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
+    @Data
     class Node{
         String name;
 
