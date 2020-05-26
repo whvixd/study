@@ -2,6 +2,9 @@ package com.github.whvixd.util.datastructure;
 
 /**
  * 最久未使用淘汰算法
+ *
+ * get时间负责度O(n),改为O(1) @see Q146
+ *
  * Created by wangzhx on 2020/4/23.
  */
 public class LRU<K,V> {
