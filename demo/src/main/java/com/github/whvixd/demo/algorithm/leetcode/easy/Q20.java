@@ -25,15 +25,21 @@ public enum Q20 {
 
     public boolean isValid(String s) {
         int l=s.length();
-        if(l==0||l%2==1) return false;
+        if(l==0)return true;
+        if(l%2==1)return false;
         Stack<Character> stack = new Stack<>();
-        for(int i=0;i<l/2;i++){
-            stack.push(s.charAt(i));
+        for(int i=0;i<l;i++){
+            if(stack.empty()){
+                stack.push(s.charAt(i));
+            }else {
+                if(isMatched(stack.peek(),s.charAt(i))){
+                    stack.pop();
+                }else {
+                    stack.push(s.charAt(i));
+                }
+            }
         }
-        for(int i=l/2;i<l;i++){
-            if(!isMatched(stack.pop(),s.charAt(i))) return false;
-        }
-        return true;
+        return stack.empty();
     }
 
     private boolean isMatched(char c1,char c2){
@@ -48,8 +54,8 @@ public enum Q20 {
     public static void main(String[] args) {
         // assert true
         System.out.println(Q20.instance.isValid("{[]}"));
-        // TODO: 2020/5/26 修改
         System.out.println(Q20.instance.isValid("()[]{}"));
+        System.out.println(Q20.instance.isValid(""));
     }
 
 }
