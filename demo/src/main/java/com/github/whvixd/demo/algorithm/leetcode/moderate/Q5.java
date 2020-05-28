@@ -52,7 +52,7 @@ public enum Q5 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Q5.instance.longestPalindrome("aacdefcaa"));//
-        //"aa"
+        // assert aa
+        System.out.println(Q5.instance.longestPalindrome("aacdefcaa"));
     }
 }

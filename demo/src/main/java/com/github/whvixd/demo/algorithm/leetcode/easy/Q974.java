@@ -41,6 +41,7 @@ public enum Q974 {
         return count;
     }
 
+    // O(n)
     public int subarraysDivByK1(int[] A, int K) {
         // 同余定理:[P(j)-P(i-1)]%K==0 <=> P(j)%K==P(i-1)%K,P(j)=a[0]+a[1+]..+a[j]
 

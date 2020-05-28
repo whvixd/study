@@ -85,6 +85,7 @@ public enum Q1371 {
     }
 
     public static void main(String[] args) {
+        // assert 13
         System.out.println(Q1371.instance.findTheLongestSubstring2("eleetminicoworoep"));
     }
 }

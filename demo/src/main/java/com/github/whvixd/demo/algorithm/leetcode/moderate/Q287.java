@@ -61,9 +61,13 @@ public enum Q287 {
 
 
     public static void main(String[] args) {
+        // assert 1
         System.out.println(Q287.instance.findDuplicate1(new int[]{1,1,3,4,5}));
+        // assert 3
         System.out.println(Q287.instance.findDuplicate1(new int[]{1,2,3,4,3}));
+        // assert 0
         System.out.println(Q287.instance.findDuplicate1(new int[]{1,2,3,4,5}));
+        // assert 4
         System.out.println(Q287.instance.findDuplicate2(new int[]{1,2,3,4,4}));
     }
 }
