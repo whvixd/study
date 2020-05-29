@@ -127,6 +127,25 @@ public class LinkedList<T> implements Queue<T>{
 
     // TODO: 2020/4/22
     //根据 T 删除
+
+    public void deleteElement(T o){
+        Node<T> point=this.head;
+        while (point.next!=null){
+            T value=point.next.value;
+            if(value!=null&&value==o){
+                Node<T> next=point.next.next;
+                if(next!=null){
+                    point.next=next;
+                    next.prev=point;
+                }else {
+                    point.next=null;
+                }
+            }else {
+                point=point.next;
+            }
+        }
+    }
+
     // 改
     // 查
 

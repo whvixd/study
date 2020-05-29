@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.stream.IntStream;
 
 /**
+ * todo 替换为 assert
  * Created by wangzhx on 2020/4/22.
  */
 public class LinkedListTest {
@@ -51,6 +52,25 @@ public class LinkedListTest {
         System.out.println();
         System.out.println(linkedList.tailDeleteNode());
         System.out.println();
+        linkedList.print();
+    }
+
+    @Test
+    public void deleteElement(){
+        // 中间删除
+        linkedList.print();
+        System.out.println();
+        linkedList.deleteElement(3);
+        linkedList.print();
+
+        // 删除尾节点
+        System.out.println();
+        linkedList.deleteElement(1);
+        linkedList.print();
+
+        // 删除头节点
+        System.out.println();
+        linkedList.deleteElement(10);
         linkedList.print();
     }
 }
