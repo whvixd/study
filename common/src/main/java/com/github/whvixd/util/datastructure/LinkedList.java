@@ -1,9 +1,13 @@
 package com.github.whvixd.util.datastructure;
 
 /**
+ * head <-pn-> O <-pn-> O <-pn-> tail
+ *
+ * 双向链表，head、tail是空值指针，在初始化时赋值。
+ *
  * Created by wangzhx on 2020/4/22.
  */
-public class LinkedList<T> implements Queue<T>{
+public class LinkedList<T> implements Queue<T>,Cloneable{
 
     // 头节点
     private Node<T> head;
@@ -53,18 +57,18 @@ public class LinkedList<T> implements Queue<T>{
     }
 
     public LinkedList(){
-        if(this.head==null){
-            head = new Node<>();
-        }
-        if(this.tail==null){
-            tail = new Node<>();
-        }
-        head.next=tail;
-        tail.prev=head;
+        init(this);
+    }
+
+    private void init(LinkedList list){
+        list.head = new Node<>();
+        list.tail = new Node<>();
+        list.head.next=list.tail;
+        list.tail.prev=list.head;
     }
 
     // 头插
-    public boolean headInsert(T o){
+    public boolean addFirst(T o){
         Node<T> newNode = new Node<>(o);
         if(head.next!=null){
             newNode.next=head.next;
@@ -79,7 +83,7 @@ public class LinkedList<T> implements Queue<T>{
     }
 
     // 尾插
-    public boolean  tailInsert(T o){
+    public boolean addLast(T o){
         Node<T> newNode = new Node<>(o);
         if(tail.prev!=null){
             newNode.next=tail;
@@ -94,7 +98,12 @@ public class LinkedList<T> implements Queue<T>{
     }
 
     // 头删
-    public Node<T> headDelete(){
+    public T removeFirst(){
+        Node<T> node = removedNodeFirst();
+        return node==null?null:node.getValue();
+    }
+
+    private Node<T> removedNodeFirst(){
         if(size()>0){
             Node<T> deleteNode = head.next;
             Node<T> pointNode = deleteNode.next;
@@ -105,12 +114,13 @@ public class LinkedList<T> implements Queue<T>{
         return null;
     }
 
-    public T headDeleteNode(){
-        return headDelete().getValue();
+    // 尾删
+    public T removeLast(){
+        Node<T> node = removedNodeLast();
+        return node==null?null:node.getValue();
     }
 
-    // 尾删
-    public Node<T> tailDelete(){
+    private Node<T> removedNodeLast(){
         if(size()>0){
             Node<T> deleteNode = tail.prev;
             Node<T> pointNode = deleteNode.prev;
@@ -121,56 +131,149 @@ public class LinkedList<T> implements Queue<T>{
         return null;
     }
 
-    public T tailDeleteNode(){
-        return tailDelete().getValue();
+    // 删除
+    public boolean removeElement(Object o){
+        Node<T> node = getElementNode(o);
+        if(node==null){
+            return false;
+        }else {
+            Node<T> prev=node.prev;
+            Node<T> next=node.next;
+            if(next==null){
+                prev.next=null;
+            }else {
+                prev.next=next;
+                next.prev=prev;
+            }
+            return true;
+        }
     }
 
-    // TODO: 2020/4/22
-    //根据 T 删除
-
-    public void deleteElement(T o){
+    // 删除
+    public Object remove(int index){
+        if(index<0||index>size()-1)throw new Error("index not greater size!");
         Node<T> point=this.head;
-        while (point.next!=null){
-            T value=point.next.value;
-            if(value!=null&&value==o){
-                Node<T> next=point.next.next;
-                if(next!=null){
-                    point.next=next;
-                    next.prev=point;
-                }else {
-                    point.next=null;
-                }
+       for(int i=0;point.next!=null;i++){
+           if(i==index){
+               Node<T> removed=point.next;
+               Node<T> next=point.next.next;
+               if(next!=null){
+                   point.next=next;
+                   next.prev=point;
+               }else {
+                   point.next=null;
+               }
+               return removed.value;
+           }else {
+               point=point.next;
+           }
+       }
+       return null;
+    }
+
+    // 改
+    public boolean set(int index,T value){
+        Node<T> node=getNode(index);
+        if(node==null){
+            return false;
+        }else {
+            node.value=value;
+            return true;
+        }
+    }
+
+    // 查
+    public T get(int index){
+        Node<T> node=getNode(index);
+        return node==null?null:node.getValue();
+    }
+
+    private Node<T> getNode(int index){
+        if(index<0||index>size())throw new Error("index not greater size!");
+        Node<T> point=this.head;
+        for(int i=0;point.next!=null;i++){
+            if(i==index){
+                return point.next;
             }else {
                 point=point.next;
             }
         }
+        return null;
     }
 
-    // 改
-    // 查
+    private Node<T> getElementNode(Object o){
+        Node<T> point=this.head.next;
+        while (point!=null){
+            if(o.equals(point.value)){
+                return point;
+            }else {
+                point=point.next;
+            }
+        }
+        return null;
+    }
+
+    // 包含
+    public boolean contains(T value){
+        Node<T> node = getElementNode(value);
+        return node!= null;
+    }
+
+    public void clear(){
+        for(Node node=this.head;node!=null;){
+            Node point=node.next;
+            node.prev=null;
+            node.next=null;
+            node.value=null;
+            node=point;
+        }
+        head=null;
+        tail=null;
+    }
+
+    // 深度克隆
+    @SuppressWarnings("unchecked")
+    public Object clone(){
+        LinkedList<T> clone;
+        try {
+           clone= (LinkedList<T>) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
+        clone.init(clone);
+        for(Node<T> point=this.head.next;point!=tail&&point!=null;point=point.next){
+            clone.addLast(point.value);
+        }
+        return clone;
+    }
 
     @Override
     public boolean add(T value){
-        return headInsert(value);
+        return addFirst(value);
     }
 
     @Override
     public T poll(){
-        return tailDeleteNode();
+        return removeLast();
     }
 
-    public void print(Node<T> node){
+    public String print(Node<T> node){
         Node<T> pointNode = node==null?head.next:node;
+        StringBuilder sb=new StringBuilder();
         while (pointNode!=tail&&pointNode!=null){
+            sb.append(pointNode.value);
             System.out.print(String.valueOf(pointNode.value));
             if(pointNode.next!=tail){
+                sb.append("->");
                 System.out.print("->");
             }
             pointNode=pointNode.next;
         }
+        System.out.println();
+        return sb.toString();
     }
 
-    public void print(){
-        print(null);
+    public String print(){
+        return print(null);
     }
 }

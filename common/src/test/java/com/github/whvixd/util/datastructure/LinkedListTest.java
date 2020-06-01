@@ -1,12 +1,14 @@
 package com.github.whvixd.util.datastructure;
 
+import static org.junit.Assert.*;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.stream.IntStream;
 
 /**
- * todo 替换为 assert
  * Created by wangzhx on 2020/4/22.
  */
 public class LinkedListTest {
@@ -16,61 +18,109 @@ public class LinkedListTest {
     @Before
     public void before(){
         linkedList = new LinkedList<>();
-        IntStream.range(1,11).forEach(e-> linkedList.headInsert(e));
+        IntStream.range(1,11).forEach(e-> linkedList.addFirst(e));
     }
 
     @Test
     public void testSize(){
-        LinkedList linkedList = new LinkedList();
-        System.out.println(linkedList.size());
+        assertEquals(10,linkedList.size());
     }
 
     @Test
     public void testHeadInsert(){
-        LinkedList<Integer>  linkedList = new LinkedList<>();
-        IntStream.range(1,11).forEach(linkedList::headInsert);
-        linkedList.print();
+        assertEquals("10->9->8->7->6->5->4->3->2->1",linkedList.print());
+        
     }
 
     @Test
     public void testTailInsert(){
         LinkedList<Integer>  linkedList = new LinkedList<>();
-        IntStream.range(1,11).forEach(linkedList::tailInsert);
-        linkedList.print();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+        assertEquals("1->2->3->4->5->6->7->8->9->10",linkedList.print());
+        
     }
 
     @Test
-    public void testHeadDelete(){
-        linkedList.print();
-        System.out.println("\n"+linkedList.headDeleteNode()+"\n");
-        linkedList.print();
+    public void testRemoveFirst(){
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+        Integer removeLast = linkedList.removeFirst();
+        assertTrue(removeLast.equals(1));
+        assertEquals("2->3->4->5->6->7->8->9->10",linkedList.print());
+        
     }
 
     @Test
-    public void testTailDelete(){
-        linkedList.print();
-        System.out.println();
-        System.out.println(linkedList.tailDeleteNode());
-        System.out.println();
-        linkedList.print();
+    public void testRemoveLast(){
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+        Integer removeLast = linkedList.removeLast();
+        assertTrue(removeLast.equals(10));
+        assertEquals("1->2->3->4->5->6->7->8->9",linkedList.print());
+        
     }
 
     @Test
-    public void deleteElement(){
+    public void removeElement(){
         // 中间删除
-        linkedList.print();
-        System.out.println();
-        linkedList.deleteElement(3);
-        linkedList.print();
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+        assertTrue(linkedList.removeElement(3));
+        assertEquals("1->2->4->5->6->7->8->9->10",linkedList.print());
 
         // 删除尾节点
-        System.out.println();
-        linkedList.deleteElement(1);
-        linkedList.print();
+        assertTrue(linkedList.removeElement(10));
+        assertEquals("1->2->4->5->6->7->8->9",linkedList.print());
 
         // 删除头节点
-        System.out.println();
-        linkedList.deleteElement(10);
-        linkedList.print();
+        linkedList.removeElement(1);
+        assertEquals("2->4->5->6->7->8->9",linkedList.print());
+        assertFalse(linkedList.removeElement(100));
+    }
+
+    @Test
+    public void testRemove(){
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+        assertTrue(linkedList.remove(9).equals(10));
+        assertTrue(linkedList.remove(0).equals(1));
+    }
+
+    @Test
+    public void testSetAndGet(){
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+
+        assertTrue(linkedList.set(0,101));
+        assertTrue(linkedList.get(0).equals(101));
+        assertTrue(linkedList.set(9,109));
+        assertTrue(linkedList.get(9).equals(109));
+    }
+
+    @Test
+    public void testContains(){
+        assertTrue(linkedList.contains(1));
+        assertFalse(linkedList.contains(101));
+    }
+
+    @Test
+    public void testClear(){
+        LinkedList<Integer>  linkedList = new LinkedList<>();
+        IntStream.range(1,11).forEach(linkedList::addLast);
+
+        linkedList.clear();
+        assertEquals(0,linkedList.size());
+    }
+
+    @Test
+    public void testClone(){
+        LinkedList<Integer> clone = (LinkedList<Integer>) linkedList.clone();
+        assertFalse(clone==linkedList);
+        assertEquals(linkedList.print(),clone.print());
+    }
+
+    @After
+    public void after(){
+        linkedList.clear();
     }
 }
