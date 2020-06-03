@@ -1,54 +1,43 @@
 package com.github.whvixd.demo.jdk.enumeration;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
- * Created by wangzhx on 2018/6/28.
+ * Created by wangzhx on 2020/6/3.
  */
-public interface Factory {
-    enum Car{
-        LAMBORGHINI("兰博基尼", 3E8), KOENIGSEGG("科尼赛克", 1E9);
+public class Factory {
+    private Object object=new Object();
 
-        @Setter
-        @Getter
-        private String carBrand;
-
-        @Setter
-        @Getter
-        private double price;
-
-        Car(String carBrand, double price) {
-            this.carBrand = carBrand;
-            this.price = price;
-        }
+    public Factory(){
+        Type.object=this.object;
     }
 
-    interface ICar{
-        String printCatName(Car car);
+
+    public Handler createHandler(String type){
+        return Type.valueOf(type);
     }
 
-    //实现ICar接口
-    enum ICarImpl implements ICar{
-        LAMBORGHINI{
+    interface Handler{
+        void doSomething();
+    }
+
+    enum Type implements Handler{
+        Car {
             @Override
-            public String printCatName(Car car) {
-                //根据入参不同去写对应的逻辑
-                if("兰博基尼".equals(car.getCarBrand())){
-                    return "王志祥的兰博基尼";
-                }
-                return "";
+            public void doSomething() {
+                object.getClass();
+                System.out.println("Car");
             }
-        },KOENIGSEGG {
+        },Film {
             @Override
-            public String printCatName(Car car) {
-                //根据入参不同去写对应的逻辑
-                if(1E9 == car.getPrice()){
-                    return car.getCarBrand()+"价格："+car.getPrice();
-                }
-                return null;
+            public void doSomething() {
+                System.out.println("Film");
             }
-        }
+        };
+        private static Object object;
     }
 
+    public static void main(String[] args) {
+        Factory factory = new Factory();
+        Handler handler= factory.createHandler("Car");
+        handler.doSomething();
+    }
 }

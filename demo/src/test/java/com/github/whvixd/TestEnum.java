@@ -2,7 +2,7 @@ package com.github.whvixd;
 
 import com.github.whvixd.demo.jdk.enumeration.Car;
 
-import com.github.whvixd.demo.jdk.enumeration.Factory;
+import com.github.whvixd.demo.jdk.enumeration.CarFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,11 +30,11 @@ public class TestEnum {
     @Test
     public void testFactory() {
         //创建入参创建对应的实例
-        Factory.ICar iCar = Factory.ICarImpl.valueOf(Car.KOENIGSEGG.name());
+        CarFactory.ICar iCar = CarFactory.ICarImpl.valueOf(Car.KOENIGSEGG.name());
 
         //用KOENIGSEGG这个对象去调用printCatName方法
         Assert.assertSame("科尼赛克价格：1.0E9",
-                iCar.printCatName(Factory.Car.KOENIGSEGG));
+                iCar.printCatName(CarFactory.Car.KOENIGSEGG));
     }
 
 
