@@ -16,23 +16,12 @@ public class BinaryTree<T> {
         private Node<T> left; // 左子树
         private Node<T> right;// 右子树
 
-        public void setValue(T value){
-            this.value = value;
-        }
-        public void setLeft(Node<T> left){
-            this.left = left;
-        }
-        public void setRight(Node<T> right) {
-            this.right = right;
-        }
-
         public Node(T value,Node<T> left,Node<T> right){
             this.value = value;
             this.left = left;
             this.right = right;
         }
     }
-
 
     // 层次插入法
     public void insert(T o) {
@@ -58,11 +47,14 @@ public class BinaryTree<T> {
                 t.right = newNode;
                 return;
             }
-
         }
     }
 
     // 先序遍历
+    public void preOrderFind(){
+        preOrderFind(root);
+    }
+
     public void preOrderFind(Node<T> node){
         if(node==null){
             return;
@@ -96,6 +88,10 @@ public class BinaryTree<T> {
     }
 
     // 后序遍历
+    public void postOrderFind(){
+        postOrderFind(root);
+    }
+
     public void postOrderFind(Node<T> node){
         if(node==null){
             return;
@@ -109,6 +105,25 @@ public class BinaryTree<T> {
             postOrderFind(right);
         }
         print(node);
+    }
+
+    public void levelOrderFind() {
+        levelOrderFind(root);
+    }
+
+    public void levelOrderFind(Node<T> node) {
+       Queue<Node<T>> queue=new LinkedList<>();
+        queue.add(node);
+        while(!queue.isEmpty()){
+            Node<T> point = queue.poll();
+            print(point);
+            if(point.left!=null){
+                queue.add(point.left);
+            }
+            if(point.right!=null){
+                queue.add(point.right);
+            }
+        }
     }
 
     // 交换左子树与右子树
@@ -127,6 +142,41 @@ public class BinaryTree<T> {
     // 交换左子树与右子树
     public void exchangeLeftInRight(){
         exchangeLeftInRight(root);
+    }
+
+    public int height(){
+        return height(root);
+    }
+
+    public int height2(Node root) {
+        int front = -1, rear = -1;
+        int last = 0, level = 0;
+        Node[] queue = new Node[1000];
+        if (root == null) {
+            return 0;
+        }
+        queue[++rear]=root;
+        while(front<rear){
+            Node p=queue[++front];
+            if(p.left!=null){
+                queue[++rear]=p.left;
+            }
+            if(p.right!=null){
+                queue[++rear]=p.right;
+            }
+            if(front==last){
+                level++;
+                last=rear;
+            }
+        }
+        return level;
+    }
+
+    private int height(Node<T> node){
+        if(node==null)return 0;
+        int l=height(node.left);
+        int r=height(node.right);
+        return l>=r?l+1:r+1;
     }
 
     private void print(Node<T> node){

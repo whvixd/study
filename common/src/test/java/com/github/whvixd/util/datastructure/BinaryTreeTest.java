@@ -30,4 +30,9 @@ public class BinaryTreeTest {
         System.out.println("------");
         tree.preOrderFind(tree.getRoot());
     }
+
+    @Test
+    public void testLevelOrderFind(){
+        tree.levelOrderFind();
+    }
 }

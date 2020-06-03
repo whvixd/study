@@ -28,6 +28,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
     }
 
     @Override
+    // todo 添加 size 参数
     public boolean isEmpty() {
         return size()==0;
     }
