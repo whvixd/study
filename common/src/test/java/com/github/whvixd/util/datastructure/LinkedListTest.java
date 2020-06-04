@@ -23,7 +23,26 @@ public class LinkedListTest {
 
     @Test
     public void testSize(){
-        assertEquals(10,linkedList.size());
+        LinkedList<Integer> list = new LinkedList<>();
+        IntStream.range(1,11).forEach(list::addFirst);
+        assertEquals(10,list.size());
+        list.remove(2);
+        assertEquals(9,list.size());
+        list.removeFirst();
+        assertEquals(8,list.size());
+        list.removeLast();
+        list.removeLast();
+        assertEquals(6,list.size());
+        list.removeElement(5);
+        assertEquals(5,list.size());
+
+        list.addLast(12);
+        assertEquals(6,list.size());
+        list.addFirst(13);
+        assertEquals(7,list.size());
+        list.add(14);
+        list.add(15);
+        assertEquals(9,list.size());
     }
 
     @Test

@@ -7,14 +7,16 @@ package com.github.whvixd.util.datastructure;
  *
  * Created by wangzhx on 2020/4/22.
  */
-public class LinkedList<T> implements Queue<T>,Cloneable{
+public class LinkedList<T> implements Queue<T>,Cloneable,java.io.Serializable{
 
     // 头节点
-    private Node<T> head;
+    private transient Node<T> head;
     // 尾节点
-    private Node<T> tail;
+    private transient Node<T> tail;
+    // 长度
+    private transient int size;
 
-    public int size(){
+    public int getSizeByNodes(){
         int size=0;
         Node<T> point=head;
         while (point!=null){
@@ -27,10 +29,13 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
         return size;
     }
 
+    public int size(){
+        return this.size;
+    }
+
     @Override
-    // todo 添加 size 参数
     public boolean isEmpty() {
-        return size()==0;
+        return size==0;
     }
 
     private static class Node<T>{
@@ -80,6 +85,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
             head.next=newNode;
             newNode.prev=head;
         }
+        size++;
         return true;
     }
 
@@ -95,6 +101,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
             tail.prev=newNode;
             newNode.next=newNode;
         }
+        size++;
         return true;
     }
 
@@ -105,11 +112,12 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
     }
 
     private Node<T> removedNodeFirst(){
-        if(size()>0){
+        if(size>0){
             Node<T> deleteNode = head.next;
             Node<T> pointNode = deleteNode.next;
             head.next=pointNode;
             pointNode.prev=head;
+            size--;
             return deleteNode;
         }
         return null;
@@ -122,11 +130,12 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
     }
 
     private Node<T> removedNodeLast(){
-        if(size()>0){
+        if(size>0){
             Node<T> deleteNode = tail.prev;
             Node<T> pointNode = deleteNode.prev;
             pointNode.next=tail;
             tail.prev=pointNode;
+            size--;
             return deleteNode;
         }
         return null;
@@ -146,13 +155,14 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
                 prev.next=next;
                 next.prev=prev;
             }
+            size--;
             return true;
         }
     }
 
     // 删除
     public Object remove(int index){
-        if(index<0||index>size()-1)throw new Error("index not greater size!");
+        if(index<0||index>size-1)throw new Error("index not greater size!");
         Node<T> point=this.head;
        for(int i=0;point.next!=null;i++){
            if(i==index){
@@ -164,6 +174,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
                }else {
                    point.next=null;
                }
+               size--;
                return removed.value;
            }else {
                point=point.next;
@@ -190,7 +201,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
     }
 
     private Node<T> getNode(int index){
-        if(index<0||index>size())throw new Error("index not greater size!");
+        if(index<0||index>size)throw new Error("index not greater size!");
         Node<T> point=this.head;
         for(int i=0;point.next!=null;i++){
             if(i==index){
@@ -230,6 +241,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable{
         }
         head=null;
         tail=null;
+        this.size=0;
     }
 
     // 深度克隆
