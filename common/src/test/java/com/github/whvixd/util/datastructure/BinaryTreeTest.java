@@ -1,5 +1,6 @@
 package com.github.whvixd.util.datastructure;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,5 +35,16 @@ public class BinaryTreeTest {
     @Test
     public void testLevelOrderFind(){
         tree.levelOrderFind();
+    }
+
+    @Test
+    public void testHeightAndIsSymmetric(){
+        BinaryTree<Integer> tree=new BinaryTree<>();
+        tree.insert(new Integer[]{1,2,2,3,4,4,3});
+        assertEquals(3,tree.height());
+        assertTrue(tree.isSymmetric());
+        tree.insert(9);
+        assertFalse(tree.isSymmetric());
+
     }
 }

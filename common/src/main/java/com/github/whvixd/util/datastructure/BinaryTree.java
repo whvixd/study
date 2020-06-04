@@ -50,6 +50,11 @@ public class BinaryTree<T> {
         }
     }
 
+    public void insert(T[] array){
+        if(array==null||array.length==0)return;
+        for(T t:array) insert(t);
+    }
+
     // 先序遍历
     public void preOrderFind(){
         preOrderFind(root);
@@ -146,6 +151,29 @@ public class BinaryTree<T> {
 
     public int height(){
         return height(root);
+    }
+
+    public boolean isSymmetric(){
+        return isSymmetric(this.root);
+    }
+
+    private boolean isSymmetric(Node root) {
+        if(root==null)return true;
+        return compareLeftAndRight(root.left,root.right);
+    }
+
+    private boolean compareLeftAndRight(Node left,Node right) {
+        if(left!=null&&right!=null){
+            if(left.value==right.value){
+                return compareLeftAndRight(left.left,right.right)&&compareLeftAndRight(left.right,right.left);
+            }else {
+                return false;
+            }
+        }else if(left==null&&right==null){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public int height2(Node root) {
