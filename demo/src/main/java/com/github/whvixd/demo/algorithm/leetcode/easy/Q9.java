@@ -16,11 +16,13 @@ public enum Q9 {
         if(x>=0) {
             int t = x;
             while (t > 0) {
+                // 入栈
                 stack.push(t % 10);
                 t = t / 10;
             }
 
             while (!stack.empty()) {
+                // 出栈 对比数字
                 if (stack.pop() != x % 10) {
                     return false;
                 }
@@ -33,46 +35,60 @@ public enum Q9 {
 
 
     public boolean isPalindrome2(int x) {
-        if(x<0){
-            return false;
-        }
-        int num=1;
+        if(x<0)return false;
         int t=x;
+        int digit=1;
+        // 获取 位数 121 -> 100
         while (t>=10){
             t/=10;
-            num=num*10;
+            digit=digit*10;
         }
 
-        int a=x;
-        int b=x;
-        while (num>0){
-            if(!(a%10==b/num)){
+        // 最大位数字
+        int l=x;
+        // 最小位数字
+        int r=x;
+        // 对比最大小数字，是否相等
+        while (digit>0){
+            if(!(r%10==l/digit)){
                 return false;
             }
-            b=b-b/num*num;
-            num=num/10;
-
-            a=a/10;
+            l=l-l/digit*digit;
+            digit=digit/10;
+            r=r/10;
         }
         return true;
-
     }
 
     public static void main(String[] args) {
+        // assert true
         System.out.println(Q9.instance.isPalindrome(121121));
+        // assert true
         System.out.println(Q9.instance.isPalindrome(0));
+        // assert true
         System.out.println(Q9.instance.isPalindrome(123321));
+        // assert true
         System.out.println(Q9.instance.isPalindrome(12321));
+        // assert false
         System.out.println(Q9.instance.isPalindrome(10));
+        // assert true
         System.out.println(Q9.instance.isPalindrome(101));
 
-        System.out.println("-----------------");
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(121121));
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(0));
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(123321));
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(12321));
+        // assert false
         System.out.println(Q9.instance.isPalindrome2(10));
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(101));
+        // assert true
         System.out.println(Q9.instance.isPalindrome2(101101));
+        // assert false
+        System.out.println(Q9.instance.isPalindrome2(-101101));
     }
 }
