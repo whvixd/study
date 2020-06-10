@@ -21,4 +21,24 @@ then
 fi
 # 启动项目
 yarn install
+
+# 另启线程监测node是否启动，启动后打开首页
+{
+while true
+do
+# 获取9090端口的进程号
+pid=`lsof -i:9090|awk '{print $2}'|grep 'PID'`
+echo ${pid}
+# 如果进程号不为空，则打开浏览器
+# =~ 不包含，默认数字转字符
+if   [[ ${pid} != "" ]]
+then
+open -a "Google Chrome.app" http://baidu.com
+break
+else
+sleep 5
+fi
+done
+} &
+
 npm run dev
