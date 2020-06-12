@@ -29,12 +29,12 @@ public class Json2EntityTest {
         Entity.Cat cat = new Entity.Cat();
         cat.setName("Tom");
         cat.setOwner("whvixd");
-        Entity.Dog dog = BeanUtil.transfer(cat, Entity.Dog.class, (BeanUtil.Processor<Entity.Cat, Entity.Dog>) (cat1, dog1) -> {
+        Entity.Dog dog = BeanUtil.transfer(cat, Entity.Dog.class, (cat1, dog1) -> {
             dog1.setName(cat.getName());
             dog1.setOwner(cat.getOwner());
         });
 
-        Entity.Dog dogC = BeanUtil.transfer(cat, Entity.Dog.class, (BiConsumer<Entity.Cat, Entity.Dog>) (cat1, dog1) -> {
+        Entity.Dog dogC = BeanUtil.transfer(cat, Entity.Dog.class, (cat1, dog1) -> {
             dog1.setName(cat.getName());
             dog1.setOwner(cat.getOwner());
         });
