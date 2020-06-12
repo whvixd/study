@@ -22,6 +22,8 @@
 
 7. 添加读写本地配置文件
 
+8. 添加BeanUtil,对bean属性的copy
+
 ### todo
 
 1. leetcode每日一题
