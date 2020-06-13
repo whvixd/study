@@ -14,16 +14,18 @@ import java.util.function.BiConsumer;
  */
 public class BeanUtil {
 
-    public static <Before, After> After transfer(Before before, Class<After> afterClass, Processor<Before, After> biConsumer) {
+    // 将before转为after
+    public static <Before, After> After transfer(Before before, Class<After> afterClass, Processor<Before, After> processor) {
         try {
             After after = copy(before, afterClass);
-            biConsumer.accept(before, after);
+            processor.accept(before, after);
             return after;
         } catch (Exception e) {
             throw new RuntimeException("Class Cast Error!");
         }
     }
 
+    // 根据bean的getter方法将bean转为map
     public static Map<String, Object> toMap(Object bean) {
         if (bean == null) return null;
         try {
@@ -40,6 +42,7 @@ public class BeanUtil {
         }
     }
 
+    // 将Before中的字段复制到after中，注：需要setter和getter方法
     public static <Before, After> void copyProperty(Before before, After after) throws IntrospectionException {
         PropertyDescriptor[] beforePropertyDescriptors = getPropertyDescriptor(before);
         PropertyDescriptor[] afterPropertyDescriptors = getPropertyDescriptor(after);
@@ -54,6 +57,7 @@ public class BeanUtil {
             throw new Error(e);
         }
     }
+
     public static <Before, After> After copy(Before before, Class<After> afterClass){
         try {
             After after = afterClass.getDeclaredConstructor().newInstance();
@@ -72,7 +76,7 @@ public class BeanUtil {
         }
     }
 
-    public static PropertyDescriptor[] getPropertyDescriptor(Object bean) {
+    private static PropertyDescriptor[] getPropertyDescriptor(Object bean) {
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), Object.class);
             return beanInfo.getPropertyDescriptors();
@@ -81,6 +85,7 @@ public class BeanUtil {
         }
     }
 
+    // 支持自定义修改字段
     public interface Processor<Before, After> extends BiConsumer<Before, After>{
     }
 
