@@ -48,9 +48,11 @@ public enum Q14 {
     }
 
     public static void main(String[] args) {
+        // assert fl
         String[] strs1 = new String[]{"flower","flow","flight"};
         System.out.println(Q14.instance.longestCommonPrefix(strs1));
 
+        // assert
         String[] strs2 = new String[]{"dog","racecar","car"};
         System.out.println(Q14.instance.longestCommonPrefix(strs2));
     }
