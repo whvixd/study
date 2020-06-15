@@ -1,5 +1,7 @@
 package com.github.whvixd.util.bean;
 
+import lombok.experimental.UtilityClass;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -12,12 +14,13 @@ import java.util.function.BiConsumer;
  * todo test
  * 无参构造器之间的类型转换
  */
+@UtilityClass
 public class BeanUtil {
 
     // 将before转为after
     public static <Before, After> After transfer(Before before, Class<After> afterClass, Processor<Before, After> processor) {
         try {
-            After after = copy(before, afterClass);
+            After after = transfer(before, afterClass);
             processor.accept(before, after);
             return after;
         } catch (Exception e) {
@@ -58,7 +61,7 @@ public class BeanUtil {
         }
     }
 
-    public static <Before, After> After copy(Before before, Class<After> afterClass){
+    public static <Before, After> After transfer(Before before, Class<After> afterClass){
         try {
             After after = afterClass.getDeclaredConstructor().newInstance();
             PropertyDescriptor[] beforePropertyDescriptors = getPropertyDescriptor(before);
@@ -66,8 +69,11 @@ public class BeanUtil {
 
             for (PropertyDescriptor descriptor : afterPropertyDescriptors) {
                 for (PropertyDescriptor beforePropertyDescriptor : beforePropertyDescriptors) {
-                    Object value = beforePropertyDescriptor.getReadMethod().invoke(before);
-                    descriptor.getWriteMethod().invoke(after, value);
+                    if(beforePropertyDescriptor.getName().equals(descriptor.getName())){
+                        Object value = beforePropertyDescriptor.getReadMethod().invoke(before);
+                        descriptor.getWriteMethod().invoke(after, value);
+                        break;
+                    }
                 }
             }
             return after;
