@@ -11,8 +11,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
- * todo test
  * 无参构造器之间的类型转换
+ * 属性之间浅copy
+ * <p>
+ * Created by wangzhixiang on 2020/6/16.
  */
 @UtilityClass
 public class BeanUtil {
@@ -24,7 +26,7 @@ public class BeanUtil {
             processor.accept(before, after);
             return after;
         } catch (Exception e) {
-            throw new RuntimeException("Class Cast Error!");
+            throw new Error(e);
         }
     }
 
@@ -61,7 +63,7 @@ public class BeanUtil {
         }
     }
 
-    public static <Before, After> After transfer(Before before, Class<After> afterClass){
+    public static <Before, After> After transfer(Before before, Class<After> afterClass) {
         try {
             After after = afterClass.getDeclaredConstructor().newInstance();
             PropertyDescriptor[] beforePropertyDescriptors = getPropertyDescriptor(before);
@@ -69,7 +71,7 @@ public class BeanUtil {
 
             for (PropertyDescriptor descriptor : afterPropertyDescriptors) {
                 for (PropertyDescriptor beforePropertyDescriptor : beforePropertyDescriptors) {
-                    if(beforePropertyDescriptor.getName().equals(descriptor.getName())){
+                    if (beforePropertyDescriptor.getName().equals(descriptor.getName())) {
                         Object value = beforePropertyDescriptor.getReadMethod().invoke(before);
                         descriptor.getWriteMethod().invoke(after, value);
                         break;
@@ -92,7 +94,7 @@ public class BeanUtil {
     }
 
     // 支持自定义修改字段
-    public interface Processor<Before, After> extends BiConsumer<Before, After>{
+    public interface Processor<Before, After> extends BiConsumer<Before, After> {
     }
 
 }
