@@ -192,6 +192,7 @@ public class BinaryTree<T> {
             if(p.right!=null){
                 queue[++rear]=p.right;
             }
+            // 两者相等，则一层已遍历完成，front正好在下一层的最后一个节点的位子
             if(front==last){
                 level++;
                 last=rear;
