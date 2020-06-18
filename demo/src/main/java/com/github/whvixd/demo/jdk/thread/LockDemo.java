@@ -16,8 +16,18 @@ public class LockDemo {
     private static final Lock lock = new Lock();
 
 
-    //对方法加锁，针对同一个实例
+    // 对非静态方法加锁，针对同一个实例相当于  synchronized(this){}
     public synchronized void testMethod(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName());
+    }
+
+    //  对静态方法加锁，针对同一个实例相当于  synchronized(LockDemo.class){}
+    public synchronized static void testStaticMethod(){
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -60,6 +70,24 @@ public class LockDemo {
 
         InvokeTask.newInstance(()->{
             lockDemo2.test2();
+        }).start();
+
+// --------------------------------
+        InvokeTask.newInstance(()->{
+            lockDemo1.testMethod();
+        }).start();
+
+        InvokeTask.newInstance(()->{
+            lockDemo2.testMethod();
+        }).start();
+
+// --------------------------------
+        InvokeTask.newInstance(()->{
+            LockDemo.testStaticMethod();
+        }).start();
+
+        InvokeTask.newInstance(()->{
+            LockDemo.testStaticMethod();
         }).start();
     }
 
