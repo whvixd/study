@@ -31,6 +31,7 @@ public class ThreadLocalDemo {
         threadLocal.set(s1);
         threadLocal.set(a);
 
+        // get实际是从当前线程的Map中获取，和new ThreadLocal()没有关系，如果再次new ThreadLocal()，获取get方法还是获取一开始的set方法
         int b = (int) threadLocal.get();
         System.out.println(threadLocal.get());
         System.out.println(b);
