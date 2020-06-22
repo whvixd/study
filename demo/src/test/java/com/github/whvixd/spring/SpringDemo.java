@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * InitializingBean 初始化bean时调用
+ */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/temp-bean.xml"})
