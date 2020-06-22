@@ -34,7 +34,7 @@ public class ArrayList<E> {
         return size;
     }
 
-    // 查
+    //------------查------------
 
     /**
      * 根据下标定位
@@ -69,7 +69,7 @@ public class ArrayList<E> {
         return -1;
     }
 
-    // 插
+    //------------增------------
 
     /**
      * 添加新元素到数组尾部
@@ -81,7 +81,6 @@ public class ArrayList<E> {
         elements[size++]=o;
         return true;
     }
-
 
     /**
      *
@@ -99,10 +98,43 @@ public class ArrayList<E> {
         return true;
     }
 
+    //------------删------------
 
-    // 删
+    public boolean remove(){
+        if(size>0){
+            elements[--size]=null;
+            return true;
+        }
+        return false;
+    }
 
-    // 改
+    public boolean remove(int index){
+        checkIndex(index);
+        System.arraycopy(elements,index+1,elements,index,size-index);
+        elements[--size]=null;
+        return true;
+    }
+
+    public boolean remove(Object o){
+        if(o==null){
+            for(int i=0;i<size;i++){
+                if(elements[i]==null){
+                    remove(i);
+                    return true;
+                }
+            }
+        }else {
+            for(int i=0;i<size;i++){
+                if(o.equals(elements[i])){
+                    remove(i);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //------------改------------
 
     private void checkIndex(int index){
         if(index<0||index>=size){
