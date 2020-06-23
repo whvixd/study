@@ -9,6 +9,7 @@ package com.github.whvixd.util.datastructure;
  */
 public class LinkedList<T> implements Queue<T>,Cloneable,java.io.Serializable{
 
+    private static final long serialVersionUID = -6274398622513946104L;
     // 头节点
     private transient Node<T> head;
     // 尾节点
@@ -246,7 +247,7 @@ public class LinkedList<T> implements Queue<T>,Cloneable,java.io.Serializable{
 
     // 深度克隆
     @SuppressWarnings("unchecked")
-    public Object clone(){
+    public LinkedList<T> clone(){
         LinkedList<T> clone;
         try {
            clone= (LinkedList<T>) super.clone();

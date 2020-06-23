@@ -6,20 +6,41 @@ import java.util.Arrays;
  * 数组集合
  * Created by wangzhixiang on 2020/6/19.
  */
-public class ArrayList<E> {
+public class ArrayList<E> implements Cloneable,java.io.Serializable{
+    private static final long serialVersionUID = 7510236052996469384L;
 
-    private Object[] elements;
+    // tip:不使用泛型的原因，泛型在运行时会被擦除，这里需要在加载时赋值
+    /**
+     * 存储元素的数组
+     */
+    private transient Object[] elements;
 
+    /**
+     * 数组存储元素长度
+     */
     private int size;
 
+    /**
+     * 默认容量长度
+     */
     private static final int DEFAULT_CAPACITY=10;
 
+    /**
+     * 默认数组
+     */
     private static final Object[] DEFAULT_EMPTY_ELEMENTS={};
 
+    /**
+     * 默认构造器，初始化时赋值空数组
+     */
     public ArrayList(){
         elements=DEFAULT_EMPTY_ELEMENTS;
     }
 
+    /**
+     * 有参构造器
+     * @param capacity 初始化容量
+     */
     public ArrayList(int capacity){
         if(capacity>0){
             elements=new Object[capacity];
@@ -44,7 +65,7 @@ public class ArrayList<E> {
     @SuppressWarnings("unchecked")
     public E get(int index){
         checkIndex(index);
-        return (E) elements[index];
+        return elementData(index);
     }
 
     /**
@@ -69,6 +90,28 @@ public class ArrayList<E> {
         return -1;
     }
 
+    /**
+     * 从数组的尾部开始查询下标
+     * @param o 元素
+     * @return 下标
+     */
+    public int lastIndexOf(Object o){
+        if(o==null){
+            for(int i=size-1;i>=0;i--){
+                if(elements[i]==null) {
+                    return i;
+                }
+            }
+        }else {
+            for(int i=size-1;i>=0;i--){
+                if(o.equals(elements[i])){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
     //------------增------------
 
     /**
@@ -76,7 +119,7 @@ public class ArrayList<E> {
      * @param o 新加入的元素
      * @return true
      */
-    public boolean add(Object o){
+    public boolean add(E o){
         ensureCapacityInternal(size+1);
         elements[size++]=o;
         return true;
@@ -88,7 +131,7 @@ public class ArrayList<E> {
      * @param o 新元素
      * @return true
      */
-    public boolean add(int index,Object o){
+    public boolean add(int index,E o){
         checkIndex(index);
         ensureCapacityInternal(size+1);
         // 从原来数组的index下标复制到elements中，从index+1开始，到size-index结束
@@ -100,6 +143,10 @@ public class ArrayList<E> {
 
     //------------删------------
 
+    /**
+     * 删除最后一个元素
+     * @return boolean
+     */
     public boolean remove(){
         if(size>0){
             elements[--size]=null;
@@ -108,6 +155,11 @@ public class ArrayList<E> {
         return false;
     }
 
+    /**
+     * 根据下标删除
+     * @param index 要删除的下标
+     * @return boolean
+     */
     public boolean remove(int index){
         checkIndex(index);
         System.arraycopy(elements,index+1,elements,index,size-index);
@@ -115,6 +167,11 @@ public class ArrayList<E> {
         return true;
     }
 
+    /**
+     * 根据元素删除
+     * @param o 要删除的元素
+     * @return boolean
+     */
     public boolean remove(Object o){
         if(o==null){
             for(int i=0;i<size;i++){
@@ -136,13 +193,88 @@ public class ArrayList<E> {
 
     //------------改------------
 
+    /**
+     * 修改数组元素
+     * @param index 要修改的下标
+     * @param o 新的值
+     * @return 旧值
+     */
+    public E set(int index,E o){
+        checkIndex(index);
+        E oldData=elementData(index);
+        elements[index]=o;
+        return oldData;
+    }
+
+    //------------其他------------
+
+    /**
+     * 是否为空
+     * @return boolean
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    /**
+     * 是否包含元素
+     * @param o 元素
+     * @return boolean
+     */
+    public boolean contains(E o){
+        return indexOf(o)!=-1;
+    }
+
+    /**
+     * 清空数组
+     */
+    public void clear(){
+        if(size>0){
+            for(int i=0;i<size;i++){
+                elements[i]=null;
+            }
+            size=0;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public ArrayList<E> clone(){
+        try {
+            ArrayList<E> clone=(ArrayList<E>) super.clone();
+            clone.elements=Arrays.copyOf(elements,size);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 转为数组
+     * @return 数组
+     */
+    public Object[] toArray(){
+        return Arrays.copyOf(elements,size);
+    }
+
+    @SuppressWarnings("unchecked")
+    private E elementData(int index){
+        return (E) elements[index];
+    }
+
+    /**
+     * 检查下标是否合法
+     * @param index 下标
+     */
     private void checkIndex(int index){
         if(index<0||index>=size){
             throw new IllegalArgumentException("index is illegal!");
         }
     }
 
-
+    /**
+     * 扩容机制:当前的长度大于总长度时，扩容原来的1.5倍
+     * @param capacity 新的容量
+     */
     private void ensureCapacityInternal(int capacity) {
         // 若是初始化的数组，则使用默认的大小
         if(DEFAULT_EMPTY_ELEMENTS==elements){

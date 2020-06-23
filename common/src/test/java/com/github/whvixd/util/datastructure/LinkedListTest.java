@@ -133,7 +133,7 @@ public class LinkedListTest {
 
     @Test
     public void testClone(){
-        LinkedList<Integer> clone = (LinkedList<Integer>) linkedList.clone();
+        LinkedList<Integer> clone = linkedList.clone();
         assertFalse(clone==linkedList);
         assertEquals(linkedList.print(),clone.print());
     }
