@@ -24,10 +24,12 @@
 
 8. 添加BeanUtil,对bean属性的copy
 
+9. 手写ArrayList
+
 ### todo
 
 1. leetcode每日一题
 
-2. 手写ArrayList、HashMap
+2. 手写HashMap
 
 ...
