@@ -10,6 +10,7 @@ if [ ! -n "$commit_log" ]; then
     # 打印
     echo "NULL"
 
+
 else
     echo "NOT NULL"
 fi
