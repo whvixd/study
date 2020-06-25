@@ -45,7 +45,7 @@ public enum Q139 {
 
     public static void main(String[] args) {
         // assert true
-        System.out.println(Q139.instance.wordBreak("abc", Lists.newArrayList("abc","aa")));
+        System.out.println(Q139.instance.wordBreak("abc", Lists.newArrayList("abc","aaa")));
         // assert true
         System.out.println(Q139.instance.wordBreak("applepenapple", Lists.newArrayList("apple", "pen")));
         // assert false
