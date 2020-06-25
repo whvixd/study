@@ -7,6 +7,7 @@ commit_log=$1
 if [ ! -n "$commit_log" ]; then
     # 赋值
     commit_log="default"
+    # 打印
     echo "NULL"
 else
     echo "NOT NULL"
