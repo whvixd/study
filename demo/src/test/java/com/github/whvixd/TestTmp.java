@@ -24,6 +24,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -760,6 +761,16 @@ public class TestTmp {
         for(PropertyDescriptor propertyDescriptor:propertyDescriptors){
             System.out.println(propertyDescriptor);
         }
+    }
+
+    @Test
+    public void test48() throws IntrospectionException {
+        String id="100";
+        String md5Hex = DigestUtils.md5Hex(id);
+        String s = md5Hex.substring(md5Hex.length() - 3);
+        int num=Integer.valueOf(s,16);
+        int route=num%3;
+        System.out.println(route);
     }
 
     private int hashKey(Object key){
