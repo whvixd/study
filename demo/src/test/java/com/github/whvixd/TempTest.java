@@ -2,9 +2,14 @@ package com.github.whvixd;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.github.whvixd.demo.jdk.enumeration.Car;
+import com.github.whvixd.demo.jdk.enumeration.CarFactory;
 import com.github.whvixd.model.ApprovalComplete;
 import com.github.whvixd.model.Bean;
-import com.github.whvixd.util.*;
+import com.github.whvixd.util.GsonUtil;
+import com.github.whvixd.util.JacksonUtil;
+import com.github.whvixd.util.ListUtil;
+import com.github.whvixd.util.StreamUtil;
 import com.github.whvixd.util.exception.ArgValidationException;
 import com.github.whvixd.util.exception.base.BusinessExceptionCode;
 import com.google.common.base.Joiner;
@@ -16,7 +21,10 @@ import com.google.gson.reflect.TypeToken;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -28,6 +36,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
@@ -46,132 +55,23 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class TestTmp {
-    @Data
-    @AllArgsConstructor
-    static class Student {
+public class TempTest {
 
-        @NotNull(message = "name不为空")
-        private String name;
-        private int age;
-        private String desc;
-        private transient String other;
-
-        public Student(String name) {
-            this.name = name;
-        }
-
-        public Student(String name, int age) {
-            this.age = age;
-            this.name = name;
-        }
-
-        public Student() {
-        }
-    }
-
-
-    enum Tenum {
-        A {
-            public void v() {
-                System.out.println("A");
-            }
-        };
-
-        public void v() {
-            System.out.println("v()");
-        }
-    }
-
-    @Data
-    public static class C {
-        private List<C> cs;
-
-        public boolean hasC() {
-            return !CollectionUtils.isEmpty(cs);
-        }
-    }
-
-    public void recursion(C c) {
-        if (c == null) {
-            return;
-        }
-
-        boolean f = c.hasC();
-        if (f) {
-            List<C> cs = c.getCs();
-            cs.forEach(c1 -> {
-                if (c1.hasC()) {
-                    recursion(c1);
-                    return;
-                }
-                System.out.println("hava c");
-            });
-        }
-
-    }
-
-    Map<String, Object> getObject(String id, Map<String, Map<String, Object>> cache, Function<String, Map> function) {
-        Map<String, Object> obj = cache.get(id);
-        if (obj == null) {
-            obj = function.apply(id);
-            if (obj != null) {
-                cache.putIfAbsent(id, obj);
-                return obj;
-            }
-            System.out.println("对象为空！");
-        }
-        return obj;
-    }
-
-
-    void test() {
-        Map<String, Map<String, Object>> cache = Maps.newHashMap();
-        cache.put("1", Maps.newHashMap());
-
-        getObject("1", Maps.newHashMap(), (id) ->
-                getObject("1", Maps.newHashMap(), (i) ->
-                        cache.get("1"))
-        );
-    }
-
-    public static void main(String[] args) {
-
-
-        Config.getConfig("", iConfig -> {
-            iConfig.getName();
-        });
-    }
-
-    static class Config {
-        static void getConfig(String name, IConfigLisener iConfigLisener) {
-        }
-    }
-
-    interface IConfigLisener {
-        void change(IConfig iConfig);
-    }
-
-    class IConfig {
-        private String name = "config";
-
-        public String getName() {
-            return this.name;
-        }
-    }
+//------------------------------------Test------------------------------------
 
     @Test
     public void test1() {
@@ -698,59 +598,59 @@ public class TestTmp {
     }
 
     @Test
-    public void test43(){
+    public void test43() {
         DataChangeBean dataChangeBean = new DataChangeBean();
         System.out.println(hashKey(dataChangeBean));
-        System.out.println(12&hashKey(dataChangeBean));
-        System.out.println(100&hashKey(dataChangeBean));
+        System.out.println(12 & hashKey(dataChangeBean));
+        System.out.println(100 & hashKey(dataChangeBean));
 //        System.out.println(hashKey((int)'s'));
 //        System.out.println(hashKey("a"));
     }
 
     @Test
-    public void test44(){
+    public void test44() {
         HashMap hashMap = new HashMap();
         //Node[]:若hashCode一样，equals不一样，在添加时往链表添加，equals一样时，则时覆盖原有的k，当一个node的size>8时转为红黑树
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
 
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
-        hashMap.put(new Node("A"),"haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
+        hashMap.put(new Node("A"), "haha");
 
         System.out.println(hashMap);
     }
 
     @Test
-    public void test45(){
+    public void test45() {
         Set<Integer> strings = Sets.newConcurrentHashSet();
-        IntStream.range(0,4).forEach(strings::add);
-        for(Integer k:strings){
-            if(k==1){
+        IntStream.range(0, 4).forEach(strings::add);
+        for (Integer k : strings) {
+            if (k == 1) {
 //                strings.remove(k);
             }
         }
         Iterator<Integer> iterator = strings.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Integer next = iterator.next();
-            if(next==1){
+            if (next == 1) {
                 strings.remove(next);
             }
         }
     }
 
     @Test
-    public void test46(){
+    public void test46() {
         HashMap map = new HashMap();
-        map.put(1,1);
+        map.put(1, 1);
         System.out.println(map.size());
     }
 
@@ -758,32 +658,61 @@ public class TestTmp {
     public void test47() throws IntrospectionException {
         BeanInfo beanInfo = Introspector.getBeanInfo(Node.class);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        for(PropertyDescriptor propertyDescriptor:propertyDescriptors){
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             System.out.println(propertyDescriptor);
         }
     }
 
     @Test
     public void test48() throws IntrospectionException {
-        String id="100";
+        String id = "100";
         String md5Hex = DigestUtils.md5Hex(id);
         String s = md5Hex.substring(md5Hex.length() - 3);
-        int num=Integer.valueOf(s,16);
-        int route=num%3;
+        int num = Integer.valueOf(s, 16);
+        int route = num % 3;
         System.out.println(route);
     }
 
-    private int hashKey(Object key){
-        int h;
-        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    @Test
+    public void test49() {
+        Class kClazz = Car.KOENIGSEGG.getClass();
+        Field[] fields = kClazz.getFields();
+        for (Field field : fields) {
+            if (Modifier.isPublic(field.getModifiers()) &&
+                    Modifier.isStatic(field.getModifiers()) &&
+                    Modifier.isFinal(field.getModifiers())) {
+                System.out.println(field.getName() + "元素的修饰符为public static final");
+            }
+        }
     }
 
+    @Test
+    public void test50() {
+        //创建入参创建对应的实例
+        CarFactory.ICar iCar = CarFactory.ICarImpl.valueOf(Car.KOENIGSEGG.name());
+
+        //用KOENIGSEGG这个对象去调用printCatName方法
+        Assert.assertSame("科尼赛克价格：1.0E9",
+                iCar.printCatName(CarFactory.Car.KOENIGSEGG));
+    }
+
+    @Test
+    public void test51(){
+        String id=UUID.randomUUID().toString()+"_index";
+        System.out.println(id.endsWith("_index"));
+        System.out.println(id.matches(".*_index$"));
+        System.out.println(id);
+
+    }
+
+
+//------------------------------------Model------------------------------------
     @Data
-    class Node{
+    class Node {
         String name;
 
-        Node(String name){
-            this.name=name;
+        Node(String name) {
+            this.name = name;
         }
 
         @Override
@@ -796,7 +725,6 @@ public class TestTmp {
 //            return this.hashCode()==obj.hashCode();
 //        }
     }
-
 
 
     @Data
@@ -882,6 +810,32 @@ public class TestTmp {
         }
     }
 
+    private int hashKey(Object key) {
+        int h;
+        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
 
+    @Data
+    @AllArgsConstructor
+    static class Student {
+
+        @NotNull(message = "name不为空")
+        private String name;
+        private int age;
+        private String desc;
+        private transient String other;
+
+        public Student(String name) {
+            this.name = name;
+        }
+
+        public Student(String name, int age) {
+            this.age = age;
+            this.name = name;
+        }
+
+        public Student() {
+        }
+    }
 }
 
