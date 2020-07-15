@@ -71,6 +71,139 @@ import java.util.stream.IntStream;
 @Slf4j
 public class TempTest {
 
+
+    //------------------------------------Model------------------------------------
+    @Data
+    class Node {
+        String name;
+
+        Node(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
+
+//        @Override
+//        public boolean equals(Object obj) {
+//            return this.hashCode()==obj.hashCode();
+//        }
+    }
+
+
+    @Data
+    public class DataChangeBean {
+
+        private RemoteContext context;
+        private String objectId;
+        private String entityId;
+        private String triggerType;
+        private String eventId;
+        private Map<String, Object> beforeTriggerData;
+        private Map<String, Object> afterTriggerData;
+    }
+
+    @Data
+    public class RemoteContext {
+        private String ea;
+        private String tenantId;
+        private String appId;
+        private String userId;
+    }
+
+    public void cons(String ele) {
+
+        System.out.println(ele);
+    }
+
+
+    public boolean isName(String name) {
+        return Pattern.matches("[\\w_.-]+", name)
+                &&
+                !Pattern.matches("^[_.-].*|.*[_.-]$|.*[_.-]{2,}.*", name);
+    }
+
+
+    @Builder
+    @ToString
+    static class Person {
+        private String name;
+        @lombok.experimental.Delegate
+        private A address;
+
+    }
+
+    static class A {
+        private String province;
+        final static String aName = "";
+
+        public final String getaName() {
+            return aName;
+        }
+    }
+
+
+    public String getOneOperation(String entityId) {
+        Map<String, List<String>> supportOneOperationObjects = Maps.newHashMap();
+        supportOneOperationObjects.put("a", Lists.newArrayList("acc"));
+        supportOneOperationObjects.put("b", Lists.newArrayList("acc"));
+        supportOneOperationObjects.put("c", Lists.newArrayList());
+
+        for (String operation : supportOneOperationObjects.keySet()) {
+            if (supportOneOperationObjects.get(operation).contains(entityId)) {
+                return operation;
+            }
+        }
+        return null;
+    }
+
+    public class Animal {
+
+        public void print() {
+            int a = 10;
+            System.out.println(a % 3);
+        }
+    }
+
+    public class Dog extends Animal {
+        private String name;
+
+        public void print() {
+            int a = 10;
+            System.out.println(a % 1);
+        }
+    }
+
+    private int hashKey(Object key) {
+        int h;
+        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Student {
+
+        @NotNull(message = "name不为空")
+        private String name;
+        private int age;
+        private String desc;
+        private transient String other;
+
+        public Student(String name) {
+            this.name = name;
+        }
+
+        public Student(String name, int age) {
+            this.age = age;
+            this.name = name;
+        }
+
+        public Student() {
+        }
+    }
+
 //------------------------------------Test------------------------------------
 
     @Test
@@ -155,6 +288,9 @@ public class TempTest {
 
         String s = "";
         System.out.println(StringUtils.isBlank(s));
+        System.out.println(JSONObject.toJSONString(Lists.newArrayList()));
+        System.out.println(JSONObject.toJSONString(""));
+        System.out.println(JSONObject.toJSON(null));
 
     }
 
@@ -706,136 +842,5 @@ public class TempTest {
     }
 
 
-//------------------------------------Model------------------------------------
-    @Data
-    class Node {
-        String name;
-
-        Node(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public int hashCode() {
-            return name.hashCode();
-        }
-
-//        @Override
-//        public boolean equals(Object obj) {
-//            return this.hashCode()==obj.hashCode();
-//        }
-    }
-
-
-    @Data
-    public class DataChangeBean {
-
-        private RemoteContext context;
-        private String objectId;
-        private String entityId;
-        private String triggerType;
-        private String eventId;
-        private Map<String, Object> beforeTriggerData;
-        private Map<String, Object> afterTriggerData;
-    }
-
-    @Data
-    public class RemoteContext {
-        private String ea;
-        private String tenantId;
-        private String appId;
-        private String userId;
-    }
-
-    public void cons(String ele) {
-
-        System.out.println(ele);
-    }
-
-
-    public boolean isName(String name) {
-        return Pattern.matches("[\\w_.-]+", name)
-                &&
-                !Pattern.matches("^[_.-].*|.*[_.-]$|.*[_.-]{2,}.*", name);
-    }
-
-
-    @Builder
-    @ToString
-    static class Person {
-        private String name;
-        @lombok.experimental.Delegate
-        private A address;
-
-    }
-
-    static class A {
-        private String province;
-        final static String aName = "";
-
-        public final String getaName() {
-            return aName;
-        }
-    }
-
-
-    public String getOneOperation(String entityId) {
-        Map<String, List<String>> supportOneOperationObjects = Maps.newHashMap();
-        supportOneOperationObjects.put("a", Lists.newArrayList("acc"));
-        supportOneOperationObjects.put("b", Lists.newArrayList("acc"));
-        supportOneOperationObjects.put("c", Lists.newArrayList());
-
-        for (String operation : supportOneOperationObjects.keySet()) {
-            if (supportOneOperationObjects.get(operation).contains(entityId)) {
-                return operation;
-            }
-        }
-        return null;
-    }
-
-    public class Animal {
-
-        public void print() {
-            int a = 10;
-            System.out.println(a % 3);
-        }
-    }
-
-    public class Dog extends Animal {
-        private String name;
-
-        public void print() {
-            int a = 10;
-            System.out.println(a % 1);
-        }
-    }
-
-    private int hashKey(Object key) {
-        int h;
-        return key == null ? 0 : (h = key.hashCode()) ^ (h >>> 16);
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class Student {
-
-        @NotNull(message = "name不为空")
-        private String name;
-        private int age;
-        private String desc;
-        private transient String other;
-
-        public Student(String name) {
-            this.name = name;
-        }
-
-        public Student(String name, int age) {
-            this.age = age;
-            this.name = name;
-        }
-
-        public Student() {
-        }
-    }
 }
 
