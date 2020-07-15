@@ -1,5 +1,9 @@
+-- 控制台中需要用 && 判断是否为一整句，结束后 设为默认 ;
+
+DELIMITER &&
 -- 循环建表
-DROP PROCEDURE IF EXISTS create_test_table;
+DROP PROCEDURE IF EXISTS create_test_table&&
+
 CREATE PROCEDURE create_test_table(IN begin_index INT, IN end_index INT)
   BEGIN
     DECLARE i INT;
@@ -18,7 +22,9 @@ CREATE PROCEDURE create_test_table(IN begin_index INT, IN end_index INT)
       EXECUTE sql_create_table;
       SET i = i + 1;
     END WHILE;
-  END;
+  END&&
+
+DELIMITER ;
 
 -- 执行程序
 CALL create_test_table(0, 10);
