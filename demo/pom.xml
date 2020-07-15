@@ -426,6 +426,13 @@
             <version>${thrift.version}</version>
         </dependency>
 
+        <!-- 轻量级依赖注入框架 -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
