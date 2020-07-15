@@ -28,3 +28,20 @@ DELIMITER ;
 
 -- 执行程序
 CALL create_test_table(0, 10);
+
+-- 删除
+DROP PROCEDURE IF EXISTS drop_test_table;
+CREATE PROCEDURE drop_test_table(IN begin_index INT, IN end_index INT)
+  BEGIN
+    DECLARE i INT;
+    SET i = begin_index;
+    WHILE i < end_index + 1 DO
+      SET @sql_create_table = concat(
+          'DROP TABLE IF EXISTS test_db_log_', i);
+      PREPARE sql_create_table FROM @sql_create_table;
+      EXECUTE sql_create_table;
+      SET i = i + 1;
+    END WHILE;
+  END;
+
+CALL drop_test_table(0,10);
