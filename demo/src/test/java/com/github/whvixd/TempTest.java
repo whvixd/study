@@ -839,6 +839,7 @@ public class TempTest {
         System.out.println(id.matches(".*_index$"));
         System.out.println(id);
 
+        System.out.println(GsonUtil.toJson(Car.KOENIGSEGG.toString()));
     }
 
 
