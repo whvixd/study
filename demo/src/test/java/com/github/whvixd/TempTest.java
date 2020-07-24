@@ -1,5 +1,6 @@
 package com.github.whvixd;
 
+import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.whvixd.demo.jdk.enumeration.Car;
@@ -841,6 +842,14 @@ public class TempTest {
 
         System.out.println(GsonUtil.toJson(Car.KOENIGSEGG.toString()));
     }
+
+    @Test
+    public void test52(){
+        System.out.println(MD5.create().digestHex("1234567890"));
+    }
+
+    @Test
+    public void test(){}
 
 
 }
