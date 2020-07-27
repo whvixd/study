@@ -3,14 +3,10 @@ package com.github.whvixd;
 import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.github.whvixd.demo.jdk.enumeration.Car;
-import com.github.whvixd.demo.jdk.enumeration.CarFactory;
+import com.github.whvixd.demo.jdk.enumeration.*;
 import com.github.whvixd.model.ApprovalComplete;
 import com.github.whvixd.model.Bean;
-import com.github.whvixd.util.GsonUtil;
-import com.github.whvixd.util.JacksonUtil;
-import com.github.whvixd.util.ListUtil;
-import com.github.whvixd.util.StreamUtil;
+import com.github.whvixd.util.*;
 import com.github.whvixd.util.exception.ArgValidationException;
 import com.github.whvixd.util.exception.base.BusinessExceptionCode;
 import com.google.common.base.Joiner;
@@ -37,6 +33,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
@@ -848,8 +845,29 @@ public class TempTest {
         System.out.println(MD5.create().digestHex("1234567890"));
     }
 
-    @Test
-    public void test(){}
+
+    @Test public void test53(){
+        EnumBean enumBean = new EnumBean();
+        enumBean.setE1(E1.A);
+        enumBean.setE2(E2.D);
+
+        String json=GsonUtil.toJson(enumBean);
+        System.out.println(json);
+
+        String json1= FastjsonUtil.toJson(enumBean);
+        System.out.println(json1);
+
+        String json2= JacksonUtil.toJson(enumBean);
+        System.out.println(json2);
+    }
+
+    @Test public void test54(){
+        System.out.println(
+                GsonUtil.fromJson("{\"A\":{\"code\":1,\"name\":\"A_Name\"}}",E1.class)
+        );
+    }
+
+    @Test public void test(){}
 
 
 }
