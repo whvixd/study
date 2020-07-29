@@ -26,7 +26,6 @@ package com.github.whvixd.demo.algorithm.leetcode.easy;
 public enum Q392 {
     instance;
 
-    // TODO: 2020/7/27 测试
     public boolean isSubsequence(String s, String t) {
         if(s==null||s.length()==0)return true;
         int i=0,j=0;
@@ -34,10 +33,14 @@ public enum Q392 {
             for(;j<t.length();j++){
                 if(t.charAt(j)==s.charAt(i)){
                     ++i;
+                    ++j;
                     break;
                 }
             }
-            if(j==t.length()-1&&i==s.length()-1){
+            if(j==t.length()){
+                return i == s.length();
+            }
+            if(i == s.length()){
                 return true;
             }
         }
@@ -47,5 +50,11 @@ public enum Q392 {
     public static void main(String[] args) {
         // assert true
         System.out.println(Q392.instance.isSubsequence("abc","ahbgdc"));
+
+        // assert false
+        System.out.println(Q392.instance.isSubsequence("axc","ahbgdc"));
+
+        // assert false
+        System.out.println(Q392.instance.isSubsequence("aaaaaa","bbaaaa"));
     }
 }
