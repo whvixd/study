@@ -720,14 +720,17 @@ public class TempTest {
 
         Map<String, Object> map = Maps.newHashMap();
 //        map.put("type", "a");
+        map.put("id", "abcd");
         Bean bean = JacksonUtil.fromJson(JacksonUtil.toJson(map), Bean.class);
-        System.out.println(bean);
+//        System.out.println(bean);
 
         Set<ConstraintViolation<Bean>> constraintViolations = validator.validate(bean);
+
         //如果ite中没有信息，就是正确的
         Iterator<ConstraintViolation<Bean>> ite = constraintViolations.iterator();
         while (ite.hasNext()) {
             System.out.println(ite.next().getMessage());
+//            throw new RuntimeException(ite.next().getMessage());
         }
     }
 

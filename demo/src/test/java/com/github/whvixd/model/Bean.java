@@ -1,6 +1,7 @@
 package com.github.whvixd.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class Bean {
+    @Length(max = 3,message = "最多3个字")
+    @NotBlank(message = "id 不能为空")
     private String id;
     @NotNull
     private Type type;
