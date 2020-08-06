@@ -14,7 +14,7 @@ public class DateUtilTest {
     @Test
     public void test() throws ParseException {
         Date beginDate = DateUtils.parseDateStrictly("2020-05-11", "yyyy-MM-dd");
-        Date endDate = DateUtils.parseDateStrictly("2020-04-15", "yyyy-MM-dd");
+        Date endDate = DateUtils.parseDateStrictly("2020-05-15", "yyyy-MM-dd");
         DateUtil.getPeriodDates(beginDate, endDate).forEach(System.out::println);
 
         Date date = DateUtils.parseDateStrictly("2020-02-11", "yyyy-MM-dd");
