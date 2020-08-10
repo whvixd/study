@@ -26,7 +26,7 @@ public class BeanUtil {
             processor.accept(before, after);
             return after;
         } catch (Exception e) {
-            throw new Error(e);
+            throw new RuntimeException("Bean transfer error!",e);
         }
     }
 
