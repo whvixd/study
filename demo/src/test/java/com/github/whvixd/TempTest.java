@@ -870,6 +870,11 @@ public class TempTest {
         );
     }
 
+    @Test public void test55(){
+        Double d=22.33;
+        System.out.println(FastjsonUtil.fromJson(FastjsonUtil.toJson(d),BigDecimal.class));
+    }
+
     @Test public void test(){}
 
 

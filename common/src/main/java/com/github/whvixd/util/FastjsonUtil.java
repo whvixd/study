@@ -39,7 +39,7 @@ public class FastjsonUtil {
      * @param <T>
      * @return
      */
-    public static <T> T formJson(String json) {
+    public static <T> T fromJson(String json) {
         return JSONObject.parseObject(json, new TypeReference<T>() {
                 }.getType(),
                 Feature.SupportNonPublicField, Feature.AllowComment, Feature.InitStringFieldAsEmpty);
