@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.stringtemplate.v4.ST;
 
@@ -878,6 +879,14 @@ public class TempTest {
     @Test public void test56(){
         // -Dspring.profiles.active=ceshi
         System.out.println(System.getProperty("profiles"));
+    }
+    @Test public void test57(){
+
+        Assert.assertTrue(ObjectUtils.isEmpty(null));
+        Assert.assertTrue(ObjectUtils.isEmpty(Lists.newArrayList()));
+        Assert.assertTrue(ObjectUtils.isEmpty(Maps.newHashMap()));
+        Assert.assertTrue(ObjectUtils.isEmpty(new int[]{}));
+        Assert.assertTrue(ObjectUtils.isEmpty(""));
     }
     @Test public void test(){}
 
