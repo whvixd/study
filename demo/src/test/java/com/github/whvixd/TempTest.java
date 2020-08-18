@@ -875,6 +875,10 @@ public class TempTest {
         System.out.println(FastjsonUtil.fromJson(FastjsonUtil.toJson(d),BigDecimal.class));
     }
 
+    @Test public void test56(){
+        // -Dspring.profiles.active=ceshi
+        System.out.println(System.getProperty("profiles"));
+    }
     @Test public void test(){}
 
 

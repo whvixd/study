@@ -1,10 +1,12 @@
 package com.github.whvixd.demo.jdk.Java8;
 
 import com.github.whvixd.demo.Entity;
-import com.github.whvixd.util.JacksonUtil;
+import com.github.whvixd.util.GsonUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -149,17 +151,39 @@ public class StreamDemo {
     }
 
     public static void main(String[] args) {
-        Map<String,Object> map = Maps.newHashMap();
-        map.put("name","a");
-        map.put("age",20);
-        System.out.println(JacksonUtil.fromJson(JacksonUtil.toJson(map),S.class));
+//        Map<String,Object> map = Maps.newHashMap();
+//        map.put("name","a");
+//        map.put("age",20);
+//        System.out.println(JacksonUtil.fromJson(JacksonUtil.toJson(map),S.class));
+
+        S s1=new S(1,1,"g_1_1",2);
+        S s2=new S(2,1,"g_1_1",2);
+        S s3=new S(3,2,"g_2_1",2);
+        S s4=new S(4,2,"g_2_2",2);
+
+        List<S> sList=Lists.newArrayList(s1,s2,s3,s4);
+        Map<Integer,List<S>> map=Maps.newHashMap();
+        for(S s:sList){
+            int groupId = s.getGroupId();
+            if(map.get(groupId)!=null){
+                map.get(groupId).add(s);
+            }else {
+                List<S> s5 = Lists.newArrayList(s);
+                map.put(groupId,s5);
+            }
+        }
+        List<ArrayList<S>> collect = map.values().stream().map(Lists::newArrayList).collect(Collectors.toList());
+        System.out.println(GsonUtil.toJson(collect));
 
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
     static class S{
-//        @Setter
+        private int id;
+        private int groupId;
         private String name;
-        @Getter
         private int age;
     }
 }

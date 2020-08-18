@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.function.BiConsumer;
 
 /**
+ * https://blog.csdn.net/shu_ze/article/details/80317267
+ * 添加url 属于http，rpc只需要ip:port + 实体类
+ *
  * Created by wangzhx on 2018/10/12.
  */
 public class SocketServer {
