@@ -14,7 +14,9 @@ public class BigDecimalDemo {
         BigDecimal bigDecimal2 = BigDecimal.valueOf(2.02);
         BigDecimal bigDecimal3 = new BigDecimal("3.03");
         BigDecimal bigDecimal5 = new BigDecimal("3.04");
-        System.out.println("--"+bigDecimal5.subtract(bigDecimal3).toString());//3.03
+        System.out.println(new BigDecimal(113.880)); // 精度问题
+        System.out.println("--"+bigDecimal2.subtract(bigDecimal1).toString());//1.01
+        System.out.println("--"+bigDecimal3.subtract(bigDecimal5).toString());//1.01
 
         Double d = 1.34;
         if(d instanceof Double){}
