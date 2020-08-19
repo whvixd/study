@@ -2,11 +2,13 @@ package com.github.whvixd.demo.jdk.util;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.io.*;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -76,14 +78,45 @@ public class ZipFileDemo {
         IOUtils.write(bytes, outputStream);
     }
 
+    public static void writeBigTxt() throws IOException {
+
+        File file = new File("test_file.txt");
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        //使用true，即进行append file
+        FileWriter fileWritter = new FileWriter(file.getName(), true);
+
+        IntStream.range(0, 10000).forEach(e -> {
+            String s1 = String.valueOf(RandomUtils.nextInt());
+            String s2 = String.valueOf(RandomUtils.nextInt());
+            String s3 = String.valueOf(RandomUtils.nextInt());
+
+            String line = s1 + "," + s2 + "," + s3+"\n";
+            try {
+                fileWritter.write(line);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        fileWritter.close();
+
+        System.out.println("finish");
+    }
+
     public static void main(String[] args) throws IOException {
-        ZipFileDemo zipFileDemo = new ZipFileDemo();
-        zipFileDemo.readZipFile(1, 3);
+//        ZipFileDemo zipFileDemo = new ZipFileDemo();
+//        zipFileDemo.readZipFile(1, 3);
 //        zipFileDemo.download();
-        File file = new File("/Users/didi/logs/data/promotion/rights-white");
-        System.out.println(file.canWrite());
-        System.out.println(file.canRead());
-        System.out.println(file.mkdirs());
+//        File file = new File("/Users/didi/logs/data/promotion/rights-white/");
+//        System.out.println(file.canWrite());
+//        System.out.println(file.canRead());
+//        System.out.println(file.mkdirs());
+
+        writeBigTxt();
 
     }
 

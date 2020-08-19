@@ -20,7 +20,7 @@ public class CronTriggerTest {
 
         Trigger trigger = TriggerBuilder.newTrigger().startNow()
                 // 每秒执行
-                .withSchedule(CronScheduleBuilder.cronSchedule("* * * ? * *"))
+//                .withSchedule(CronScheduleBuilder.cronSchedule("* * * ? * *"))
                 // 2019年 每月的第四周的周六的2,5,7,20秒执行
 //                .withSchedule(CronScheduleBuilder.cronSchedule("2,5,7,20 * * ? * 7#4 2019"))
                 // 2019年1月或2月的周六11点至13点每秒执行
@@ -31,6 +31,8 @@ public class CronTriggerTest {
 //                .withSchedule(CronScheduleBuilder.cronSchedule("* * * ? * LW"))
                 // 每月最后一天执行
 //                .withSchedule(CronScheduleBuilder.cronSchedule("* * * L * ?"))
+//                 每秒执行
+                .withSchedule(CronScheduleBuilder.cronSchedule("/15 * 10-20 * * ? "))
 
                 .build();
 
@@ -41,17 +43,17 @@ public class CronTriggerTest {
         Date date = scheduler.scheduleJob(jobDetail, trigger);
         log.info("scheduler time:{}", date);
         //执行两秒后挂起
-        Thread.sleep(2000L);
-        scheduler.standby();
+//        Thread.sleep(2000L);
+//        scheduler.standby();
 
         //挂起两秒后执重新执行
-        Thread.sleep(2000L);
-        scheduler.start();
+//        Thread.sleep(2000L);
+//        scheduler.start();
 
         //再执行两秒后关闭程序
-        Thread.sleep(2000L);
+//        Thread.sleep(2000L);
 //        scheduler.shutdown();//直接关闭，scheduler.shutdown(false)一样
-        scheduler.shutdown(true);//执行完所有的job关闭,让job睡10s，之后才会关闭
+//        scheduler.shutdown(true);//执行完所有的job关闭,让job睡10s，之后才会关闭
 
     }
 }
