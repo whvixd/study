@@ -12,8 +12,11 @@ import java.util.concurrent.TimeUnit;
  * Created by wangzhixiang on 2020/8/18.
  */
 public class ScheduleDemo {
+
     public static void main(String[] args) {
+        System.out.println("start");
         timer5();
+        System.out.println("end");
     }
 
     public static void timer1() {
