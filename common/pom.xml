@@ -379,6 +379,12 @@
             <version>${hutool-all.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

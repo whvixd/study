@@ -68,14 +68,22 @@ public class ScheduleDemo {
         }, time, 1000 * 60 * 60 * 24);// 这里设定将延时每天固定执行
     }
 
-    public static void timer5(){
+    public static void timer5() {
         Runnable runnable = () -> {
             // task to run goes here
             System.out.println("Hello !!");
+            try {
+                throw new RuntimeException("123");
+            } catch (Exception e) {
+//                e.printStackTrace();
+                System.out.println("error,e:"+e);
+            }
         };
         ScheduledExecutorService service = Executors
                 .newSingleThreadScheduledExecutor();
         // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
-        service.scheduleAtFixedRate(runnable, 10, 1, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
+        // 延迟10s执行
+//        service.schedule(runnable, 10, TimeUnit.SECONDS);
     }
 }

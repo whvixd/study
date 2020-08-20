@@ -888,6 +888,14 @@ public class TempTest {
         Assert.assertTrue(ObjectUtils.isEmpty(new int[]{}));
         Assert.assertTrue(ObjectUtils.isEmpty(""));
     }
+    @Test public void test58(){
+        Long currentTime = System.currentTimeMillis();
+        // 30 分钟
+        Long thirtyMinutes = 30*60*1000L;
+        System.out.println(System.currentTimeMillis());
+        // 当前时间之前30分钟
+        System.out.println(currentTime-thirtyMinutes);
+    }
     @Test public void test(){}
 
 
