@@ -78,9 +78,9 @@ public class ZipFileDemo {
         IOUtils.write(bytes, outputStream);
     }
 
-    public static void writeBigTxt() throws IOException {
+    public static void writeBigTxt(int lineNumbers, String split) throws IOException {
 
-        File file = new File("test_file.txt");
+        File file = new File("test_big_file.txt");
 
         if (!file.exists()) {
             file.createNewFile();
@@ -89,12 +89,11 @@ public class ZipFileDemo {
         //使用true，即进行append file
         FileWriter fileWritter = new FileWriter(file.getName(), true);
 
-        IntStream.range(0, 10000).forEach(e -> {
+        IntStream.range(0, lineNumbers).forEach(e -> {
             String s1 = String.valueOf(RandomUtils.nextInt());
             String s2 = String.valueOf(RandomUtils.nextInt());
             String s3 = String.valueOf(RandomUtils.nextInt());
-
-            String line = s1 + "," + s2 + "," + s3+"\n";
+            String line = s1 + split + s2 + split + s3 + "\n";
             try {
                 fileWritter.write(line);
             } catch (IOException e1) {
@@ -116,7 +115,7 @@ public class ZipFileDemo {
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
 
-        writeBigTxt();
+        writeBigTxt(100, ",");
 
     }
 
