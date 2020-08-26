@@ -1,6 +1,7 @@
 package com.github.whvixd.demo.jdk.util;
 
 /**
+ * 基本数据类型与包装类之间转换会资源浪费
  * Created by wangzhixiang on 2020/8/22.
  */
 public class IntegerDemo {
