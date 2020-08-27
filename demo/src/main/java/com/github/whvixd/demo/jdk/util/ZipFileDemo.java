@@ -121,8 +121,8 @@ public class ZipFileDemo {
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
 
-//        writeBigTxt(100, ",");
-        unzip(new File("/tmp/xiaoju/data/white/WHITE20200827113853188.zip"),"/tmp/xiaoju/data/white/","test_unzip.txt");
+        writeBigTxt(100000, ",");
+//        unzip(new File("/tmp/xiaoju/data/white/WHITE20200827113853188.zip"),"/tmp/xiaoju/data/white/","test_unzip.txt");
 
 
 

@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 @UtilityClass
 public class ShellUtil {
     public String exec(String cmd) {
-        return exec(cmd,null);
+        return exec(cmd, null);
     }
 
     /**
@@ -23,7 +23,13 @@ public class ShellUtil {
      */
     public String exec(String cmd, String suffix) {
         try {
-            Process process = Runtime.getRuntime().exec(cmd);
+            /**
+             * Windows下：
+             * Runtime.getRuntime().exec(new String[]{ "cmd", "/c", cmd});
+             *
+             * 该选项表明string中包含了一条命令
+             */
+            Process process = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", cmd});
 
             int status = process.waitFor();
             if (status != 0) {
