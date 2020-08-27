@@ -10,7 +10,7 @@ fi
 
 commit_log=$1
 
-if [ ! -n "${commit_log}" ]; then
+if [[ ! -n "${commit_log}" ]]; then
 	commit_log="优化"
 fi
 
