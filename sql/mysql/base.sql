@@ -4,3 +4,6 @@ SELECT FOUND_ROWS() as total;
 
 # 与当前时间差小于1小时
 SELECT TIMESTAMPDIFF(HOUR, '2020-10-21 00:00:00', NOW()) < 1;
+
+-- 查看建表语句
+SHOW CREATE TABLE test_split;
