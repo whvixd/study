@@ -1,5 +1,7 @@
 package com.github.whvixd.demo.jdk.thread;
 
+import com.google.common.collect.Lists;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,7 +18,9 @@ public class Consumer {
         synchronized (reentrantLock){
             while (true) {
                 try {
-                if(threadWaitDemo.getQueue().size()==3){
+                if(queue.size()==3){
+                    // 将队列中值，全部移除，并发设置到给定的集合中。
+                    queue.drainTo(Lists.newArrayList());
                     throw new RuntimeException();
                 }
                 if (queue.isEmpty()) {
