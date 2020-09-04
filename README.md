@@ -36,4 +36,10 @@
 
 2. 手写HashMap
 
+3. disruptor
+
+   > https://www.cnblogs.com/luozhiyun/p/11631305.html
+   
+4. guice
+
 ...
