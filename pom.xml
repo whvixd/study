@@ -73,6 +73,7 @@
         <shiro-core.version>1.2.2</shiro-core.version>
         <thrift.version>0.13.0</thrift.version>
         <guice.version>4.0</guice.version>
+        <disruptor.version>3.4.2</disruptor.version>
         <hutool-all.version>5.3.10</hutool-all.version>
         <dbunit.version>2.2</dbunit.version>
         <xxl-job-core>2.2.0</xxl-job-core>
