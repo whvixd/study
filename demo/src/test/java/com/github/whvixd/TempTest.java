@@ -31,6 +31,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.codehaus.groovy.runtime.powerassert.SourceText;
@@ -895,6 +896,51 @@ public class TempTest {
         System.out.println(System.currentTimeMillis());
         // 当前时间之前30分钟
         System.out.println(currentTime-thirtyMinutes);
+    }
+    @Test public void test59() throws InterruptedException, IOException {
+        int len=100000000;
+        int[] batchLineArray = new int[len];
+        Random random = new Random();
+        IntStream.range(0,len).forEach(e->{
+            batchLineArray[e]= random.nextInt(10000000);
+        });
+        Arrays.parallelSort(batchLineArray);
+        System.out.println("qq");
+//        System.out.println(Arrays.toString(batchLineArray));
+        IntStream.range(0,10).forEach(e->{
+            System.out.println("start:"+batchLineArray[e]);
+        });
+        System.out.println("end:"+batchLineArray[len-1]);
+        System.in.read();
+    }
+    @Test public void test60(){
+        Map<String,Integer> map = new HashMap<>();
+        map.put("a:",1);
+        map.put("b:",2);
+        map.put("c:",3);
+        map.put("d:",4);
+        map.put("e:",5);
+
+        Set<Map.Entry<String, Integer>> entries = map.entrySet();
+        for(Map.Entry<String, Integer> entry:entries){
+            System.out.println(entry.getValue());
+            System.out.println(entry.getKey());
+        }
+    }
+    @Test public void test61(){
+        StringBuilder stringBuffer=new StringBuilder();
+        stringBuffer.append("111");
+        System.out.println(stringBuffer.length());
+        System.out.println(stringBuffer.toString());
+        stringBuffer.delete(0,stringBuffer.length());
+        System.out.println(stringBuffer.toString());
+
+    }
+    @Test public void test62(){
+        System.out.println(39201390214L >> 10); // 39201390214L / 2^10
+
+        System.out.println(3920139022L&((1<<10)-1)); // 39201390214L / 2^10
+        System.out.println(3920139022L%1024); // 39201390214L / 2^10
     }
     @Test public void test(){}
 
