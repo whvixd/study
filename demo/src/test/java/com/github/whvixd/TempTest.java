@@ -31,10 +31,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
@@ -53,8 +52,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
@@ -942,7 +940,56 @@ public class TempTest {
         System.out.println(3920139022L&((1<<10)-1)); // 39201390214L / 2^10
         System.out.println(3920139022L%1024); // 39201390214L / 2^10
     }
-    @Test public void test(){}
+    @Test public void test63() throws IOException {
+        /**
+         * abc
+         * 123
+         *
+         */
+        RandomAccessFile file=new RandomAccessFile("/Users/didi/Documents/test/test_a.txt","r");
+        System.out.println("line:"+file.length());
+        System.out.println("pointer:"+file.getFilePointer());
+        // 移动光标
+        file.seek(0);
+        System.out.println(file.getFilePointer());
+        String line;
+        while ((line=file.readLine())!=null){
+            System.out.println("readLine:"+line);
+        }
+    }
+
+    @Test public void test64() throws IOException {
+        // 太慢了
+        RandomAccessFile file=new RandomAccessFile("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt","r");
+        String line;
+        long start = System.currentTimeMillis();
+        int i=0;
+        while ((line=file.readLine())!=null){
+            i++;
+            System.out.println("readLine:"+line);
+        }
+        System.out.println("i:"+i);
+        System.out.println("duration:"+(System.currentTimeMillis()-start));
+    }
+
+
+    @Test public void test65(){
+        // 5000w:4s
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt"))) {
+            // 按行读取字符串
+            long start = System.currentTimeMillis();
+            LineIterator iterator = new LineIterator(br);
+            int count=0;
+            while (iterator.hasNext()) {
+                String line = iterator.nextLine();
+//                System.out.println(line);
+                count++;
+            }
+            System.out.println("count:"+count);
+            System.out.println("duration:"+(System.currentTimeMillis()-start));
+        } catch (Exception e) {
+        }
+    }
 
 
 }
