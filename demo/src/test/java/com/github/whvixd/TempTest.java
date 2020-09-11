@@ -1,5 +1,6 @@
 package com.github.whvixd;
 
+import cn.hutool.core.date.StopWatch;
 import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -59,6 +60,7 @@ import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
@@ -980,8 +982,16 @@ public class TempTest {
             long start = System.currentTimeMillis();
             LineIterator iterator = new LineIterator(br);
             int count=0;
+            List<String> list=Lists.newArrayList();
             while (iterator.hasNext()) {
                 String line = iterator.nextLine();
+                list.add(line);
+                if(count%10000==0){
+                    System.out.println("----list.size:"+list.size());
+                    list.clear();
+                    System.out.println("----count:"+count);
+                    System.out.println("----list.size:"+list.size());
+                }
 //                System.out.println(line);
                 count++;
             }
@@ -991,6 +1001,35 @@ public class TempTest {
         }
     }
 
+    @Test public void test66(){
+        File file = new File("/Users/didi/Documents/test/test_big_file_sort_01/test_split_725.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Test public void test67() throws InterruptedException {
+        StopWatch stopWatch=new StopWatch("1");
+        stopWatch.start("111");
+        TimeUnit.SECONDS.sleep(2);
+        stopWatch.stop();
+        stopWatch.shortSummary();
+
+        stopWatch.start("222");
+        TimeUnit.SECONDS.sleep(2);
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
+    }
+    @Test public void test68(){
+        org.apache.commons.lang3.time.StopWatch stopWatch = new org.apache.commons.lang3.time.StopWatch();
+        stopWatch.start();
+
+    }
+    @Test public void test(){}
 
 }
 

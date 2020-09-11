@@ -86,7 +86,7 @@ public class ZipFileDemo {
 
     public static void writeBigTxt(int lineNumbers, String split) throws IOException {
 
-        File file = new File("test_5000w.txt");
+        File file = new File("test_5000.txt");
 
         if (!file.exists()) {
             file.createNewFile();
@@ -121,7 +121,7 @@ public class ZipFileDemo {
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
 
-        writeBigTxt(50000000, ",");
+        writeBigTxt(5000, ",");
 //        unzip(new File("/tmp/xiaoju/data/white/WHITE20200827113853188.zip"),"/tmp/xiaoju/data/white/","test_unzip.txt");
 
 
