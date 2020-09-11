@@ -16,7 +16,11 @@ public class CompletionUtilsTest {
     public void test1() {
         boolean process = CompletionUtils.process(4, () -> {
             System.out.println("----");
-            TimeUnit.SECONDS.sleep(2);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
 
         System.out.println(process);
