@@ -101,46 +101,23 @@ public class CompletionUtils {
 
 
     public <T> boolean process(int shardingSize, int startIndex, int endIndex, List<T> list, Consumer<T> consumer) {
-        int count = endIndex - startIndex;
-        if (shardingSize < 1 || count < 1 || shardingSize >= count || consumer == null) {
+        if (list == null || list.size() == 0) {
             return false;
         }
+        return process(shardingSize, startIndex, endIndex,
+                (start, end) ->
+                        IntStream.range(start, end).forEach(i -> {
+                            T t = list.get(i);
+                            if (t == null) return;
+                            consumer.accept(t);
+                        }));
 
-        CompletionService<Boolean> completionService = new ExecutorCompletionService<>(executorThreadPool);
+    }
 
-        // 线程数
-        int shardingNumber = Math.toIntExact(count / shardingSize) + 1;
-        int shardingStartIndex = startIndex;
-        int shardingEndIndex = startIndex + shardingSize;
-
-        for (int i = 0; i < shardingNumber; i++) {
-            int finalStart = shardingStartIndex;
-            int finalEnd = shardingEndIndex > endIndex ? endIndex : shardingEndIndex;
-            completionService.submit(() -> {
-                try {
-                    for (int j = finalStart; j < finalEnd; j++) {
-                        consumer.accept(list.get(j));
-                    }
-                    return true;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    log.warn("CompletionUtils process error,threadCount:{}", shardingNumber, ex);
-                    return false;
-                }
-            });
-            shardingStartIndex += shardingSize;
-            shardingEndIndex = shardingStartIndex + shardingSize;
+    public <T> boolean process(List<T> list, Consumer<T> consumer) {
+        if (list == null || list.size() == 0) {
+            return false;
         }
-
-        AtomicBoolean result = new AtomicBoolean(Boolean.TRUE);
-        IntStream.range(0, shardingNumber).forEach(i -> {
-            try {
-                result.compareAndSet(Boolean.TRUE, completionService.take().get());
-            } catch (Exception ex) {
-                log.warn("completionService take get error, ", ex);
-            }
-        });
-        log.info("process result:{}", result.get());
-        return result.get();
+        return process(list.size() / 5, 0, list.size() - 1, list, consumer);
     }
 }
