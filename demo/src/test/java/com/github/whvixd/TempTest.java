@@ -1029,6 +1029,9 @@ public class TempTest {
         stopWatch.start();
 
     }
+    @Test public void test69(){
+        System.out.println(false&&false||true);
+    }
     @Test public void test(){}
 
 }
