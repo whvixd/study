@@ -86,7 +86,7 @@ public class ZipFileDemo {
 
     public static void writeBigTxt(int lineNumbers, String split) throws IOException {
 
-        File file = new File("test_1.txt");
+        File file = new File("test_" + lineNumbers + ".txt");
 
         if (!file.exists()) {
             file.createNewFile();
@@ -96,7 +96,7 @@ public class ZipFileDemo {
         FileWriter fileWritter = new FileWriter(file.getName(), true);
 
         IntStream.range(0, lineNumbers).forEach(e -> {
-            String s1 = String.valueOf(RandomUtils.nextInt());
+            String s1 = String.valueOf(RandomUtils.nextInt(1000000000));
             String s2 = String.valueOf(RandomUtils.nextInt());
             String s3 = String.valueOf(RandomUtils.nextInt());
             String line = s1 + "\n";
@@ -121,19 +121,18 @@ public class ZipFileDemo {
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
 
-        writeBigTxt(1, ",");
+        writeBigTxt(4, ",");
 //        unzip(new File("/tmp/xiaoju/data/white/WHITE20200827113853188.zip"),"/tmp/xiaoju/data/white/","test_unzip.txt");
-
 
 
     }
 
     public void testUnzip() throws IOException {
         ZipFile zipFileGbk = new ZipFile("/tmp/xiaoju/data/white/WHITE20200827113853188.zip", Charset.forName("UTF-8"));
-        ZipFile zipFile = new ZipFile("/Users/didi/Desktop/test_zip.zip",Charset.forName("gbk"));
+        ZipFile zipFile = new ZipFile("/Users/didi/Desktop/test_zip.zip", Charset.forName("gbk"));
 
         Enumeration<? extends ZipEntry> entries = zipFileGbk.entries();
-        while (entries.hasMoreElements()){
+        while (entries.hasMoreElements()) {
 
             ZipEntry zipEntry = entries.nextElement();
             System.out.println(zipEntry.getName());

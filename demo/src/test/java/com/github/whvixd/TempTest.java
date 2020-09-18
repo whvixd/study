@@ -1032,6 +1032,15 @@ public class TempTest {
     @Test public void test69(){
         System.out.println(false&&false||true);
     }
+    @Test public void test70(){
+        try {
+            throw new RuntimeException();
+        }finally {
+            System.out.println("----");
+        }
+
+//        System.out.println("end");
+    }
     @Test public void test(){}
 
 }
