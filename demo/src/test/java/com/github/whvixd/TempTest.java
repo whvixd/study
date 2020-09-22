@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -187,7 +188,9 @@ public class TempTest {
 
         @NotNull(message = "name不为空")
         private String name;
+        @SerializedName("age_test")
         private int age;
+        @SerializedName("desc_test")
         private String desc;
         private transient String other;
 
@@ -855,6 +858,14 @@ public class TempTest {
         EnumBean enumBean = new EnumBean();
         enumBean.setE1(E1.A);
         enumBean.setE2(E2.D);
+
+
+        Student student = new Student();
+        System.out.println(GsonUtil.toJson(student));
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(student));
+
 
         String json=GsonUtil.toJson(enumBean);
         System.out.println(json);
