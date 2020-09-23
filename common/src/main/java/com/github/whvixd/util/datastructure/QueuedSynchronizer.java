@@ -15,7 +15,7 @@ public class QueuedSynchronizer implements Lock{
     private transient volatile Node head;
     private transient volatile Node tail;
 
-    private transient boolean isPrintLog =false;
+    private transient boolean isPrintLog=false;
 
     public QueuedSynchronizer(){
     }
