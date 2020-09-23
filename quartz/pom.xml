@@ -16,7 +16,7 @@
     <url>http://www.example.com</url>
 
     <properties>
-        <quartz.version>2.3.0</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
     </properties>
 
     <dependencies>
