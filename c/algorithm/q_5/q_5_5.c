@@ -2,7 +2,14 @@
 
 int main()
 {
+//    char[] a="what is your name?\n";
+//    char[] a1={"what is your name?\n"};
 
+    char str1[] = "day day up";
+    char str2[] = "you are";
+    strncpy(str1, str2, strlen(str2));
+    printf("%s\n", str1); // you are up
+    return 0;
 }
 
 int for_add(int i,int number)
