@@ -4,9 +4,12 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
+import org.springframework.util.StopWatch;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -17,6 +20,8 @@ import java.util.stream.IntStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
+import static org.apache.commons.mail.EmailConstants.UTF_8;
 
 /**
  * Created by wangzhixiang on 2020/8/15.
@@ -82,6 +87,36 @@ public class ZipFileDemo {
         OutputStream outputStream = new FileOutputStream(new File(t));
         System.out.println(t);
         IOUtils.write(bytes, outputStream);
+
+    }
+
+    public static int countByCommons() {
+        File file = new File("/Users/didi/Desktop/test_5000w.txt");
+        int count = 0;
+        try {
+            LineIterator lineIterator = FileUtils.lineIterator(file, UTF_8);
+            while (lineIterator.hasNext()) {
+                lineIterator.nextLine();
+                count++;
+            }
+            return count;
+        } catch (Exception e) {
+
+        }
+        return count;
+
+    }
+    public static int countByLineIterator(){
+        int count=0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/didi/Desktop/test_5000w.txt"))) {
+            LineIterator lineIterator = new LineIterator(reader);
+            while (lineIterator.hasNext()){
+                lineIterator.nextLine();
+                count++;
+            }
+
+        }catch (Exception e){}
+        return count;
     }
 
     public static void writeBigTxt(int lineNumbers, String split) throws IOException {
@@ -121,10 +156,32 @@ public class ZipFileDemo {
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
 
-        writeBigTxt(4, ",");
+//        writeBigTxt(4, ",");
 //        unzip(new File("/tmp/xiaoju/data/white/WHITE20200827113853188.zip"),"/tmp/xiaoju/data/white/","test_unzip.txt");
 
 
+
+        compareRead();
+
+    }
+
+    public static void compareRead(){
+        StopWatch stopWatch=new StopWatch("read");
+
+        // 5000w 3368ms
+        stopWatch.start("countByLineIterator");
+        int count1 = countByLineIterator();
+        stopWatch.stop();
+        System.out.println(count1);
+
+        // 5000w 3110ms
+        stopWatch.start("countByCommons");
+        int count = countByCommons();
+        stopWatch.stop();
+        System.out.println(count);
+
+
+        System.out.println(stopWatch.prettyPrint());
     }
 
     public void testUnzip() throws IOException {
