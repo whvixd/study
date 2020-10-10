@@ -1,7 +1,7 @@
 package com.github.whvixd.util.datastructure;
 
 /**
- * head <-pn-> O <-pn-> O <-pn-> tail
+ * (head) <-pn-> (O) <-pn-> (O) <-pn-> (tail)
  *
  * 双向链表，head、tail是空值指针，在初始化时赋值。
  *
