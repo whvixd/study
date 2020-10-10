@@ -51,10 +51,6 @@ public class ArrayList<E> implements Cloneable,java.io.Serializable{
         }
     }
 
-    public int size(){
-        return size;
-    }
-
     //------------查------------
 
     /**
@@ -207,6 +203,14 @@ public class ArrayList<E> implements Cloneable,java.io.Serializable{
     }
 
     //------------其他------------
+
+    /**
+     * 大小
+     * @return 数组元素容量
+     */
+    public int size(){
+        return size;
+    }
 
     /**
      * 是否为空
