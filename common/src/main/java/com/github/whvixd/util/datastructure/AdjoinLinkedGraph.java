@@ -5,7 +5,7 @@ package com.github.whvixd.util.datastructure;
  * Created by wangzhixiang on 2020/10/20.
  */
 public class AdjoinLinkedGraph<T> {
-    // 邻接表
+    // 邻接表，存储所有顶点
     private VNode<T> vNodes[];
     // 顶点数
     private int n;
