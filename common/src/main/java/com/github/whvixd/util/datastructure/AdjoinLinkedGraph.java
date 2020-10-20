@@ -108,6 +108,11 @@ public class AdjoinLinkedGraph<T> {
         System.out.println(vNode.data);
     }
 
+    /**
+     * 广度优先遍历，类似于二叉树的层次遍历
+     * @param vIndex 顶点下标
+     * @param visitedVNodes 已访问顶点队列
+     */
     public void broadFirstSearch(int vIndex, int visitedVNodes[]){
         int length = this.n;
         int queue[] = new int[length];
