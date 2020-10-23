@@ -52,4 +52,7 @@
 
 9. 分片读取大文件
 
+10. JMX (tomcat有用到)
+https://www.jianshu.com/p/fa4e88f95631
+
 ...
