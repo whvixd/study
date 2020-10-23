@@ -4,6 +4,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
+ *
+ * todo post blog
+ *
+ * https://www.jianshu.com/p/6f3ee90ab7d3/
+ *
  * Created by wangzhixiang on 2020/10/23.
  */
 public class CompletableFutureDemo {
@@ -72,7 +77,7 @@ public class CompletableFutureDemo {
     }
 
     public static void main(String[] args) throws Exception {
-//        getWithTimeout();
+        getWithTimeout();
         join();
         get();
     }
