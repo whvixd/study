@@ -46,11 +46,11 @@ int main()
     printf("after array[0]:%d\n",array[0]);
 
     ////////////默认值////////////
-    // 局部变量随机值，
+    // 局部变量，随机值，数组也是
     // 静态变量和全局变量默认值为0，
     int b;
     static int c;
-    int e[];
+    int e[ARRAY_SIZE];
     printf("b:%d\n",b);
     printf("static c:%d\n",c);
     printf("e[0]:%d\n",e[0]);
