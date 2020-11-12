@@ -24,6 +24,23 @@ typedef struct StrClass{
     int length;
 }Str;
 
+void str_init_value()
+{
+    // 剩余的以 '\0' 填充，也是字符的结束标识
+    char a[10];
+    a[0]='1';
+    a[1]='2';
+
+    char b[10]={'3','4'};
+
+    char c[10]={"45"};
+
+    char d[]="67";
+
+    printf("%s %s %s %s\n",a,b,c,d);
+
+}
+
 int main()
 {
     char c1[15];
@@ -51,5 +68,7 @@ int main()
     printf("complied by c\r\n");
 #endif
 
+    // 字符串初始化
+    str_init_value();
     return 0;
 }
