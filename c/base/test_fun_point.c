@@ -50,7 +50,7 @@ int main()
     // 静态变量和全局变量默认值为0，
     int b;
     static int c;
-    int e[ARRAY_SIZE];
+    static int e[ARRAY_SIZE];
     printf("b:%d\n",b);
     printf("static c:%d\n",c);
     printf("e[0]:%d\n",e[0]);
