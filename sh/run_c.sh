@@ -30,8 +30,10 @@ fi
 # 判断debug文件是否存在
 if [[ ! -d ${path}/../debug ]]
 then
-    echo ${path}/../debug" does not exist"
-    exit
+#    echo ${path}/../debug" does not exist"
+#    exit
+#    2020-11-12 修改为若debug文件没有，则创建
+    mkdir ${path}/../debug
 fi
 
 # 编译到 ../debug 路径中
