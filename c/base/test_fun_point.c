@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #define ARRAY_SIZE 10
 
@@ -18,6 +19,27 @@ void set_array(int *array,int array_size,int (*get_ele)(void))
 int equal(int a,int b)
 {
     return a==b;
+}
+
+// 可变参数，num:传入多少参数
+void func_args(int num,...)
+{
+    // 该类型是在 stdarg.h 头文件中定义的。
+    va_list valist;
+    int i;
+    int sum=0;
+
+    /* 为 num 个参数初始化 valist */
+    va_start(valist, num);
+
+    /* 访问所有赋给 valist 的参数 */
+    for (i = 0; i < num; i++)
+    {
+       sum+=va_arg(valist, int);
+       printf("i:%d,sum:%d\n",i,sum);
+    }
+    /* 清理为 valist 保留的内存 */
+    va_end(valist);
 }
 
 /*
@@ -55,5 +77,7 @@ int main()
     printf("static c:%d\n",c);
     printf("e[0]:%d\n",e[0]);
 
+    ////////////可变参数////////////
+    func_args(4,1,2,3,4);
     return 0;
 }
