@@ -16,6 +16,7 @@
 #define TRUE 1
 
 /*
+refer:https://blog.csdn.net/jinmie0193/article/details/78951055
 监听后，一直处于accept阻塞状态，
 直到有客户端连接，
 当客户端如数quit后，断开与客户端的连接
