@@ -4,7 +4,7 @@ arthas-output/
 *.un~
 *.iml
 */*.iml
-*/debug
+**/debug
 .idea/
 *.swp
 rebel.xml
