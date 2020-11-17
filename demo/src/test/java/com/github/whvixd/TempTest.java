@@ -1059,6 +1059,10 @@ public class TempTest {
         System.out.println((int)'9');
         System.out.println((int)' ');
     }
+    @Test public void test72(){
+        int sum=1;
+        for(int i=0;i<100;i++){}
+    }
     @Test public void test(){}
 
 }
