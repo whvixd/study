@@ -12,13 +12,14 @@ int main()
 
     char *p=str;
     for(int i=0;*(p+i)!='\0';i++){
-//        printf("%c",*(p+i));
+        printf("%c",*(p+i));
 
         char c=*(p+i);
-        if(c>='A'&&c<='a'){
+        if((c>='A'&&c<='Z')||(c>='a'&&c<='z')){
             char_num++;
         }else if(c>='0'&&c<='9'){
             num_count++;
+        // fixme ' ' \0
         }else if(c==' '){
             blank_num++;
         }else{
@@ -26,5 +27,5 @@ int main()
         }
     }
 
-    printf("char_num:%d,blank_num:%d,num_count:%d,other_char_num:%d\n",char_num,blank_num,num_count,other_char_num);
+    printf("\nchar_num:%d,blank_num:%d,num_count:%d,other_char_num:%d\n",char_num,blank_num,num_count,other_char_num);
 }
