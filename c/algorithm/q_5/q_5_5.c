@@ -1,34 +1,30 @@
-    #include <stdio.h>
+#include <stdio.h>
 
-int main()
-{
-//    char[] a="what is your name?\n";
-//    char[] a1={"what is your name?\n"};
-
-    char str1[] = "day day up";
-    char str2[] = "you are";
-    strncpy(str1, str2, strlen(str2));
-    printf("%s\n", str1); // you are up
-    return 0;
-}
-
-int for_add(int i,int number)
+// a:2,n:4
+// 2222
+int gen_number(int a,int n)
 {
     int sum=0;
-    for(int j=0;j<i;j++)
-    {
-        for(int a=0;a<j;a++)
-        {
-            sum+=number;
-        }
+    for(int i=0;i<n;i++){
+        sum+=a;
+        a*=10;
     }
+    return sum;
 }
-// 2222
-int gen_number(int digit)
+
+int for_add(int a,int n)
 {
-    int sum=1;
-    for(int i=0;i<digit;i++)
-    {
-        sum*=10;
+    int sum;
+    for(int i=1;i<=n;i++){
+        sum+=gen_number(a,i);
     }
+    return sum;
+}
+
+// 求 Sn=a+aa+aaa+...+aa..aa之值，输入n
+int main()
+{
+    int sum=for_add(2,4);
+    printf("sum:%d\n",sum);
+    return 0;
 }
