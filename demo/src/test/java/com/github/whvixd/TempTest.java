@@ -1052,6 +1052,13 @@ public class TempTest {
 
 //        System.out.println("end");
     }
+    @Test public void test71(){
+        System.out.println((int)'A');
+        System.out.println((int)'a');
+        System.out.println((int)'0');
+        System.out.println((int)'9');
+        System.out.println((int)' ');
+    }
     @Test public void test(){}
 
 }
