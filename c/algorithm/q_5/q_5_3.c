@@ -6,9 +6,10 @@
 */
 int main()
 {
-    int m,n;
-    scanf("%d,%d",&m,&n);
-    common_divisor(m,n);
+//    int m,n;
+//    scanf("%d,%d",&m,&n);
+//    common_divisor(m,n);
+    answer();
 
 }
 
@@ -38,4 +39,25 @@ void common_divisor(int m,int n)
         }
     }
     printf("min_v:%d,max_v:%d",min_v,max_v);
+}
+
+void answer(){
+    int p,r,n,m,temp;
+    printf("请输入两个正整数 n,m:");
+    scanf("%d,%d,",&n,&m);
+    if (n<m)
+    {
+        temp=n;
+        n=m;
+        m=temp;
+    }
+    p=n*m;
+    while(m!=0)
+    {
+        r=n%m;
+        n=m;
+        m=r;
+    }
+    printf("它们的最大公约数为:%d\n",n);
+    printf("它们的最小公约数为:%d\n",p/n);
 }
