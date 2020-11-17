@@ -54,10 +54,10 @@ void answer(){
     p=n*m;
     while(m!=0)
     {
-        r=n%m;
-        n=m;
-        m=r;
+        r=n%m;//33%22=11 22%11=0
+        n=m;//22 11
+        m=r;//11 0
     }
-    printf("它们的最大公约数为:%d\n",n);
-    printf("它们的最小公约数为:%d\n",p/n);
+    printf("它们的最大公约数为:%d\n",n);//11
+    printf("它们的最小公倍数为:%d\n",p/n);//66
 }
