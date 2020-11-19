@@ -1,10 +1,6 @@
 package base
 
-import (
-"fmt"
-"hellotest"
-)
-
+import fmt "fmt"
 func main() {
-	fmt.Printf(hellotest.HelloTets("first"))
+	fmt.Println("Google" + "Runoob")
 }
