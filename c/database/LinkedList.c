@@ -68,6 +68,17 @@ int delete_first_ele(int value){
     return 0;
 }
 
+Node* find_first_node(int value){
+    if(head==NULL) return 0;
+    Node *p=head->next;
+    while(p){
+        if(p->value==value){
+            return p;
+        }
+        p=p->next;
+    }
+}
+
 // 打印链表
 int print_list(){
     if(head==NULL) return 0;
@@ -96,6 +107,9 @@ int main(){
     delete_first_ele(5);
     print_list();
     printf("####################\n");
+
+    Node *find=find_first_node(2);
+    printf("find_first_node value:%d",find->value);
 
 }
 
