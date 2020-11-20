@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 // 内存模型 https://blog.csdn.net/second60/article/details/79946310
 /*
 BSS段：存放未初始化的全局变量
@@ -6,7 +7,6 @@ BSS段：存放未初始化的全局变量
 代码段：存放执行代码的内存区域
 堆：存放程序运行中动态分配的内存段，malloc/free
 栈：存放局部变量，函数的参数值，返回值等。 `ulimit  -s` 查看栈大小，默认2M
-
 */
 typedef struct NodeStruct{
     int value;
@@ -81,6 +81,7 @@ int main()
     test_int(&e);
     printf("e:%d\n",e);
 
+    printf("/////////指针、地址、内容通过函数改变/////////\n");
     Node p={1,NULL};
     test_point2(p);
     printf("p.value:%d\n",p.value);
@@ -91,6 +92,21 @@ int main()
     Node *p2=(Node *)malloc(sizeof(Node));
     test_point1(p2);
     printf("p2->value:%d\n",p2->value);
+
+    printf("/////////野指针/////////\n");
+    /*
+        refer:https://blog.csdn.net/liuchunjie11/article/details/80969689
+        野指针由来：
+          1、局部指针变量没有初始化
+
+          2、指针所指向的变量在指针之前被销毁
+
+          3、使用已经释放过的指针
+
+          4、进行了错误指针运算
+
+          5、进行了错误的强制类型转换
+    */
 }
 
 // void test_int(int &a) 这种写法c++支持引用类型，c不支持，c可修改地址的方式实现

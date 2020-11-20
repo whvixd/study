@@ -3,6 +3,7 @@
 #include <stdarg.h>
 
 #define ARRAY_SIZE 10
+typedef struct StuStruct{int id;}Stu;
 
 int get_random()
 {
@@ -54,6 +55,10 @@ void func_args(int num,...)
 typedef int (*fun_ptr)(int,int); // 声明一个指向同样参数、返回值的函数指针类型
 */
 
+Stu* get(){
+    return NULL;
+}
+
 int d;
 int main()
 {
@@ -79,5 +84,7 @@ int main()
 
     ////////////可变参数////////////
     func_args(4,1,2,3,4);
+    Stu *s=get();
+    printf("%p",s);
     return 0;
 }
