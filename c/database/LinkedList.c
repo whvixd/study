@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define null NULL
+
 // 结点结构
 typedef struct NodeStruct{
     int value;
@@ -68,8 +70,9 @@ int delete_first_ele(int value){
     return 0;
 }
 
+// 通过value查询
 Node* find_first_node(int value){
-    if(head==NULL) return 0;
+    if(head==NULL) return NULL;
     Node *p=head->next;
     while(p){
         if(p->value==value){
@@ -77,16 +80,56 @@ Node* find_first_node(int value){
         }
         p=p->next;
     }
+    return NULL;
+}
+
+// 通过索引查询
+Node* find_index_node(int index){
+    if(head==NULL) return NULL;
+    Node *p=head->next;
+    int i=0;
+    while(p){
+        if(i==index){
+            return p;
+        }
+        i++;
+        p=p->next;
+    }
+    return NULL;
+}
+
+// 清除链表
+int clear(){
+    if(head==null) return 1;
+    Node *p=head->next;
+    Node *next=null;
+    while(p){
+        next=p->next;
+        free(p);
+        p=null;
+        length--;
+        if(next){
+            p=next;
+        }else{
+            head->next=null;
+            return 1;
+        }
+    }
+
+    return head->next!=null?0:1;
 }
 
 // 打印链表
 int print_list(){
-    if(head==NULL) return 0;
+    if(head==NULL){
+        printf("head is null");
+        return 0;
+    }
     Node *p=head->next;
-    printf("length:%d\n",length);
-    printf("head -> ");
+    printf("length:%d,",length);
+    printf("(head) -> ");
     while(p!=NULL){
-        printf("%d",p->value);
+        printf("(%d)",p->value);
         if(p->next!=NULL){
             printf(" -> ");
         }
@@ -109,8 +152,13 @@ int main(){
     printf("####################\n");
 
     Node *find=find_first_node(2);
-    printf("find_first_node value:%d",find->value);
+    printf("find_first_node value:%d,*find:%p\n",find->value,find);
+    Node *index=find_index_node(0);
+    printf("find_index_node value:%d\n",index->value);
 
+    printf("###clear###\n");
+    clear();
+    print_list();
 }
 
 
