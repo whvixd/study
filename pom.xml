@@ -77,6 +77,7 @@
         <hutool-all.version>5.3.10</hutool-all.version>
         <dbunit.version>2.2</dbunit.version>
         <xxl-job-core>2.2.0</xxl-job-core>
+        <UserAgentUtils.version>1.21</UserAgentUtils.version>
 
     </properties>
 
