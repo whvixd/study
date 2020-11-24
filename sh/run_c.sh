@@ -36,31 +36,14 @@ then
     mkdir ${path}/../debug
 fi
 
+# 判断源文件是否存在
+if [[ -d ${path}/../debug/${c_target} ]]
+then
+    rm ${path}/../debug/${c_target}
+fi
+
 # 编译到 ../debug 路径中
 `gcc -o ${path}/../debug/${c_target} ${path}/${c_filename}`
-
-#i=2
-#arg_str=''
-#
-#while true
-#do
-#
-#argv=$i;
-#
-## 不为空
-#if  [[ -n argv  ]]
-#then
-#    # 拼接命令
-#    arg_str="${arg_str} ${i}"
-#    # 自增
-#    ((i++))
-#    echo ${argv}
-#else
-#    echo 'false'
-#    break
-#fi
-#done
-# 执行C程序
 if [[ -n $2 ]]
 then
     # $@ 所有入参
