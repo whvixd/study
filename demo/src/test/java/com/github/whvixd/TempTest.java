@@ -1065,10 +1065,10 @@ public class TempTest {
         for(int i=0;i<100;i++){}
     }
     @Test public void test73(){
-        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; LYA-AL00 Build/HUAWEILYA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36 didi.passenger/6.0.18 FusionKit/2.0.0");
-        UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 aweme_13.5.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/zh Region/CN AppTheme/dark RevealType/Dialog FusionKit/2.0.0");
-        UserAgent userAgent3 = UserAgent.parseUserAgentString("Mozilla/6.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/606.1.15 (KHTML, like Gecko) Mobile/15E149 aweme_13.6.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/zh Region/CN AppTheme/dark RevealType/Diblog FusionKit/3.0.0");
-        System.out.println(userAgent3.equals(userAgent2));
+        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; SEA-AL00 Build/HUAWEISEA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36 aweme_lite_120300 AppName/aweme_lite JsSdk/1.0 NetType/WIFI Channel/huawei app_version/12.3.0 ByteLocale/zh-Hans-CN Region/CN AppSkin/black");
+        UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; SEA-AL00 Build/HUAWEISEA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36");
+//        UserAgent userAgent3 = UserAgent.parseUserAgentString("Mozilla/6.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/606.1.15 (KHTML, like Gecko) Mobile/15E149 aweme_13.6.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/zh Region/CN AppTheme/dark RevealType/Diblog FusionKit/3.0.0");
+        System.out.println(userAgent1.equals(userAgent2));
 
     }
     @Test public void test(){}
