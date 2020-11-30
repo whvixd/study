@@ -2,6 +2,7 @@ package com.github.whvixd;
 
 import cn.hutool.core.date.StopWatch;
 import cn.hutool.crypto.digest.MD5;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.whvixd.demo.jdk.enumeration.*;
@@ -1065,10 +1066,20 @@ public class TempTest {
         for(int i=0;i<100;i++){}
     }
     @Test public void test73(){
-        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; SEA-AL00 Build/HUAWEISEA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36 aweme_lite_120300 AppName/aweme_lite JsSdk/1.0 NetType/WIFI Channel/huawei app_version/12.3.0 ByteLocale/zh-Hans-CN Region/CN AppSkin/black");
-        UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; SEA-AL00 Build/HUAWEISEA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36");
+        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 8.1.0; PBAM00 Build/OPM1.171019.026; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/62.0.3202.84 Mobile Safari/537.36 aweme_lite_120400 AppName/aweme_lite JsSdk/1.0 NetType/WIFI Channel/oppo app_version/12.4.0 ByteLocale/zh-CN Region/CN AppSkin/black");
+//        UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 13_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 didi.passenger/6.0.13 FusionKit/1.2.14");
 //        UserAgent userAgent3 = UserAgent.parseUserAgentString("Mozilla/6.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/606.1.15 (KHTML, like Gecko) Mobile/15E149 aweme_13.6.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/zh Region/CN AppTheme/dark RevealType/Diblog FusionKit/3.0.0");
-        System.out.println(userAgent1.equals(userAgent2));
+        System.out.println(userAgent1);
+        System.out.println(userAgent1.getBrowserVersion());
+        System.out.println(userAgent1.getOperatingSystem().getDeviceType().getName());
+        System.out.println(userAgent1.getOperatingSystem().getManufacturer().getName());
+//        System.out.println(userAgent2);
+//        System.out.println(userAgent1.equals(userAgent2));
+
+        cn.hutool.http.useragent.UserAgent parse = UserAgentUtil.parse("Mozilla/5.0 (Linux; Android 8.1.0; PBAM00 Build/OPM1.171019.026; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/62.0.3202.84 Mobile Safari/537.36 aweme_lite_120400 AppName/aweme_lite JsSdk/1.0 NetType/WIFI Channel/oppo app_version/12.4.0 ByteLocale/zh-CN Region/CN AppSkin/black");
+        String name = parse.getBrowser().getName();
+
+        System.out.println(name);
 
     }
     @Test public void test(){}
