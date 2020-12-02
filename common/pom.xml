@@ -385,6 +385,7 @@
             <version>${dbunit.version}</version>
         </dependency>
 
+        <!-- user agent parser-->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
@@ -394,7 +395,13 @@
         <dependency>
             <groupId>cz.mallat.uasparser</groupId>
             <artifactId>uasparser</artifactId>
-            <version>0.6.2</version>
+            <version>${uasparser.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ua-parser</groupId>
+            <artifactId>uap-java</artifactId>
+            <version>${uap-java.version}</version>
         </dependency>
 
     </dependencies>
