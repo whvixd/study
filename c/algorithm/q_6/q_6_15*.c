@@ -5,10 +5,16 @@ int main(){
     char s1[100],s2[100];
     printf("input str:");
     gets(s2);
-    while(*s2!='\0'){
-        *s1++=*s2++;
+    // 不能用*s1++
+    for(int i=0;i<100;i++){
+        if(s2[i]!='\0'){
+            s1[i]=s2[i];
+        }else{
+            s1[i]=s2[i];
+            break;
+        }
     }
 
-    puts(s1);
+    printf("s1:%s\n",s1);
     return 0;
 }
