@@ -2,12 +2,16 @@
 
 // 先声明
 int getResult(int x);
+// 可不声明形参名
+void a(int i, char c);
+
 int main()
 {
-    int x;
-    scanf("%d",&x);
-    int b = getResult(x);
-    printf("result:%d \n",b);
+//    int x;
+//    scanf("%d",&x);
+//    int b = getResult(x);
+//    printf("result:%d \n",b);
+    a(1,'c');
     return 0;
 }
 
@@ -24,4 +28,9 @@ int getResult(int x)
         return 3*x-11;
     }
     return 0;
+}
+
+void a(int i, char c)
+{
+    printf("%d,%c\n",i,c);
 }
