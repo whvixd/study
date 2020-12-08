@@ -22,10 +22,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -207,6 +204,15 @@ public class TempTest {
 
         public Student() {
         }
+    }
+
+    static class NumberClass implements Serializable {
+        // ObjectOutputStream.write(this) 需要Serializable
+        // serialVersionUID作用是，当对象写入磁盘中或网络传输，此对象修改了字段，需要升级版本，否则反序列化不对
+        // https://www.cnblogs.com/9dragon/p/10901448.html
+        private static final long serialVersionUID = 11110131L;
+        @Setter
+        private Object number;
     }
 
 //------------------------------------Test------------------------------------
@@ -841,8 +847,8 @@ public class TempTest {
     }
 
     @Test
-    public void test51(){
-        String id=UUID.randomUUID().toString()+"_index";
+    public void test51() {
+        String id = UUID.randomUUID().toString() + "_index";
         System.out.println(id.endsWith("_index"));
         System.out.println(id.matches(".*_index$"));
         System.out.println(id);
@@ -851,12 +857,13 @@ public class TempTest {
     }
 
     @Test
-    public void test52(){
+    public void test52() {
         System.out.println(MD5.create().digestHex("1234567890"));
     }
 
 
-    @Test public void test53(){
+    @Test
+    public void test53() {
         EnumBean enumBean = new EnumBean();
         enumBean.setE1(E1.A);
         enumBean.setE2(E2.D);
@@ -869,32 +876,37 @@ public class TempTest {
         System.out.println(gson.toJson(student));
 
 
-        String json=GsonUtil.toJson(enumBean);
+        String json = GsonUtil.toJson(enumBean);
         System.out.println(json);
 
-        String json1= FastjsonUtil.toJson(enumBean);
+        String json1 = FastjsonUtil.toJson(enumBean);
         System.out.println(json1);
 
-        String json2= JacksonUtil.toJson(enumBean);
+        String json2 = JacksonUtil.toJson(enumBean);
         System.out.println(json2);
     }
 
-    @Test public void test54(){
+    @Test
+    public void test54() {
         System.out.println(
-                GsonUtil.fromJson("{\"A\":{\"code\":1,\"name\":\"A_Name\"}}",E1.class)
+                GsonUtil.fromJson("{\"A\":{\"code\":1,\"name\":\"A_Name\"}}", E1.class)
         );
     }
 
-    @Test public void test55(){
-        Double d=22.33;
-        System.out.println(FastjsonUtil.fromJson(FastjsonUtil.toJson(d),BigDecimal.class));
+    @Test
+    public void test55() {
+        Double d = 22.33;
+        System.out.println(FastjsonUtil.fromJson(FastjsonUtil.toJson(d), BigDecimal.class));
     }
 
-    @Test public void test56(){
+    @Test
+    public void test56() {
         // -Dspring.profiles.active=ceshi
         System.out.println(System.getProperty("profiles"));
     }
-    @Test public void test57(){
+
+    @Test
+    public void test57() {
 
         Assert.assertTrue(ObjectUtils.isEmpty(null));
         Assert.assertTrue(ObjectUtils.isEmpty(Lists.newArrayList()));
@@ -902,119 +914,134 @@ public class TempTest {
         Assert.assertTrue(ObjectUtils.isEmpty(new int[]{}));
         Assert.assertTrue(ObjectUtils.isEmpty(""));
     }
-    @Test public void test58(){
+
+    @Test
+    public void test58() {
         Long currentTime = System.currentTimeMillis();
         // 30 分钟
-        Long thirtyMinutes = 30*60*1000L;
+        Long thirtyMinutes = 30 * 60 * 1000L;
         System.out.println(System.currentTimeMillis());
         // 当前时间之前30分钟
-        System.out.println(currentTime-thirtyMinutes);
+        System.out.println(currentTime - thirtyMinutes);
     }
-    @Test public void test59() throws InterruptedException, IOException {
-        int len=100000000;
+
+    @Test
+    public void test59() throws InterruptedException, IOException {
+        int len = 100000000;
         int[] batchLineArray = new int[len];
         Random random = new Random();
-        IntStream.range(0,len).forEach(e->{
-            batchLineArray[e]= random.nextInt(10000000);
+        IntStream.range(0, len).forEach(e -> {
+            batchLineArray[e] = random.nextInt(10000000);
         });
         Arrays.parallelSort(batchLineArray);
         System.out.println("qq");
 //        System.out.println(Arrays.toString(batchLineArray));
-        IntStream.range(0,10).forEach(e->{
-            System.out.println("start:"+batchLineArray[e]);
+        IntStream.range(0, 10).forEach(e -> {
+            System.out.println("start:" + batchLineArray[e]);
         });
-        System.out.println("end:"+batchLineArray[len-1]);
+        System.out.println("end:" + batchLineArray[len - 1]);
         System.in.read();
     }
-    @Test public void test60(){
-        Map<String,Integer> map = new HashMap<>();
-        map.put("a:",1);
-        map.put("b:",2);
-        map.put("c:",3);
-        map.put("d:",4);
-        map.put("e:",5);
+
+    @Test
+    public void test60() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a:", 1);
+        map.put("b:", 2);
+        map.put("c:", 3);
+        map.put("d:", 4);
+        map.put("e:", 5);
 
         Set<Map.Entry<String, Integer>> entries = map.entrySet();
-        for(Map.Entry<String, Integer> entry:entries){
+        for (Map.Entry<String, Integer> entry : entries) {
             System.out.println(entry.getValue());
             System.out.println(entry.getKey());
         }
     }
-    @Test public void test61(){
-        StringBuilder stringBuffer=new StringBuilder();
+
+    @Test
+    public void test61() {
+        StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append("111");
         System.out.println(stringBuffer.length());
         System.out.println(stringBuffer.toString());
-        stringBuffer.delete(0,stringBuffer.length());
+        stringBuffer.delete(0, stringBuffer.length());
         System.out.println(stringBuffer.toString());
 
     }
-    @Test public void test62(){
+
+    @Test
+    public void test62() {
         System.out.println(39201390214L >> 10); // 39201390214L / 2^10
 
-        System.out.println(3920139022L&((1<<10)-1)); // 39201390214L / 2^10
-        System.out.println(3920139022L%1024); // 39201390214L / 2^10
+        System.out.println(3920139022L & ((1 << 10) - 1)); // 39201390214L / 2^10
+        System.out.println(3920139022L % 1024); // 39201390214L / 2^10
     }
-    @Test public void test63() throws IOException {
+
+    @Test
+    public void test63() throws IOException {
         /**
          * abc
          * 123
          *
          */
-        RandomAccessFile file=new RandomAccessFile("/Users/didi/Documents/test/test_a.txt","r");
-        System.out.println("line:"+file.length());
-        System.out.println("pointer:"+file.getFilePointer());
+        RandomAccessFile file = new RandomAccessFile("/Users/didi/Documents/test/test_a.txt", "r");
+        System.out.println("line:" + file.length());
+        System.out.println("pointer:" + file.getFilePointer());
         // 移动光标
         file.seek(0);
         System.out.println(file.getFilePointer());
         String line;
-        while ((line=file.readLine())!=null){
-            System.out.println("readLine:"+line);
+        while ((line = file.readLine()) != null) {
+            System.out.println("readLine:" + line);
         }
     }
 
-    @Test public void test64() throws IOException {
+    @Test
+    public void test64() throws IOException {
         // 太慢了
-        RandomAccessFile file=new RandomAccessFile("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt","r");
+        RandomAccessFile file = new RandomAccessFile("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt", "r");
         String line;
         long start = System.currentTimeMillis();
-        int i=0;
-        while ((line=file.readLine())!=null){
+        int i = 0;
+        while ((line = file.readLine()) != null) {
             i++;
-            System.out.println("readLine:"+line);
+            System.out.println("readLine:" + line);
         }
-        System.out.println("i:"+i);
-        System.out.println("duration:"+(System.currentTimeMillis()-start));
+        System.out.println("i:" + i);
+        System.out.println("duration:" + (System.currentTimeMillis() - start));
     }
 
 
-    @Test public void test65(){
+    @Test
+    public void test65() {
         // 5000w:4s
         try (BufferedReader br = new BufferedReader(new FileReader("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt"))) {
             // 按行读取字符串
             long start = System.currentTimeMillis();
             LineIterator iterator = new LineIterator(br);
-            int count=0;
-            List<String> list=Lists.newArrayList();
+            int count = 0;
+            List<String> list = Lists.newArrayList();
             while (iterator.hasNext()) {
                 String line = iterator.nextLine();
                 list.add(line);
-                if(count%10000==0){
-                    System.out.println("----list.size:"+list.size());
+                if (count % 10000 == 0) {
+                    System.out.println("----list.size:" + list.size());
                     list.clear();
-                    System.out.println("----count:"+count);
-                    System.out.println("----list.size:"+list.size());
+                    System.out.println("----count:" + count);
+                    System.out.println("----list.size:" + list.size());
                 }
 //                System.out.println(line);
                 count++;
             }
-            System.out.println("count:"+count);
-            System.out.println("duration:"+(System.currentTimeMillis()-start));
+            System.out.println("count:" + count);
+            System.out.println("duration:" + (System.currentTimeMillis() - start));
         } catch (Exception e) {
         }
     }
 
-    @Test public void test66(){
+    @Test
+    public void test66() {
         File file = new File("/Users/didi/Documents/test/test_big_file_sort_01/test_split_725.txt");
         try {
             file.createNewFile();
@@ -1025,8 +1052,9 @@ public class TempTest {
     }
 
 
-    @Test public void test67() throws InterruptedException {
-        StopWatch stopWatch=new StopWatch("1");
+    @Test
+    public void test67() throws InterruptedException {
+        StopWatch stopWatch = new StopWatch("1");
         stopWatch.start("111");
         TimeUnit.SECONDS.sleep(2);
         stopWatch.stop();
@@ -1037,35 +1065,48 @@ public class TempTest {
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint());
     }
-    @Test public void test68(){
+
+    @Test
+    public void test68() {
         org.apache.commons.lang3.time.StopWatch stopWatch = new org.apache.commons.lang3.time.StopWatch();
         stopWatch.start();
 
     }
-    @Test public void test69(){
-        System.out.println(false&&false||true);
+
+    @Test
+    public void test69() {
+        System.out.println(false && false || true);
     }
-    @Test public void test70(){
+
+    @Test
+    public void test70() {
         try {
             throw new RuntimeException();
-        }finally {
+        } finally {
             System.out.println("----");
         }
 
 //        System.out.println("end");
     }
-    @Test public void test71(){
-        System.out.println((int)'A');
-        System.out.println((int)'a');
-        System.out.println((int)'0');
-        System.out.println((int)'9');
-        System.out.println((int)' ');
+
+    @Test
+    public void test71() {
+        System.out.println((int) 'A');
+        System.out.println((int) 'a');
+        System.out.println((int) '0');
+        System.out.println((int) '9');
+        System.out.println((int) ' ');
     }
-    @Test public void test72(){
-        int sum=1;
-        for(int i=0;i<100;i++){}
+
+    @Test
+    public void test72() {
+        int sum = 1;
+        for (int i = 0; i < 100; i++) {
+        }
     }
-    @Test public void test73(){
+
+    @Test
+    public void test73() {
         // 太模糊了
         UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; PCHM10 Build/QKQ1.200209.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.92 Mobile Safari/537.36 FusionKit/2.0.0_didigsui_720_1544_PCHM10-OP4A4D_29_10_6.0.4_449");
         UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; WLZ-AN00 Build/HUAWEIWLZ-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/75.0.3770.156 Mobile Safari/537.36 aweme_130600 JsSdk/1.0 NetType/4G Channel/huawei_1 AppName/aweme app_version/13.6.0 ByteLocale/zh-Hans-CN Region/CN AppSkin/black AppTheme/dark TTWebView/0751130011409");
@@ -1086,7 +1127,41 @@ public class TempTest {
         System.out.println(name);
 
     }
-    @Test public void test(){}
+
+    @Test
+    public void test74() {
+        String json = "{\"number\":\"11\"}";
+        NumberClass numberClass1 = GsonUtil.fromJson(json, NumberClass.class);
+        NumberClass numberClass2 = JacksonUtil.fromJson(json, NumberClass.class);
+        System.out.println(numberClass1.number);
+        System.out.println(numberClass2.number);
+
+    }
+
+    @Test
+    public void test75() throws IOException {
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("numberClass.txt"))) {
+            NumberClass numberClass = new NumberClass();
+            numberClass.setNumber("11");
+            oos.writeObject(numberClass);
+        }
+    }
+
+    @Test
+    public void test76() {
+        try (//创建一个ObjectInputStream输入流
+             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("numberClass.txt"))) {
+            NumberClass numberClass = (NumberClass) ois.readObject();
+            System.out.println(numberClass.number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test() {
+    }
 
 }
 
