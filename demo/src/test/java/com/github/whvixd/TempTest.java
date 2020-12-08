@@ -1131,6 +1131,7 @@ public class TempTest {
     @Test
     public void test74() {
         String json = "{\"number\":\"11\"}";
+        // json-> StringReader -> read to stack -> 递归 -> 映射到对象的字段中
         NumberClass numberClass1 = GsonUtil.fromJson(json, NumberClass.class);
         NumberClass numberClass2 = JacksonUtil.fromJson(json, NumberClass.class);
         System.out.println(numberClass1.number);
