@@ -3,6 +3,8 @@
 
 void reverse(int d_a[][SIZE]);
 void print_matrix(int matrix[][SIZE]);
+
+// Q:写一个函数，使给定的一个3x3的二维整形数组转置，即行列互换
 int main(){
     int d_a[SIZE][SIZE];
 
