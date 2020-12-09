@@ -5,13 +5,19 @@ int getResult(int x);
 // 可不声明形参名
 void a(int i, char c);
 
+int vowel_flag(char);
+
 int main()
 {
 //    int x;
 //    scanf("%d",&x);
 //    int b = getResult(x);
 //    printf("result:%d \n",b);
-    a(1,'c');
+
+//    a(1,'c');
+
+    int f=vowel_flag('1');
+    printf("f:%d",f);
     return 0;
 }
 
@@ -33,4 +39,8 @@ int getResult(int x)
 void a(int i, char c)
 {
     printf("%d,%c\n",i,c);
+}
+
+int vowel_flag(char c){
+    return (c=='a'||c=='o'||c=='i'||c=='u'||c=='e');
 }
