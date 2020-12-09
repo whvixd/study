@@ -16,9 +16,7 @@ int main(){
 }
 
 void str_cat(const char s1[SIZE],const char s2[SIZE]){
-    int l1=0;
-    int l2=0;
-    int i=0;
+    int l1=0,l2=0,i=0;
     while((s[i++]=s1[l1++])!='\0');
     i--;
     while((s[i++]=s2[l2++])!='\0');
