@@ -80,6 +80,7 @@
         <UserAgentUtils.version>1.21</UserAgentUtils.version>
         <uasparser.version>0.6.2</uasparser.version>
         <uap-java.version>1.5.0</uap-java.version>
+        <commons-net.version>3.6</commons-net.version>
 
     </properties>
 
