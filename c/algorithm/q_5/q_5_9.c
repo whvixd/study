@@ -9,7 +9,7 @@ int main()
         s=0;
         for(i=1;i<m;i++){
             if(m%i==0){
-                s+=i;
+                s+=i; //1+2+3 都能被6整除
             }
 
             if(s==m){
