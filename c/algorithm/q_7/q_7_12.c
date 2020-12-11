@@ -17,7 +17,7 @@ float get_root(int a,int b,int c,int d){
     do{
         x=x1;
         f=a*x*x*x+b*x*x+c*x+d;// 原函数,f(x)=ax^3+bx^2+cx+d
-        f1=3*a*x*x+2*b*x+c;   // 导数,  f'(X)=3ax^2+2bx+c
+        f1=3*a*x*x+2*b*x+c;   // 导数,  f'(x)=3ax^2+2bx+c
         x1=x-f/f1;            // 差
     }while(fabs(x1-x)>=1e-3); // |x-x'|>=0.001 继续求值
     return x;
