@@ -32,6 +32,13 @@
 
 12. CompletableFuture
 
+13. 复习C+刷题
+
+14. UserAgentUtil
+
+15. FTPClientUtil
+
+
 ### todo
 
 1. leetcode每日一题
@@ -40,9 +47,9 @@
 
 3. disruptor
 
-   > https://www.cnblogs.com/luozhiyun/p/11631305.html
+> https://www.cnblogs.com/luozhiyun/p/11631305.html
    
-4. guice
+4. guice IoC
 
 5. 布隆过滤器
 
@@ -54,7 +61,9 @@
 
 9. 分片读取大文件
 
-10. JMX (tomcat有用到)
-https://www.jianshu.com/p/fa4e88f95631
+10. JMX (tomcat有用到) 
 
+> https://www.jianshu.com/p/fa4e88f95631
+
+11. 整理分布式锁 @DLock
 ...
