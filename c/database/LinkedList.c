@@ -139,6 +139,51 @@ int print_list(){
     return 1;
 }
 
+void sort(){
+    Node *p=head->next,*min_node=p,*new_p=min_node;
+    // 获取最小节点， todo 删除 min_node
+    while(p){
+        if(p->value<min_node->value){
+            min_node=p;
+        }
+        p=p->next;
+    }
+
+    p=head->next;
+
+    while(p){
+        if(!min_node->next&&min_node!=p){
+            min_node->next=p;
+        }else{
+            new_p=min_node->next;
+            while(new_p){
+                if(p->value>=new_p->value&&p->value<new_p->value&&new_p!=p){
+                    new_p->next=p;
+                    break;
+                }
+//                printf("####################%d\n",new_p->value);
+                new_p=new_p->next;
+
+            }
+        }
+        p=p->next;
+    }
+}
+
+void sort_bubble(){
+    Node *p,*q;
+    int t;
+    for(p=head->next;p!=null;p=p->next){
+        for(q=p->next;q!=null;q=q->next){
+            if(p->value>q->value){
+                t=p->value;
+                p->value=q->value;
+                q->value=t;
+            }
+        }
+    }
+}
+
 int main(){
     init();
     insert_node(2);
@@ -155,6 +200,10 @@ int main(){
     printf("find_first_node value:%d,*find:%p\n",find->value,find);
     Node *index=find_index_node(0);
     printf("find_index_node value:%d\n",index->value);
+
+    printf("###sort_bubble###\n");
+    sort_bubble();
+    print_list();
 
     printf("###clear###\n");
     clear();
