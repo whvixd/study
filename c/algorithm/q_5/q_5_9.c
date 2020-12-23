@@ -13,6 +13,7 @@ int main()
             }
 
             if(s==m){
+                // 再次输出负载因子
                 printf("%d,its factors are ",m);
                 for(i=1;i<m;i++){
                     if(m%i==0){
