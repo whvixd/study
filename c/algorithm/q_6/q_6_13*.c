@@ -24,4 +24,5 @@ void strappend(char *str1,char *str2){
     while(*str2!='\0'){
         *t++=*str2++;
     }
+    *t='\0';
 }
