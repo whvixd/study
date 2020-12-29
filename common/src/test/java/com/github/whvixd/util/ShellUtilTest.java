@@ -16,13 +16,13 @@ public class ShellUtilTest {
 
 
 
-        String wc = ShellUtil.exec("wc -l /Users/didi/Downloads/split_20200827_1598533431_aa", null);
+        String wc = ShellUtil.exec("wc -l /Users/xx/Downloads/split_20200827_1598533431_aa", null);
         System.out.println(wc);
 
-        String grep = ShellUtil.exec("grep '' /Users/didi/Downloads/split_20200827_1598533431_aa -c", null);
+        String grep = ShellUtil.exec("grep '' /Users/xx/Downloads/split_20200827_1598533431_aa -c", null);
         System.out.println(grep);
 
-        String sed = ShellUtil.exec("sed -n '$=' /Users/didi/Downloads/split_20200827_1598533431_aa", null);
+        String sed = ShellUtil.exec("sed -n '$=' /Users/xx/Downloads/split_20200827_1598533431_aa", null);
         System.out.println(sed);
     }
 }

@@ -985,7 +985,7 @@ public class TempTest {
          * 123
          *
          */
-        RandomAccessFile file = new RandomAccessFile("/Users/didi/Documents/test/test_a.txt", "r");
+        RandomAccessFile file = new RandomAccessFile("/Users/xx/Documents/test/test_a.txt", "r");
         System.out.println("line:" + file.length());
         System.out.println("pointer:" + file.getFilePointer());
         // 移动光标
@@ -1000,7 +1000,7 @@ public class TempTest {
     @Test
     public void test64() throws IOException {
         // 太慢了
-        RandomAccessFile file = new RandomAccessFile("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt", "r");
+        RandomAccessFile file = new RandomAccessFile("/Users/xx/Documents/test/test_big_file_sort/test_5000w.txt", "r");
         String line;
         long start = System.currentTimeMillis();
         int i = 0;
@@ -1016,7 +1016,7 @@ public class TempTest {
     @Test
     public void test65() {
         // 5000w:4s
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/xx/Documents/test/test_big_file_sort/test_5000w.txt"))) {
             // 按行读取字符串
             long start = System.currentTimeMillis();
             LineIterator iterator = new LineIterator(br);
@@ -1042,7 +1042,7 @@ public class TempTest {
 
     @Test
     public void test66() {
-        File file = new File("/Users/didi/Documents/test/test_big_file_sort_01/test_split_725.txt");
+        File file = new File("/Users/xx/Documents/test/test_big_file_sort_01/test_split_725.txt");
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -1108,7 +1108,7 @@ public class TempTest {
     @Test
     public void test73() {
         // 太模糊了
-        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; PCHM10 Build/QKQ1.200209.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.92 Mobile Safari/537.36 FusionKit/2.0.0_didigsui_720_1544_PCHM10-OP4A4D_29_10_6.0.4_449");
+        UserAgent userAgent1 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; PCHM10 Build/QKQ1.200209.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.92 Mobile Safari/537.36 FusionKit/2.0.0_xxgsui_720_1544_PCHM10-OP4A4D_29_10_6.0.4_449");
         UserAgent userAgent2 = UserAgent.parseUserAgentString("Mozilla/5.0 (Linux; Android 10; WLZ-AN00 Build/HUAWEIWLZ-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/75.0.3770.156 Mobile Safari/537.36 aweme_130600 JsSdk/1.0 NetType/4G Channel/huawei_1 AppName/aweme app_version/13.6.0 ByteLocale/zh-Hans-CN Region/CN AppSkin/black AppTheme/dark TTWebView/0751130011409");
 //        UserAgent userAgent3 = UserAgent.parseUserAgentString("Mozilla/6.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/606.1.15 (KHTML, like Gecko) Mobile/15E149 aweme_13.6.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/zh Region/CN AppTheme/dark RevealType/Diblog FusionKit/3.0.0");
         System.out.println(userAgent1);

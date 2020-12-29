@@ -16,7 +16,7 @@ int main(void)
     char file_name[100];
     int r=1;
 
-    strcpy(file_name,"/Users/didi/Documents/workspace/idea/study/c/debug/tmp.txt");
+    strcpy(file_name,"/Users/xx/Documents/workspace/idea/study/c/debug/tmp.txt");
     // 打开文件
     fp=fopen(file_name,"w+");
     // 写入字符串

@@ -11,14 +11,14 @@ import java.util.*;
  */
 public class BigFileSort {
 
-    private static String BIG_FILE_NAME = "/Users/didi/Documents/test/test_big_file_sort/test_5000w.txt";
+    private static String BIG_FILE_NAME = "/Users/xx/Documents/test/test_big_file_sort/test_5000w.txt";
     // 创建的文件行数
     private static int LINE_COUNT = 100000;
     // 分割小文件的行数
     private static int BATCH_SIZE = 100000;
     private static String LINE_SEPARATOR = "\n";
 
-    private static String SORT_FILE_NAME = "/Users/didi/Documents/test/test_big_file_sort/test_5000w_sort.txt";
+    private static String SORT_FILE_NAME = "/Users/xx/Documents/test/test_big_file_sort/test_5000w_sort.txt";
 
     public static void main(String[] args) {
 

@@ -91,7 +91,7 @@ public class ZipFileDemo {
     }
 
     public static int countByCommons() {
-        File file = new File("/Users/didi/Desktop/test_5000w.txt");
+        File file = new File("/Users/xx/Desktop/test_5000w.txt");
         int count = 0;
         try {
             LineIterator lineIterator = FileUtils.lineIterator(file, UTF_8);
@@ -108,7 +108,7 @@ public class ZipFileDemo {
     }
     public static int countByLineIterator(){
         int count=0;
-        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/didi/Desktop/test_5000w.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/xx/Desktop/test_5000w.txt"))) {
             LineIterator lineIterator = new LineIterator(reader);
             while (lineIterator.hasNext()){
                 lineIterator.nextLine();
@@ -151,7 +151,7 @@ public class ZipFileDemo {
 //        ZipFileDemo zipFileDemo = new ZipFileDemo();
 //        zipFileDemo.readZipFile(1, 3);
 //        zipFileDemo.download();
-//        File file = new File("/Users/didi/logs/data/promotion/rights-white/");
+//        File file = new File("/Users/xx/logs/data/promotion/rights-white/");
 //        System.out.println(file.canWrite());
 //        System.out.println(file.canRead());
 //        System.out.println(file.mkdirs());
@@ -186,7 +186,7 @@ public class ZipFileDemo {
 
     public void testUnzip() throws IOException {
         ZipFile zipFileGbk = new ZipFile("/tmp/xiaoju/data/white/WHITE20200827113853188.zip", Charset.forName("UTF-8"));
-        ZipFile zipFile = new ZipFile("/Users/didi/Desktop/test_zip.zip", Charset.forName("gbk"));
+        ZipFile zipFile = new ZipFile("/Users/xx/Desktop/test_zip.zip", Charset.forName("gbk"));
 
         Enumeration<? extends ZipEntry> entries = zipFileGbk.entries();
         while (entries.hasMoreElements()) {
