@@ -50,6 +50,15 @@ class C:public F,public M{
         int getNumber(){
             return number;
         }
+
+    // 重载+符
+    // 支持可重载符见 https://www.runoob.com/cplusplus/cpp-overloading.html
+    C operator+(const C& c){
+        C newC;
+        newC.common=this->common+c.common;
+        newC.number=this->number+c.number;
+        return newC;
+    }
 };
 
 int main(){
@@ -59,10 +68,19 @@ int main(){
 
     cout<<"Box:"<<v<<endl;
 
-    C c;
-    c.setCommon(4);
-    c.setNumber(5);
-    cout<<"common:"<<c.getCommon()<<endl;
-    cout<<"number:"<<c.getNumber()<<endl;
+    C c1;
+    c1.setCommon(4);
+    c1.setNumber(5);
+    cout<<"c1.common:"<<c1.getCommon()<<endl;
+    cout<<"c1.number:"<<c1.getNumber()<<endl;
+
+    C c2;
+    c2.setCommon(6);
+    c2.setNumber(7);
+
+    C c3=c1+c2;
+    cout<<"c3.common:"<<c3.getCommon()<<endl;
+    cout<<"c3.number:"<<c3.getNumber()<<endl;
+
     return 0;
 }
