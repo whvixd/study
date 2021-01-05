@@ -3,7 +3,6 @@ target/
 arthas-output/
 *.un~
 *.iml
-*/*.iml
 **/debug
 .idea/
 *.swp
