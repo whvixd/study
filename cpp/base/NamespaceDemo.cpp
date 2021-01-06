@@ -14,6 +14,21 @@ namespace b_space{
     }
 }
 
+namespace first_layer{
+    namespace second_a_layer{
+        void method(){
+            cout<<"first_layer::second_a_layer->method"<<endl;
+        }
+    }
+
+    namespace second_b_layer{
+       void method(){
+           cout<<"first_layer::second_b_layer->method"<<endl;
+       }
+    }
+}
+
+using namespace first_layer::second_b_layer;
 int main(){
 
     // 调用a的func
@@ -21,4 +36,7 @@ int main(){
 
     // 调用b的func
     b_space::func();
+
+    // 调用嵌套命名空间方法
+    method();
 }
