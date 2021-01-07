@@ -1166,6 +1166,7 @@ public class TempTest {
         String a="123";
         // 如果池中已经包含此String对象的字符串，则返回代表池中这个字符串的String对象；
         // 否则，将此String对象包含的字符串添加到常量池中，并且返回此String对象的引用。
+        // -XX:PermSize,-XX:MaxPermSize 设置方法区大小
         String intern = a.intern();
         System.out.println(intern);
     }
