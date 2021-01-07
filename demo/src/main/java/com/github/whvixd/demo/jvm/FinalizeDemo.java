@@ -6,7 +6,9 @@ package com.github.whvixd.demo.jvm;
 public class FinalizeDemo {
     private static FinalizeDemo finalizeDemo = null;
 
+
     @Override
+    // 不建议使用
     protected void finalize() throws Throwable {
         super.finalize();
         System.out.println("invoke finalize");
@@ -16,7 +18,7 @@ public class FinalizeDemo {
     public static void main(String[] args) throws InterruptedException {
         finalizeDemo = new FinalizeDemo();
         finalizeDemo = null;
-        System.gc();//会调用finalize,异步执行
+        System.gc();//会调用finalize,异步执行,只调用一次
 
         Thread.sleep(500);
         if (finalizeDemo != null) {
