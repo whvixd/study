@@ -28,4 +28,41 @@ public class Container {
 //        bean.asyncTest();
 //        bean.aopDemo();
     }
+
+    /*
+
+    public class DoSomethingManagerImpl extends ApplicationObjectSupport implements DoSomethingManager {
+
+        private Map<SomethingEnum, DoSomethingHandler> handlerMap;
+
+        @PostConstruct
+        public void init() {
+            // DoSomethingHandler 是接口
+            // 将接口中实现类加到map中
+            Map<String, DoSomethingHandler> doSomethingHandlerBeanMap = getApplicationContext().getBeansOfType(DoSomethingHandler.class);
+            // 装载到枚举map中
+            handlerMap = doSomethingHandlerBeanMap.values().stream().collect(Collectors.toMap(DoSomethingHandler::getType, handler -> handler));//
+        }
+
+        @Override
+        public DoSomethingHandler getHandler(SomethingEnum somethingEnum) {
+            return handlerMap.get(somethingEnum);
+        }
+    }
+
+    class SleepHandler implements DoSomethingHandler{
+        @Override
+        void execute(){}
+
+        @Override
+        SomethingEnum getType(){
+            return SomethingEnum.SLEEP;
+        }
+    }
+
+    // 调用
+    DoSomethingHandler handler=doSomethingManager.getHandler(somethingEnum);
+    handler.execute();
+     */
+
 }
