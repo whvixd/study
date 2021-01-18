@@ -20,6 +20,7 @@ public class ShellUtil {
 
     /**
      * suffix:执行shell后，每行后缀
+     * 注：调用ProcessImpl.start,新建进程执行shell,若shell执行慢且并发下，会导致cpu飙高(创建多进程执行shell)
      */
     public String exec(String cmd, String suffix) {
         try {
