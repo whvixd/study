@@ -21,6 +21,7 @@ public class JDBCUtil {
         try {
             Connection connection = container.get();
             if (Objects.isNull(connection)) {
+                // 直接用类加载器加载，破坏双亲委派
                 Class.forName(DRIVER);
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
 //              connection.setAutoCommit(false);//开启事务

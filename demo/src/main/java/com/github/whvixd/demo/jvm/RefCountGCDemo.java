@@ -26,6 +26,8 @@ public class RefCountGCDemo {
 /*
 JVM的GC日志的主要参数包括如下几个：
 
+-verbose:gc
+
 -XX:+PrintGC 输出GC日志
 
 -XX:+PrintGCDetails 输出GC的详细日志
