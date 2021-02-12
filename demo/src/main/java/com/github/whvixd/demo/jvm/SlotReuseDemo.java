@@ -7,6 +7,8 @@ public class SlotReuseDemo {
     private static final int _64M = 64 * 1024 * 1024;
 
     /*
+-verbose:gc
+
 [GC (System.gc())  70233K->66776K(125952K), 0.0047733 secs]
 [Full GC (System.gc())  66776K->66651K(125952K), 0.0068741 secs]
      */
