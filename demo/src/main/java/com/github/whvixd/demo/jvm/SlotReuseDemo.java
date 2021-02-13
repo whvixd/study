@@ -15,7 +15,11 @@ public class SlotReuseDemo {
     static void gc1() {
         byte[] slot = new byte[_64M];
         // 在作用域中，不会被回收：此变量之后，没有任何对此槽位操作，也没有复用，GC ROOTS仍保持关联
-        // slot=null; //不过可手动将slot变量的空间置空，遇到占用大空间的变量时，可使用该手段
+        // slot=null; //不过可手动将slot变量的空间置空，遇到占用大空间的变量时，可使用该手段，不过在【JIT(及时编译)】编译时会被檫除
+        // Hotspot，采用解释器+JIT
+
+        // HotSpot虚拟机中内置了两个即时编译器：Client compiler和Server compiler，简称为C1、C2编译器，分别用在客户端和服务端。
+        //      用Client compiler获取更高的编译速度，用Server compiler 来获取更好的编译质量
         System.gc();
     }
 
