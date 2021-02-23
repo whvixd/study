@@ -2,6 +2,8 @@ package com.github.whvixd.demo.algorithm;
 
 import com.github.whvixd.demo.algorithm.leetcode.ListNode;
 
+import java.util.HashMap;
+
 /**
  * Created by wangzhixiang on 2021/2/22.
  */
@@ -46,6 +48,30 @@ public class LinkedNodeReverseKGroup {
             p = p1;
             p1 = head.next;
         }
+    }
+
+    /**
+     * 是否有环
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        HashMap<ListNode,Integer> map=new HashMap<>();
+        ListNode p=head;
+
+        while(p!=null){
+            Integer count= map.get(p);
+            if(count!=null&&count>1){
+                return true;
+            }else if(count==null){
+                map.put(p,1);
+            }else{
+                map.put(p,count+1);
+            }
+
+            p=p.next;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
