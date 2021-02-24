@@ -10,6 +10,7 @@ import java.nio.channels.FileChannel;
  */
 public class FileChannelUtil {
     public static String getFileContent(String fileName) {
+         // mmap
         try (RandomAccessFile file = new RandomAccessFile(fileName, "r")) {
             FileChannel channel = file.getChannel();
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
