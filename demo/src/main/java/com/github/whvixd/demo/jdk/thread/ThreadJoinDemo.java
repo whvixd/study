@@ -10,11 +10,11 @@ public class ThreadJoinDemo {
 
         InvokeTask invokeTask = InvokeTask.newInstance(() -> {
 
-//            try {
-//                Thread.currentThread().join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.println("InvokeTask-1");
         });
 
@@ -22,7 +22,7 @@ public class ThreadJoinDemo {
         System.out.println(invokeTask.getState());
         try {
             // 方法直接是synchronized修饰，对象锁是线程，调用wait进入 ObjectMonitor wait set 当其他线程(主线程)结束后，会调用notifyAll，唤醒所有线程
-            invokeTask.join(100);
+            invokeTask.join(100);// 等待invokeTask线程执行结束,100毫秒等待执行结果，若未结束，执行当前线程
             System.out.println(invokeTask.getState());
 //            Thread.sleep(1000);
         } catch (Exception e) {
