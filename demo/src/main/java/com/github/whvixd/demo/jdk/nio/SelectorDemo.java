@@ -11,8 +11,13 @@ import java.util.Set;
  */
 public class SelectorDemo {
     public static void main(String[] args) throws IOException {
-        //创建了一个1024个byte的数组的缓冲区
+        //创建了一个1024个byte的数组的缓冲区 HeapByteBuffer
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
+        // 直接内存（堆外内存）分配 DirectByteBuffer
+        ByteBuffer directByteBuffer = ByteBuffer.allocateDirect(1024);
+        byteBuffer.putChar('a');
+
         Selector selector = Selector.open();
         Set<SelectionKey> selectionKeys = selector.selectedKeys();
         System.out.println(selectionKeys);
