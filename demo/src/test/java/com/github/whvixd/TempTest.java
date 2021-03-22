@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.googlecode.aviator.AviatorEvaluator;
 import eu.bitwalker.useragentutils.UserAgent;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -1170,6 +1171,18 @@ public class TempTest {
         // 方法区存放Class的相关信息，如类名、访问修饰符、常量池、字段描述等，动态代理、及cglib增强直接操作字节码文件，就需要较大的方法区保证动态生成的Class载入内存
         String intern = a.intern();
         System.out.println(intern);
+    }
+
+    @Test
+    public void test78() {
+        Boolean execute1 = (Boolean) AviatorEvaluator.execute("( true && false) || true");
+        System.out.println(execute1);
+
+        Map<String,Object> env=Maps.newHashMap();
+        env.put("amount",101);
+        env.put("creditAmount",99);
+        Boolean execute2 = (Boolean) AviatorEvaluator.execute("amount >100 && creditAmount>100",env);
+        System.out.println(execute2);
     }
 
     @Test
