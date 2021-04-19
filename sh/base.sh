@@ -44,11 +44,11 @@ fi
 #        -le 小于等于
 #
 #        字符串变量表达式
-#        If  [ $a = $b ]                 如果string1等于string2，则为真, 字符串允许使用赋值号做等号
+#        if  [ $a = $b ]                 如果string1等于string2，则为真, 字符串允许使用赋值号做等号
 #        if  [ $string1 !=  $string2 ]   如果string1不等于string2，则为真
 #        if  [ -n $string  ]             如果string 非空(非0），返回0(true)
 #        if  [ -z $string  ]             如果string 为空，则为真
-#        if  [ $sting ]                  如果string 非空，返回0 (和-n类似)
+#        if  [ $string ]                 如果string 非空，返回0 (和-n类似)
 #
 #        逻辑非 !                  	条件表达式的相反
 #        if [ ! 表达式 ]
