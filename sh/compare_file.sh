@@ -2,7 +2,7 @@
 
 # 比较两个文件是否有不同行
 # compare_file.sh base.txt compare.txt
-# base.txt 为基础文件，compare.txt是比较的文件，与base文件对比，看compare是否有不同的行
+# base.txt 为基础文件，compare.txt是比较的文件，与base文件对比，看compare文件中是否有不同的行
 
 path=`pwd`
 
