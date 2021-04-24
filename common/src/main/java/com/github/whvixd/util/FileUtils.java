@@ -86,7 +86,7 @@ public class FileUtils {
     }
 
     public void readCsv() {
-        List<A> read1 = CsvUtil.getReader().read(ResourceUtil.getUtf8Reader("/Users/didi/Downloads/xxx.csv"), A.class);
+        List<A> read1 = CsvUtil.getReader().read(ResourceUtil.getUtf8Reader("/Users/xx/Downloads/xxx.csv"), A.class);
         System.out.println(read1.size());
         System.out.println(GsonUtil.toJson(read1));
 

@@ -25,7 +25,7 @@ public class FTPClientUtilTest {
         //test.uploadFile(ftp, "test.txt", "/");
         //test.moveFile(ftp, "/file", "/txt/temp");
         //test.deleteByFolder(ftp, "/txt");
-//        test.readFileByFolder(ftp, "/Users/xx/Downloads/marketing_partner_config");
+//        test.readFileByFolder(ftp, "/Users/xx/Downloads/xxxx");
         test.closeFTP(ftp);
         System.exit(0);
     }
