@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.MDC;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -1183,6 +1184,16 @@ public class TempTest {
         env.put("creditAmount",99);
         Boolean execute2 = (Boolean) AviatorEvaluator.execute("amount >100 && creditAmount>100",env);
         System.out.println(execute2);
+    }
+
+    @Test
+    public void test79() {
+        MDC.put("traceId","testId");
+        InvokeTask.newInstance(()->{
+            String traceId = MDC.get("traceId");
+            System.out.println(traceId);
+
+        }).start();
     }
 
     @Test
