@@ -2,6 +2,7 @@ package com.github.whvixd.util;
 
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.text.StringSubstitutor;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -235,5 +236,10 @@ public class StringUtils {
             map.put(first, second);
         }
         return map;
+    }
+
+    public static String parse(String strPattern, Map<String, Object> values) {
+        StringSubstitutor stringSubstitutor = new StringSubstitutor(values);
+        return stringSubstitutor.replace(strPattern);
     }
 }
