@@ -51,6 +51,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -60,6 +61,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.KeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -1194,6 +1199,18 @@ public class TempTest {
             System.out.println(traceId);
 
         }).start();
+    }
+
+    @Test
+    public void test80() {
+        byte[] keyBytes = DatatypeConverter.parseBase64Binary("a");
+        KeySpec keySpec = new X509EncodedKeySpec(keyBytes);
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PublicKey publicKey = keyFactory.generatePublic(keySpec);
+            String format = publicKey.getFormat();
+            System.out.println(format);
+        }catch (Exception e){}
     }
 
     @Test
