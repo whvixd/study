@@ -72,6 +72,8 @@
 ## 2021
 
 ### done
+1. 添加springboot-demo 模块（2021-04-29）
+2. 学习spring中的event，类似于EventBus（2021-04-29）
 
 ### todo
 
