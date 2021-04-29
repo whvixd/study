@@ -1,6 +1,6 @@
 package com.github.whvixd.springbootdemo.config;
 
-import com.github.whvixd.util.CommonExecutorPool;
+import com.github.whvixd.springbootdemo.common.util.CommonExecutorPool;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
