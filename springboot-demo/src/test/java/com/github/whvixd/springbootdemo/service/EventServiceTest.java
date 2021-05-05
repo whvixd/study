@@ -23,6 +23,8 @@ public class EventServiceTest {
         Something something=new Something();
         something.setId("0");
         something.setName("test");
+        something.setType("opt");
         eventService.register(something);
+
     }
 }
