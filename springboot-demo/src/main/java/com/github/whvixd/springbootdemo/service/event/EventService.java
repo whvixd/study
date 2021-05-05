@@ -16,8 +16,8 @@ public class EventService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public void register(Something something) {
+    public void publishSomething(Something something) {
         publisher.publishEvent(new SomethingRegisterEvent(something));
-        log.info("ActionService->doAction publish success,something:{}", something);
+        log.info("EventService->publishSomething publish success,something:{}", something);
     }
 }
