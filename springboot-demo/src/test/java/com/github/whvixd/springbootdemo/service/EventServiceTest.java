@@ -19,8 +19,8 @@ public class EventServiceTest {
     private EventService eventService;
 
     @Test
-    public void test(){
-        Something something=new Something();
+    public void test() {
+        Something something = new Something();
         something.setId("0");
         something.setName("test");
         something.setType("opt");

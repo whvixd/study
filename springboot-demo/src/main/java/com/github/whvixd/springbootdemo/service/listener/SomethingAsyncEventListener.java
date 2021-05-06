@@ -6,12 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by wangzhixiang on 2021/04/29.
  */
-@Service
+@Component
 @Slf4j
 public class SomethingAsyncEventListener implements ApplicationListener<SomethingRegisterEvent> {
 
