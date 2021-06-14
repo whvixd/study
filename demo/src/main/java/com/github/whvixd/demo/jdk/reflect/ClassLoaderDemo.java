@@ -18,7 +18,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassLoaderDemo {
-    ClassLoader classLoader = new ClassLoader() {
+    private static ClassLoader classLoader = new ClassLoader() {
         @Override
         public Class<?> loadClass(String name) throws ClassNotFoundException {
             String fileName = name.substring(name.lastIndexOf(".") + 1) + ".class";
@@ -38,17 +38,26 @@ public class ClassLoaderDemo {
     };
 
     public Integer test = 9;
-    public  Class<?> getClass(String name) throws ClassNotFoundException {
 
-        return classLoader.loadClass(name);
+    private static void securityClassLoad(){
+        loadCorePackage(classLoader);
     }
 
+    private static void loadCorePackage(ClassLoader loader){
+        final String corePackagePath="com.github.whvixd.demo.jdk.reflect.";
+        try {
+            loader.loadClass(corePackagePath+"Test0614");
+        } catch (ClassNotFoundException e) {
+
+        }
+    }
+
+
     public static void main(String[] args) throws Exception{
-        ClassLoaderDemo demo=new ClassLoaderDemo();
-        String name = "com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo";
-        Class clazz = demo.getClass(name);
-        Thread.currentThread().setContextClassLoader(demo.classLoader);
-        Class.forName("com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo",true,
+        Thread.currentThread().setContextClassLoader(classLoader);
+        ClassLoaderDemo.securityClassLoad();
+        Test0614 test0614=new Test0614();
+        Class.forName("com.github.whvixd.demo.jdk.reflect.Test0614",true,
                 Thread.currentThread().getContextClassLoader());
         System.out.println();
 //        Class<?> name = Class.forName("com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo");
