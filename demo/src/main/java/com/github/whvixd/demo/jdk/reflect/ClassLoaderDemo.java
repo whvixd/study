@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -23,7 +24,12 @@ public class ClassLoaderDemo {
         public Class<?> loadClass(String name) throws ClassNotFoundException {
             String fileName = name.substring(name.lastIndexOf(".") + 1) + ".class";
             InputStream in = getClass().getResourceAsStream(fileName);
+            Class<?> loadedClass = findLoadedClass(name);
+            if(loadedClass!=null){
+                return loadedClass;
+            }
             if (Objects.isNull(in)) {
+                System.out.println(name+" in is null");
                 return super.loadClass(name);
             }
             try {
@@ -47,19 +53,24 @@ public class ClassLoaderDemo {
         final String corePackagePath="com.github.whvixd.demo.jdk.reflect.";
         try {
             loader.loadClass(corePackagePath+"Test0614");
+            // 先加载，后面new Test061415()时就不用再加载一次了
+            loader.loadClass(corePackagePath+"Test061415");
         } catch (ClassNotFoundException e) {
-
+            e.printStackTrace();
         }
     }
 
 
+    // 当前类由AppClassLoader加载，而内部Test0614是用自定义的加载器加载，再用反射调用方法，则testNew方法中创建对象会从自定义加载器层级委派
     public static void main(String[] args) throws Exception{
         Thread.currentThread().setContextClassLoader(classLoader);
         ClassLoaderDemo.securityClassLoad();
-        Test0614 test0614=new Test0614();
-        Class.forName("com.github.whvixd.demo.jdk.reflect.Test0614",true,
-                Thread.currentThread().getContextClassLoader());
-        System.out.println();
+        Class<?> aClass = classLoader.loadClass("com.github.whvixd.demo.jdk.reflect.Test0614");
+        Object test0614 = aClass.getConstructor().newInstance();
+        Method testNew = test0614.getClass().getMethod("testNew");
+        testNew.invoke(test0614);
+        System.out.println(test0614.getClass().getClassLoader());
+        System.out.println(ClassLoaderDemo.class.getClassLoader());
 //        Class<?> name = Class.forName("com.github.whvixd.demo.javaDemo.thread.ClassLoaderDemo");
 //        Constructor<?> declaredConstructor = name.getDeclaredConstructor(Integer.class);
 //        Object o = declaredConstructor.newInstance(2);
