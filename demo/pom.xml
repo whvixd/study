@@ -14,6 +14,13 @@
     <name>demo</name>
     <url>http://www.example.com</url>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
 
     <dependencies>
         <dependency>
@@ -465,6 +472,12 @@
             <version>5.2.4</version>
         </dependency>
 
+        <!--并发框架，可编排线程执行-->
+        <dependency>
+            <groupId>com.gitee.jd-platform-opensource</groupId>
+            <artifactId>asyncTool</artifactId>
+            <version>V1.2-01bd8a4fb7-1</version>
+        </dependency>
 
     </dependencies>
 
