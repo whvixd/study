@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 @Slf4j
 public class PageConsumerHelper {
     /**
-     * 分页处理
+     * 分页处理器
      *
      * @param minId          最小id
      * @param maxId          最大id
@@ -28,25 +28,27 @@ public class PageConsumerHelper {
             return;
         }
 
+        log.info("PageConsumerHelper->process start,minId:{},maxId:{},pageSize:{},temporarySleep:{}",minId,maxId,pageSize,temporarySleep);
         StopWatch stopWatch = new StopWatch("PageConsumerHelper");
-        int startIndex = minId, endIndex = startIndex + pageSize;
+        int startIndex = minId, endIndex = (startIndex+pageSize>=maxId)?maxId+1:(startIndex + pageSize);
         stopWatch.start("process");
         while (true) {
             if (startIndex > maxId) {
                 break;
             }
             try {
-                // 建议：[startIndex,endIndex)
+                // 业务处理边界：[startIndex,endIndex)
                 consumer.accept(startIndex, endIndex);
                 log.info("PageConsumerHelper->process,accept success,startIndex:{},endIndex:{}", startIndex, endIndex);
             } catch (Exception e) {
                 log.warn("PageConsumerHelper->process error,startIndex:{},endIndex:{},ex:", startIndex, endIndex, e);
             }
             startIndex = endIndex;
-            endIndex = (endIndex + pageSize >= maxId) ? maxId + 1 : (startIndex + pageSize);
+            endIndex = (endIndex+pageSize>=maxId)?maxId+1:(startIndex + pageSize);
 
             if (temporarySleep) {
                 try {
+                    // 100ms
                     TimeUnit.MILLISECONDS.sleep(100);
                 } catch (InterruptedException e) {
                     log.error("PageConsumerHelper->process error,ex:", e);
@@ -54,7 +56,7 @@ public class PageConsumerHelper {
             }
         }
         stopWatch.stop();
-        log.info(stopWatch.prettyPrint());
+        log.info("PageConsumerHelper->process end,stopWatch:{}",stopWatch.prettyPrint());
     }
 
     public void process(int minId, int maxId, int pageSize, BiConsumer<Integer, Integer> consumer) {
