@@ -12,9 +12,7 @@ public class IdGenUtil {
     public static String genId(){
         try {
             return (String) method.invoke(null,"aaaa");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return "";
@@ -25,11 +23,8 @@ public class IdGenUtil {
         try {
             Class<?> idGenCornClass = idGenClassLoader.loadClass("com.github.whvixd.demo.jdk.regex.IdGen");
             method=idGenCornClass.getMethod("genId", String.class);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-
         }
     }
 }
