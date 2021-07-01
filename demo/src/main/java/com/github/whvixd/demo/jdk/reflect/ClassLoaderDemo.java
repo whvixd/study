@@ -19,6 +19,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassLoaderDemo {
+    // ClassLoader的无参构造器，会默认将AppClassLoader作为父加载器
     private static ClassLoader classLoader = new ClassLoader() {
         @Override
         public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -63,6 +64,7 @@ public class ClassLoaderDemo {
 
     // 当前类由AppClassLoader加载，而内部Test0614是用自定义的加载器加载，再用反射调用方法，则testNew方法中创建对象会从自定义加载器层级委派
     public static void main(String[] args) throws Exception{
+        System.out.println("ParentClassLoader:"+classLoader.getParent().getClass().getSimpleName());
         Thread.currentThread().setContextClassLoader(classLoader);
         ClassLoaderDemo.securityClassLoad();
         Class<?> aClass = classLoader.loadClass("com.github.whvixd.demo.jdk.reflect.Test0614");

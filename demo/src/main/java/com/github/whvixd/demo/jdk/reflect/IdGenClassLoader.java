@@ -14,6 +14,7 @@ public class IdGenClassLoader extends ClassLoader {
 
     // name 为class文件中类的全局限名
     @Override
+    // loadClass 会调用findClass
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         // base64加密的class文件
         String filePath = "/Users/didi/Documents/workspace/idea/study/demo/src/main/java/com/github/whvixd/demo/jdk/reflect/TestBase64.txt";
