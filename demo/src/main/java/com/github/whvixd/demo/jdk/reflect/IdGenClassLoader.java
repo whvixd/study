@@ -1,14 +1,13 @@
 package com.github.whvixd.demo.jdk.reflect;
 
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.codec.Base64Decoder;
-import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.io.FileUtil;
 
 /**
  * Created by wangzhixiang on 2021/04/27.
  */
 public class IdGenClassLoader extends ClassLoader {
+    // IdGenClassLoader 委派到 AppClassLoader
     IdGenClassLoader(ClassLoader classLoader) {
         super(classLoader);
     }
