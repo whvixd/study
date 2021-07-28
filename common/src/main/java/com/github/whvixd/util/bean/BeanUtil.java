@@ -8,6 +8,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
@@ -95,6 +96,27 @@ public class BeanUtil {
 
     // 支持自定义修改字段
     public interface Processor<Before, After> extends BiConsumer<Before, After> {
+    }
+
+    public boolean diff(Object o1, Object o2) {
+        if (o1 == null && o2 == null) return false;
+        if (o1 == null || o2 == null) return true;
+        if(!o1.getClass().isAssignableFrom(o2.getClass())){
+            throw new RuntimeException();
+        }
+        Map<String, Object> objectMap1 = toMap(o1);
+        Map<String, Object> objectMap2 = toMap(o2);
+        if (objectMap1.size() != objectMap2.size()) return true;
+        for (String key : objectMap1.keySet()) {
+            if (objectMap2.containsKey(key)) {
+                Object v1 = objectMap1.get(key);
+                Object v2 = objectMap2.get(key);
+                if (!Objects.equals(v1, v2)) return true;
+            }else {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

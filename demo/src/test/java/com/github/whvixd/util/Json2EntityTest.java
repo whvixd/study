@@ -78,11 +78,27 @@ public class Json2EntityTest {
         Assert.assertFalse(intList.isEmpty());
     }
 
+    @Test
+    public void testDiff(){
+        Entity.Cat c1=new Entity.Cat();
+        c1.setName("b");
+        c1.setOwner("a");
+        c1.setChildren(Lists.newArrayList("2","1"));
+
+        Entity.Cat c2=new Entity.Cat();
+        c2.setName("b");
+        c2.setOwner("a");
+        c2.setChildren(Lists.newArrayList("2","1"));
+
+        System.out.println(BeanUtil.diff(c1,c2));
+    }
+
     interface Entity {
         @Data
         class Cat {
             private String name;
             private String owner;
+            private List<Object> children;
         }
 
         @Data
