@@ -22,11 +22,11 @@ public class FileChannelUtil {
     // 推外内存
     ByteBuffer writeBuffer;
     // 1G
-    private static int fileSize = 1024 * 1024 * 1024;
+    private static int fileSize = 1024 * 64;
     private int commitCommitLogLeastPages = 4;
     private int flushCommitLogLeastPages = 4;
 
-    public static final int OS_PAGE_SIZE = 1024 * 4;
+    public static final int OS_PAGE_SIZE = 3;
 
     // 写指针
     private final AtomicInteger wrotePosition = new AtomicInteger(0);
@@ -44,7 +44,8 @@ public class FileChannelUtil {
         this.fileChannel = FileUtil.createRandomAccessFile(this.file, FileMode.rw).getChannel();
         // mmap
         this.mappedByteBuffer = this.fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
-        this.writeBuffer = ByteBuffer.allocateDirect(fileSize);
+        this.writeBuffer = ByteBuffer.allocateDirect(2);
+//        this.fileChannel.close();
     }
 
     // 直接写到文件中
@@ -72,12 +73,9 @@ public class FileChannelUtil {
     public boolean write(final byte[] data) {
         int currentP = wrotePosition.get();
         if (data.length + currentP <= fileSize) {
-            try {
-                fileChannel.position(currentP);
-                fileChannel.write(ByteBuffer.wrap(data));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // todo 不对？
+            writeBuffer.position(currentP);
+            writeBuffer.put(data);
             wrotePosition.addAndGet(data.length);
             return true;
         }
@@ -85,7 +83,7 @@ public class FileChannelUtil {
     }
 
     public int commit(final int commitLeastPages) {
-        if (fileChannel == null) {
+        if (writeBuffer == null) {
             return wrotePosition.get();
         }
         if (this.isAbleToCommit(commitLeastPages)) {
@@ -103,9 +101,11 @@ public class FileChannelUtil {
             byteBuffer.position(lastCommitPos);
             byteBuffer.limit(writePos);
             try {
-                fileChannel.position(lastCommitPos);
-                fileChannel.write(byteBuffer);
-                committedPosition.set(writePos);
+                this.fileChannel.position(lastCommitPos);
+                // todo 为啥写不进去呢？？？
+                this.fileChannel.write(byteBuffer);
+//                this.fileChannel.write(ByteBuffer.wrap("1".getBytes()));
+                this.committedPosition.set(writePos);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -217,10 +217,24 @@ public class FileChannelUtil {
     public String selectString(int pos){
         ByteBuffer byteBuffer = selectMappedBuffer(pos);
         if(byteBuffer!=null){
-            byte[] data=new byte[1024];
+            byte[] data=new byte[1024*8];
             byteBuffer.get(data);
             return new String(data);
         }
         return null;
+    }
+
+    public static void main(String[] args) throws IOException {
+        FileChannelUtil fileChannelUtil=new FileChannelUtil();
+        fileChannelUtil.init("/Users/didi/Downloads/test_mmap");
+        String in="1";
+        fileChannelUtil.write(in.getBytes());
+        fileChannelUtil.commit(0);
+        fileChannelUtil.flush(0);
+
+        ByteBuffer byteBuffer = fileChannelUtil.selectMappedBuffer(0);
+        byte[] b=new  byte[in.length()];
+        byteBuffer.get(b);
+        System.out.println(new String(b));
     }
 }
