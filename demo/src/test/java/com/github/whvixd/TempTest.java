@@ -1214,6 +1214,14 @@ public class TempTest {
     }
 
     @Test
+    public void test81() {
+        // 匹配关键字次数
+        String c=",a";
+        int i = StringUtils.countMatches(c, ",");
+        System.out.println(i);
+    }
+
+    @Test
     public void test() {
     }
 
