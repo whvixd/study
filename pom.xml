@@ -12,6 +12,7 @@
         <module>quartz</module>
         <module>common</module>
         <module>spring-web-demo</module>
+        <module>springboot-demo</module>
     </modules>
 
     <packaging>pom</packaging>
