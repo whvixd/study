@@ -387,11 +387,11 @@
             <version>3.5.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.whvixd</groupId>
-            <artifactId>restful-client</artifactId>
-            <version>1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.whvixd</groupId>-->
+            <!--<artifactId>restful-client</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
