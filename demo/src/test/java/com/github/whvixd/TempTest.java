@@ -67,6 +67,9 @@ import java.security.spec.KeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -74,6 +77,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 @Slf4j
 public class TempTest {
@@ -1222,8 +1227,80 @@ public class TempTest {
     }
 
     @Test
-    public void test() {
+    public void test82() {
+        // mian 主线程
+
+        // 业务代码1
+
+        // 业务2
+
+        // 窗口一：任务一(业务)  任务二 。。。100 不可能无限
+        // 窗口二：任务一 。。。
+        // 窗口三：任务一 。。。
+        // 窗口四：任务一 。。。
+        for(int i=0;i<1000;i++){
+            // 异步
+            // 创建
+            Thread thread=new Thread(()->{
+                // 业务代码5
+                System.out.println("=====");
+            });
+            // 准备 -> cpu 时间片 等待 -> 执行 内核new -> dead，gc对象
+            // 准备 -> cpu 时间片 等待 -> 执行 内核new for(;;)-> dead，内核gc对象，1000 次
+            thread.start();
+
+        }
+
+        // 线程池
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        // 任务
+        Thread thread=new Thread(()->{
+            // 业务代码
+            System.out.println("=====");
+        });
+        for (int i=0;i<100000000;i++){
+            executorService.execute(thread);
+        }
+        // gc 4次
+//        executorService.shutdown();
+
+        // 业务代码3
+        System.out.println("===");
     }
+
+    @Test
+    public void test83() throws InterruptedException {
+        LinkedBlockingQueue<Integer> queue=new LinkedBlockingQueue<>(100);
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+
+// java 服务 ，一直处理请求
+        for(;;){
+            Integer take = queue.take();//=== 元素为空时，调用park，暂停线程，waiting
+            System.out.println(take);
+            System.out.println("======");
+        }
+    }
+
+    @Test
+    public void test84() throws InterruptedException {
+        LinkedList<Integer> linkedList=new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+
+        int count=0;
+
+        for(;;){
+            Integer remove = linkedList.remove();
+            System.out.println(remove);
+            System.out.println(count++);
+        }
+    }
+
+
 
 }
 
