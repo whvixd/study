@@ -353,10 +353,10 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.tomakehurst</groupId>-->
+            <!--<artifactId>wiremock</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.zeromq</groupId>
@@ -380,11 +380,11 @@
             <version>3.4.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.whvixd</groupId>
-            <artifactId>restful-client</artifactId>
-            <version>1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.whvixd</groupId>-->
+            <!--<artifactId>restful-client</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
