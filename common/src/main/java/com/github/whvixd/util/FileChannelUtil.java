@@ -21,7 +21,7 @@ public class FileChannelUtil {
     private FileChannel fileChannel;
     // 推外内存
     ByteBuffer writeBuffer;
-    // 1G
+    // 64k
     private static int fileSize = 1024 * 64;
     private int commitCommitLogLeastPages = 4;
     private int flushCommitLogLeastPages = 4;
@@ -44,8 +44,7 @@ public class FileChannelUtil {
         this.fileChannel = FileUtil.createRandomAccessFile(this.file, FileMode.rw).getChannel();
         // mmap
         this.mappedByteBuffer = this.fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
-        this.writeBuffer = ByteBuffer.allocateDirect(2);
-//        this.fileChannel.close();
+        this.writeBuffer = ByteBuffer.allocateDirect(16);
     }
 
     // 直接写到文件中
@@ -226,7 +225,7 @@ public class FileChannelUtil {
 
     public static void main(String[] args) throws IOException {
         FileChannelUtil fileChannelUtil=new FileChannelUtil();
-        fileChannelUtil.init("/Users/didi/Downloads/test_mmap");
+        fileChannelUtil.init("/Users/didi/Documents/workspace/idea/study/common/src/main/java/com/github/whvixd/util/test_mmap");
         String in="1";
         fileChannelUtil.write(in.getBytes());
         fileChannelUtil.commit(0);
