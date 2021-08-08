@@ -61,6 +61,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
+import java.nio.ByteBuffer;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.KeySpec;
@@ -1299,6 +1300,74 @@ public class TempTest {
             System.out.println(count++);
         }
     }
+
+    public @Test void test85(){
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        //使用slice之前，一般先调用position()和limit()方法，
+        byteBuffer.position(2);
+        // 2 5 5
+        log.info("position:{},limit:{},capacity:{}", byteBuffer.position(), byteBuffer.limit(), byteBuffer.capacity());
+
+        ByteBuffer byteBuffer1 = byteBuffer.slice();
+        // 12345->345
+        log.info("position:{},limit:{},capacity:{}", byteBuffer.position(), byteBuffer.limit(), byteBuffer.capacity());
+        log.info("position:{},limit:{},capacity:{}", byteBuffer1.position(), byteBuffer1.limit(), byteBuffer1.capacity());
+        byteBuffer1.put((byte)6);
+        for (int i = 0; i < bytes.length; i++) {
+            System.out.print(bytes[i]);
+        }
+        //使用slice()后，再调用arrayOffset()方法时，会出现返回值非0的情况
+        //其是对原缓冲区的偏移
+        log.info("offset:{}", byteBuffer1.arrayOffset());
+    }
+
+    public @Test void test86(){
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        //使用slice之前，一般先调用position()和limit()方法，
+        byteBuffer.position(0);
+        ByteBuffer slice = byteBuffer.slice();
+        slice.position(0);
+        for(int i=0;i<bytes.length;i++){
+            System.out.println(slice.get(i));
+        }
+    }
+    public @Test void test87(){
+        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(16);
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        writeBuffer.put(bytes);
+        System.out.println("first position:"+writeBuffer.position());
+        byte[] bytes1 = new byte[]{6,7};
+        // 每次put，post+=bytes1.length
+        writeBuffer.put(bytes1);
+        System.out.println("second position:"+writeBuffer.position());
+        writeBuffer.position(0);
+        // slice 片段：post为writeBuffer的post位置
+        ByteBuffer slice = writeBuffer.slice();
+        System.out.println("slice position:"+writeBuffer.position());
+        System.out.println("slice limit:"+writeBuffer.limit());
+        System.out.println("slice capacity:"+writeBuffer.capacity());
+        slice.position(0);
+//        slice.limit(bytes.length);
+//        System.out.println(slice.limit());
+        for(int i=0;i<7;i++){
+            System.out.println(slice.get(i));
+        }
+    }
+    public @Test void test88(){
+        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(16);
+        ByteBuffer slice = writeBuffer.slice();
+        byte[] bytes = new byte[]{1,2,3,4,5};
+
+        slice.put(bytes);
+        for(int i=0;i<5;i++){
+            System.out.println(writeBuffer.get(i));
+        }
+        System.out.println(writeBuffer.position());
+
+    }
+    public @Test void test(){}
 
 
 

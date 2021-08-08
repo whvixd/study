@@ -1,6 +1,6 @@
 package com.github.whvixd.demo;
 
-import com.github.whvixd.util.FileChannelUtil;
+import com.github.whvixd.util.FileUtils;
 import org.junit.Test;
 
 /**
@@ -9,6 +9,6 @@ import org.junit.Test;
 public class FileChannelUtilTest {
     @Test
     public void test(){
-        System.out.println(FileChannelUtil.getFileContent("/Users/whvixd/Documents/IdeaProjects/workspace/study/demo/src/test/resources/config/WatchServer.txt"));
+        System.out.println(FileUtils.getFileContent("/Users/whvixd/Documents/IdeaProjects/workspace/study/demo/src/test/resources/config/WatchServer.txt"));
     }
 }

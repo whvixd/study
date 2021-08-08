@@ -1,11 +1,10 @@
-package com.github.whvixd.util;
+package com.github.whvixd.demo.jdk.nio;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileMode;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -14,30 +13,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by wangzhx on 2019/8/13.
  */
-public class FileChannelUtil {
+public class FileChannelDemo {
     private MappedByteBuffer mappedByteBuffer;
     private String fileName;
     private File file;
     private FileChannel fileChannel;
     // 推外内存
-    ByteBuffer writeBuffer;
+    private ByteBuffer writeBuffer;
     // 64k
-    private static int fileSize = 1024 * 64;
+    private  int fileSize = 1024 * 64;
     private int commitCommitLogLeastPages = 4;
     private int flushCommitLogLeastPages = 4;
 
-    public static final int OS_PAGE_SIZE = 3;
+    private static final int OS_PAGE_SIZE = 3;
 
     // 写指针
     private final AtomicInteger wrotePosition = new AtomicInteger(0);
-    /////////开启事务时/////////
     // 提交指针
-    protected final AtomicInteger committedPosition = new AtomicInteger(0);
+    private final AtomicInteger committedPosition = new AtomicInteger(0);
     // 刷盘指针
     private final AtomicInteger flushedPosition = new AtomicInteger(0);
 
 
-    public void init(final String fileName) throws IOException {
+    public void init(final String fileName,int fileSize) throws IOException {
         this.fileName = fileName;
         this.file = new File(fileName);
         FileUtil.mkdir(file.getParent());
@@ -45,6 +43,9 @@ public class FileChannelUtil {
         // mmap
         this.mappedByteBuffer = this.fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
         this.writeBuffer = ByteBuffer.allocateDirect(16);
+    }
+    public void init(final String fileName) throws IOException {
+        this.init(fileName,1024 * 64);
     }
 
     // 直接写到文件中
@@ -68,13 +69,29 @@ public class FileChannelUtil {
         return false;
     }
 
-    // todo 先写到推外内存，再提交，最后刷盘，存到磁盘中
+    // 先写到推外内存，再提交，最后刷盘，存到磁盘中
     public boolean write(final byte[] data) {
         int currentP = wrotePosition.get();
         if (data.length + currentP <= fileSize) {
-            // todo 不对？
+            // 移到写的位置
             writeBuffer.position(currentP);
+            // put后，position+=data.length
             writeBuffer.put(data);
+            wrotePosition.addAndGet(data.length);
+            return true;
+        }
+        return false;
+    }
+
+    // 先写到推外内存，再提交，最后刷盘，存到磁盘中
+    public boolean write0(final byte[] data) {
+        int currentP = wrotePosition.get();
+        if (data.length + currentP <= fileSize) {
+            ByteBuffer slice = writeBuffer.slice();
+            // 移到写的位置
+            slice.position(currentP);
+            // put后，position+=data.length
+            slice.put(data);
             wrotePosition.addAndGet(data.length);
             return true;
         }
@@ -91,22 +108,51 @@ public class FileChannelUtil {
 
         return committedPosition.get();
     }
+    public int commit0(final int commitLeastPages) {
+        if (writeBuffer == null) {
+            return wrotePosition.get();
+        }
+        if (this.isAbleToCommit(commitLeastPages)) {
+            doCommit0();
+        }
+
+        return committedPosition.get();
+    }
 
     private void doCommit() {
         int writePos = wrotePosition.get();
         int lastCommitPos = committedPosition.get();
         if (writePos - lastCommitPos > 0) {
+            // 移到上次提交位置
+            writeBuffer.position(lastCommitPos);
+            // 截取的起始位置是writeBuffer.position位置
             ByteBuffer byteBuffer = writeBuffer.slice();
+            byteBuffer.limit(writePos-lastCommitPos);
+            try {
+                this.fileChannel.position(lastCommitPos);
+                this.fileChannel.write(byteBuffer);
+                this.committedPosition.set(writePos);
+            } catch (IOException e) {
+                System.err.printf("Error occurred when doCommit message to mappedFile.e:%s", e);
+            }
+
+        }
+    }
+
+    private void doCommit0() {
+        int writePos = wrotePosition.get();
+        int lastCommitPos = committedPosition.get();
+        if (writePos - lastCommitPos > 0) {
+            ByteBuffer byteBuffer = writeBuffer.slice();
+            // 移到上次提交位置
             byteBuffer.position(lastCommitPos);
             byteBuffer.limit(writePos);
             try {
                 this.fileChannel.position(lastCommitPos);
-                // todo 为啥写不进去呢？？？
                 this.fileChannel.write(byteBuffer);
-//                this.fileChannel.write(ByteBuffer.wrap("1".getBytes()));
                 this.committedPosition.set(writePos);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.printf("Error occurred when doCommit message to mappedFile.e:%s", e);
             }
 
         }
@@ -150,31 +196,6 @@ public class FileChannelUtil {
         return write > flush;
     }
 
-    public static String getFileContent(String fileName) {
-        // mmap
-        try (RandomAccessFile file = new RandomAccessFile(fileName, "r")) {
-            FileChannel channel = file.getChannel();
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(fileSize);
-            int read = channel.read(byteBuffer);
-            StringBuilder stringBuffer = new StringBuilder();
-            while (read != -1) {
-                byteBuffer.flip();
-                while (byteBuffer.hasRemaining()) {
-                    char c = (char) byteBuffer.get();
-                    stringBuffer.append(c);
-                }
-                byteBuffer.compact();
-                read = channel.read(byteBuffer);
-            }
-
-            return stringBuffer.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public boolean isFull() {
         return this.fileSize == this.wrotePosition.get();
     }
@@ -213,10 +234,10 @@ public class FileChannelUtil {
         return null;
     }
 
-    public String selectString(int pos){
+    public String selectString(int pos,int length){
         ByteBuffer byteBuffer = selectMappedBuffer(pos);
         if(byteBuffer!=null){
-            byte[] data=new byte[1024*8];
+            byte[] data=new byte[length];
             byteBuffer.get(data);
             return new String(data);
         }
@@ -224,16 +245,22 @@ public class FileChannelUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        FileChannelUtil fileChannelUtil=new FileChannelUtil();
-        fileChannelUtil.init("/Users/didi/Documents/workspace/idea/study/common/src/main/java/com/github/whvixd/util/test_mmap");
-        String in="1";
-        fileChannelUtil.write(in.getBytes());
-        fileChannelUtil.commit(0);
+        FileChannelDemo fileChannelUtil=new FileChannelDemo();
+        fileChannelUtil.init("/Users/didi/Documents/workspace/idea/study/demo/src/main/java/com/github/whvixd/demo/jdk/nio/test_mmap");
+        String in="abcd";
+        // 写到堆外缓存
+        fileChannelUtil.write0(in.getBytes());
+        // 提交，已经写入文件
+        fileChannelUtil.commit0(0);
+        // 刷盘
         fileChannelUtil.flush(0);
 
-        ByteBuffer byteBuffer = fileChannelUtil.selectMappedBuffer(0);
-        byte[] b=new  byte[in.length()];
-        byteBuffer.get(b);
-        System.out.println(new String(b));
+        String a="efg";
+        fileChannelUtil.write0(a.getBytes());
+        fileChannelUtil.commit0(0);
+        fileChannelUtil.flush(0);
+
+        String s = fileChannelUtil.selectString(0, (in+a).length());
+        System.out.println(s);
     }
 }
