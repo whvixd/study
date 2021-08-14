@@ -9,7 +9,7 @@ import org.junit.Test;
 public class IdGenUtilTest {
     @Test
     public void test(){
-        String s = IdGenUtil.genId();
+        String s = IdGenUtil.genId("12345");
         System.out.println(s);
     }
 }
