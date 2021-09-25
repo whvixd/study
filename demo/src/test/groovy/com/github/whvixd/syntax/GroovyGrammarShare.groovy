@@ -1,4 +1,8 @@
 package com.github.whvixd.syntax
+
+import com.alibaba.fastjson.JSON
+import groovy.json.JsonSlurper
+
 /**
  * Created by wangzhx on 2019/10/16.
  * see：https://www.jianshu.com/p/e8dec95c4326
@@ -90,6 +94,20 @@ test
         def number_float = 8.8F //Float
         def number_double = 8.88D //Double
         def number_big_decimal = 88.88G //BigDecimal
+    }
+
+    def jsonDemo(){
+        String json="{\"extra\":\"{\\\\\\\"businessId\\\\\\\":2,\\\\\\\"from\\\\\\\":\\\\\\\"sms\\\\\\\",\\\\\\\"qos_is_realtime\\\\\\\":0,\\\\\\\"requestId\\\\\\\":\\\\\\\"mock_2021090801\\\\\\\",\\\\\\\"templateId\\\\\\\":8457}\"}"
+
+        def map=JSON.parseObject(json,HashMap.class)
+        println map.extra
+        def extraJson=map.extra as String
+        extraJson=extraJson.replaceAll("\\\\","").replaceAll(" ","")
+        println extraJson
+
+        JsonSlurper slurper=new JsonSlurper()
+        def ex=slurper.parseText(extraJson) as Map
+        print ex.businessId as String
     }
 
 

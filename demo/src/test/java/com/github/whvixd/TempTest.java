@@ -45,6 +45,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.stringtemplate.v4.ST;
+import ucar.ma2.ArrayDouble;
+import ucar.ma2.ArrayFloat;
+import ucar.ma2.InvalidRangeException;
+import ucar.nc2.NCdumpW;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -1367,6 +1373,44 @@ public class TempTest {
         System.out.println(writeBuffer.position());
 
     }
+    public @Test void testNCIO(){
+        String filename = "/Users/didi/Downloads/12981977/2017/NIRv.GPP.201701.v1.nc";
+        NetcdfFile dataFile = null;
+        try {
+            dataFile = NetcdfFile.open(filename, null);
+            // Get the latitude and longitude Variables.
+            Variable latVar = dataFile.findVariable("latitude");
+            Variable lonVar = dataFile.findVariable("longitude");
+
+
+            System.out.println(NCdumpW.printVariableData(latVar, null));
+            System.out.println(NCdumpW.printVariableData(lonVar, null));
+
+            ArrayDouble.D1 latArray;
+            ArrayDouble.D1 lonArray;
+
+            latArray = (ArrayDouble.D1) latVar.read();
+            lonArray = (ArrayDouble.D1) lonVar.read();
+
+            System.out.println(NCdumpW.printArray(latArray, "lat", null));
+            System.out.println(NCdumpW.printArray(lonArray, "lon", null));
+
+            // The file is closed no matter what by putting inside a try/catch block.
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+
+        } finally {
+            if (dataFile != null)
+                try {
+                    dataFile.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+        }
+        System.out.println("*** SUCCESS reading example file " + filename);
+    }
+
     public @Test void test(){}
 
 
