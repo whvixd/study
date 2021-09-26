@@ -1374,10 +1374,12 @@ public class TempTest {
 
     }
     public @Test void testNCIO(){
+        // fixme https://mvnrepository.com/artifact/edu.ucar/netcdfAll/4.6.16.1
+        // 自行下载jar包，加入的classpath中
         String filename = "/Users/didi/Downloads/12981977/2017/NIRv.GPP.201701.v1.nc";
         NetcdfFile dataFile = null;
         try {
-            dataFile = NetcdfFile.open(filename, null);
+            dataFile = NetcdfFile.open(filename);
             // Get the latitude and longitude Variables.
             Variable latVar = dataFile.findVariable("latitude");
             Variable lonVar = dataFile.findVariable("longitude");
