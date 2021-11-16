@@ -1,9 +1,12 @@
 package com.github.whvixd.demo.algorithm.leetcode.moderate;
 
+import cn.hutool.core.util.RandomUtil;
 import com.github.whvixd.demo.algorithm.leetcode.LinkedNode;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -139,8 +142,28 @@ public enum Q146 {
         // 3
         System.out.println(lruCache.get(2));
     }
-    public static void main(String[] args) {
-        Q146.instance.test2();
 
+    private void testPerformance(){
+        int size=100000;
+        // 初始化一万的容量，并添加
+        LRUCache lruCache = new LRUCache(size);
+        long putStart = System.currentTimeMillis();
+        IntStream.range(0,size).forEach(i->{
+            lruCache.put(i,i);
+        });
+        long putEnd = System.currentTimeMillis();
+        System.out.println(lruCache.length);
+        long getStart = System.currentTimeMillis();
+        IntStream.range(0,size).forEach(i->{
+            lruCache.get(RandomUtil.randomInt(size));
+        });
+        long getEnd = System.currentTimeMillis();
+
+        System.out.println("put:"+(putEnd-putStart)+"ms");
+        System.out.println("get:"+(getEnd-getStart)+"ms");
+    }
+
+    public static void main(String[] args) {
+        Q146.instance.testPerformance();
     }
 }

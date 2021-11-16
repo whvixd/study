@@ -7,45 +7,45 @@ package com.github.whvixd.util.datastructure;
  *
  * Created by wangzhx on 2020/4/23.
  */
-public class LRU {
-    private Node head;
-    private Node tail;
+public class ObjectLRU<K,V> {
+    private Node<K,V> head;
+    private Node<K,V> tail;
     private int capacity=Integer.MAX_VALUE;
 
-    private static class Node{
-        int key;
-        int value;
-        Node next;
-        Node prev;
+    private static class Node<K,V>{
+        K key;
+        V value;
+        Node<K,V> next;
+        Node<K,V> prev;
 
         public Node(){
         }
 
-        public Node(int key,int value){
+        public Node(K key,V value){
             this.key=key;
             this.value=value;
         }
     }
 
-    public LRU(){
+    public ObjectLRU(){
         init();
     }
 
-    public LRU(int capacity){
+    public ObjectLRU(int capacity){
         init();
         this.capacity=capacity;
     }
 
     public void init(){
-        this.head = new Node();
-        this.tail = new Node();
+        this.head = new Node<>();
+        this.tail = new Node<>();
         head.next=tail;
         tail.prev=head;
     }
 
     public int size(){
         if(head!=null){
-            Node nodePoint = head.next;
+            Node<K,V> nodePoint = head.next;
             int size=0;
             while (nodePoint!=tail&&nodePoint!=null){
                 size++;
@@ -57,9 +57,9 @@ public class LRU {
     }
 
     // 头插法
-    public void set(int key,int value){
-        Node node = head.next;
-        Node newNode=new Node(key,value);
+    public void set(K key,V value){
+        Node<K,V> node = head.next;
+        Node<K,V> newNode=new Node<>(key,value);
 
         newNode.next=node;
         newNode.prev=head;
@@ -73,14 +73,14 @@ public class LRU {
 
     }
 
-    public int get(int key){
-        int value = -1;
+    public V get(K key){
+        V value = null;
         if(size()>0){
-            Node pointNode = head.next;
+            Node<K,V> pointNode = head.next;
             while (pointNode!=null&&pointNode!=tail){
                 if(pointNode.key==key){
-                   value=pointNode.value;
-                   break;
+                    value=pointNode.value;
+                    break;
                 }
                 pointNode=pointNode.next;
             }
@@ -90,7 +90,7 @@ public class LRU {
         return value;
     }
 
-    public void moveToHead(Node pointNode){
+    public void moveToHead(Node<K,V> pointNode){
         if(pointNode!=null&&pointNode!=tail&&pointNode.prev!=head){
             pointNode.prev.next=pointNode.next;
             pointNode.next.prev=pointNode.prev;
@@ -101,9 +101,9 @@ public class LRU {
         }
     }
 
-    public Node tailDeleteNode(){
+    public Node<K,V> tailDeleteNode(){
         if(size()>0){
-            Node deleteNode = tail.prev;
+            Node<K, V> deleteNode = tail.prev;
             deleteNode.prev.next=tail;
             tail.prev=deleteNode.prev;
             return deleteNode;
@@ -113,7 +113,7 @@ public class LRU {
 
     public void print(){
         if(size()!=0){
-            Node pointNode= head.next;
+            Node<K,V> pointNode= head.next;
             while (pointNode!=tail){
                 System.out.printf("(k:%s,v:%s)",String.valueOf(pointNode.key),String.valueOf(pointNode.value));
                 pointNode=pointNode.next;
