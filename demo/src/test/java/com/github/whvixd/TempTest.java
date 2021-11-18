@@ -1390,6 +1390,9 @@ public class TempTest {
             IndexIterator indexIterator = read.getIndexIterator();
             while (indexIterator.hasNext()){
                 short shortNext = indexIterator.getShortNext();
+                if(shortNext==-9999||shortNext==0){
+                    continue;
+                }
                 System.out.println(shortNext);
             }
         } catch (IOException e) {
