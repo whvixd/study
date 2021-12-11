@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.googlecode.aviator.AviatorEvaluator;
+import com.novell.ldap.*;
 import eu.bitwalker.useragentutils.UserAgent;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -1409,6 +1410,47 @@ public class TempTest {
         }
     }
 
+    /**
+     * LDAP:Light directory access protocol 轻量级目录访问协议
+     * 实现，如Novell
+     * dc(Domain Component)，uid(User Id)，ou(Organization Unit)，cn(Common Name)，sn(Surname)，
+     * dn(Distinguished Name)，rdn(Relative dn)
+     *
+     * 比如查询一个树上的苹果：
+     * 树（dc=ljheee)
+     * 分叉（ou=bei,ou=xi,ou= dong）
+     * 苹果（cn=redApple）
+     *
+     * ref:https://www.iteye.com/blog/leonandjava-317800
+     */
+    public @Test void testLDAP() throws LDAPException {
+        LDAPConnection ldapConnection = new LDAPConnection();
+
+        LDAPAttribute attribute = null;
+
+        LDAPAttributeSet attributeSet = new LDAPAttributeSet();
+        String ldapHost = "127.0.0.1";
+        int ldapPort = 9990;
+        ldapConnection.connect(ldapHost, ldapPort);
+
+        // authenticate to the server
+
+        int ldapVersion = 10;
+        String loginDN = "root";
+        byte[] password = "123456".getBytes();
+        ldapConnection.bind(ldapVersion, loginDN, password);
+        String dn = "cn=JSmith," + "dc=ljheee,ou=bei,ou=xi,ou=dong,cn=redApple";
+
+        LDAPEntry newEntry = new LDAPEntry(dn, attributeSet);
+
+        ldapConnection.add(newEntry);
+
+        System.out.println("\nAdded object: " + dn + " successfully.");
+
+        // disconnect with the server
+        ldapConnection.disconnect();
+
+    }
     public @Test void test(){}
 
 
