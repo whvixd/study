@@ -87,7 +87,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.util.concurrent.Executors.newFixedThreadPool;
 
 @Slf4j
 public class TempTest {
@@ -1501,6 +1500,11 @@ public class TempTest {
                 bean.getBar());
 
     }
+    public @Test void testLocale(){
+        Locale aDefault = Locale.getDefault();
+        System.out.println(aDefault.getDisplayName());
+    }
+
     public @Test void test(){}
 
 

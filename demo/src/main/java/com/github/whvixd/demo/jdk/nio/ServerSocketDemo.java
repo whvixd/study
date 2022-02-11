@@ -38,7 +38,7 @@ public class ServerSocketDemo {
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
         while (true) {
-            // 一直阻塞，直到有数据请求
+            // 一直阻塞，直到有数据请求，select同步操作
             int n = selector.select();
             if (n == 0) {
                 continue;

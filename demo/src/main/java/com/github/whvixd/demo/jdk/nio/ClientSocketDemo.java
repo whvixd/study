@@ -35,6 +35,7 @@ public class ClientSocketDemo {
         buffer.clear();
         socketChannel.socket().shutdownOutput();
 
+        // 业务代码可以异步执行
         String response=receiveData(test.socketChannel);
         System.out.println(response);
     }
@@ -64,10 +65,5 @@ public class ClientSocketDemo {
         }
         return response;
     }
-
-
-
-
-
 
 }
