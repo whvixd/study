@@ -72,12 +72,13 @@
 ## 2021
 
 ### done
-1. 添加springboot-demo 模块（2021-04-29）
+1. 添加spring-boot-demo 模块（2021-04-29）
 2. 学习spring中的event，类似于EventBus（2021-04-29）
+3. 学习c++
 
-### todo
+## 2022
 
-1. 学习c++
 
+1. 学习spring-boot-starter，并搭建 spring-boot-starter-demo模块（2-17）
 
 ...

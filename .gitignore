@@ -11,8 +11,8 @@ logs/
 catalina.home_IS_UNDEFINED/
 **/**.out
 
-springboot-demo/HELP.md
-springboot-demo/target/
+spring-boot-demo/HELP.md
+spring-boot-demo/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
