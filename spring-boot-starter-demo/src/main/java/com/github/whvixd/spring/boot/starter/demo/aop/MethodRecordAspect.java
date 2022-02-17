@@ -1,6 +1,7 @@
 package com.github.whvixd.spring.boot.starter.demo.aop;
 
 import com.github.whvixd.spring.boot.starter.demo.annotation.MethodRecord;
+import com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -8,6 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 /**
@@ -16,6 +18,9 @@ import java.lang.reflect.Method;
 @Aspect
 @Slf4j
 public class MethodRecordAspect {
+    @Resource
+    private DemoProperties demoProperties;
+
     @Pointcut("@annotation(com.github.whvixd.spring.boot.starter.demo.annotation.MethodRecord)")
     public void methodRecordAspect() {
     }
@@ -29,7 +34,7 @@ public class MethodRecordAspect {
         try {
             return proceeding.proceed();
         } finally {
-            log.info("method record,value:{}", value);
+            log.info("method record,value:{},demoProperties:{}", value, demoProperties);
         }
     }
 }

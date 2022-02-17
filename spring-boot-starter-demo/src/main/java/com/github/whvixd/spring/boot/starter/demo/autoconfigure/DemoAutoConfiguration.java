@@ -6,6 +6,7 @@ import com.github.whvixd.spring.boot.starter.demo.aop.ActionAnnotationIntercepto
 import com.github.whvixd.spring.boot.starter.demo.aop.MethodRecordAspect;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Role;
  * Created by wangzhixiang on 2022/02/17.
  */
 @Configuration
+@EnableConfigurationProperties(DemoProperties.class)
 public class DemoAutoConfiguration {
 
     @Bean

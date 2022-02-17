@@ -1,0 +1,60 @@
+{
+  "groups": [
+    {
+      "name": "spring.demo.property",
+      "type": "com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoProperties",
+      "sourceType": "com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoProperties",
+      "defaultValue": "demo",
+      "name": "spring.demo.property.name",
+      "description": "demo name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoChildrenConfig",
+      "defaultValue": "demo",
+      "name": "spring.demo.property.demo-children-config.name",
+      "description": "demoChildrenConfig name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.whvixd.spring.boot.starter.demo.autoconfigure.DemoChildrenConfig",
+      "defaultValue": 0,
+      "name": "spring.demo.property.demo-children-config.count",
+      "description": "demoChildrenConfig count",
+      "type": "java.lang.Integer"
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.demo.property.name",
+      "values": [
+        {
+          "value": "jack",
+          "description": "枚举选项"
+        },
+        {
+          "value": "tom",
+          "description": "tom demo"
+        }
+      ]
+    },
+    {
+      "name": "spring.demo.property.demo-children-config.count",
+      "values": [
+        {
+          "value": 0,
+          "description": "default 0"
+        },
+        {
+          "value": 1,
+          "description": "1"
+        }
+      ]
+    }
+  ]
+}
