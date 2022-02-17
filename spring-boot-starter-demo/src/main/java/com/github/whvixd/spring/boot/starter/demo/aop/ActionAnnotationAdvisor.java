@@ -47,12 +47,12 @@ public class ActionAnnotationAdvisor extends AbstractPointcutAdvisor implements 
 
     @Override
     public Pointcut getPointcut() {
-        return pointcut;
+        return this.pointcut;
     }
 
     @Override
     public Advice getAdvice() {
-        return advice;
+        return this.advice;
     }
 
     @Override

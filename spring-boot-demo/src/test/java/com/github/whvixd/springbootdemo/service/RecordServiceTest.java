@@ -1,8 +1,6 @@
 package com.github.whvixd.springbootdemo.service;
 
 import com.github.whvixd.springbootdemo.SpringBootDemoApplication;
-import com.github.whvixd.springbootdemo.service.event.EventService;
-import com.github.whvixd.springbootdemo.service.model.Something;
 import com.github.whvixd.springbootdemo.service.record.RecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,29 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Created by wangzhixiang on 2021/04/29.
+ * Created by wangzhixiang on 2022/02/17.
  */
 @SpringBootTest(classes = {SpringBootDemoApplication.class})
 @RunWith(SpringRunner.class)
-public class EventServiceTest {
-    @Autowired
-    private EventService eventService;
+public class RecordServiceTest {
 
     @Autowired
     private RecordService recordService;
 
     @Test
-    public void test() {
-        Something something = new Something();
-        something.setId("0");
-        something.setName("test");
-        something.setType("opt");
-        eventService.publishSomething(something);
-
-    }
-
-    @Test
     public void testAction(){
         recordService.action();
     }
+
 }
