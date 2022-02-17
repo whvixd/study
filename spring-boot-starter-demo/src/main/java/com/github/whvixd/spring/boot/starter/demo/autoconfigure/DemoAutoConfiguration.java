@@ -3,6 +3,7 @@ package com.github.whvixd.spring.boot.starter.demo.autoconfigure;
 import com.github.whvixd.spring.boot.starter.demo.annotation.ActionRecord;
 import com.github.whvixd.spring.boot.starter.demo.aop.ActionAnnotationAdvisor;
 import com.github.whvixd.spring.boot.starter.demo.aop.ActionAnnotationInterceptor;
+import com.github.whvixd.spring.boot.starter.demo.aop.MethodRecordAspect;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +21,10 @@ public class DemoAutoConfiguration {
     public Advisor actionAnnotationAdvisor() {
         ActionAnnotationInterceptor interceptor = new ActionAnnotationInterceptor();
         return new ActionAnnotationAdvisor(interceptor, ActionRecord.class);
+    }
+
+    @Bean
+    public MethodRecordAspect methodRecordAspect() {
+        return new MethodRecordAspect();
     }
 }
