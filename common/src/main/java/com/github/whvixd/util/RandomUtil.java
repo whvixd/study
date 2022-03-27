@@ -22,7 +22,17 @@ public class RandomUtil {
     }
 
     public String random() {
+        // 1000*0.81=80
         double ratio = this.treeMap.lastKey() * Math.random();
+
+        // 落入[80,100]的区间中
+        SortedMap<Double, String> sortedMap = this.treeMap.tailMap(ratio, false);
+        return this.treeMap.get(sortedMap.firstKey());
+    }
+
+    public String random(String key) {
+        // key.hashCode()需要小于1
+        double ratio = this.treeMap.lastKey() * key.hashCode();
         SortedMap<Double, String> sortedMap = this.treeMap.tailMap(ratio, false);
         return this.treeMap.get(sortedMap.firstKey());
     }

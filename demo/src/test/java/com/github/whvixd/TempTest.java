@@ -1505,6 +1505,32 @@ public class TempTest {
         System.out.println(aDefault.getDisplayName());
     }
 
+    public @Test void testIntern(){
+
+        // s1 是new String堆中对象引用
+        String s1=new String("11");
+        s1.intern();
+        // 指向堆中常量池的引用
+        String s2="11";
+        // 所以不等
+        System.out.println(s1==s2);
+
+        // s3由两个1组成，常量池只会存在2，不会存在"22"
+        String s3=new String("2")+new String("2");
+        // 常量池中发现堆中已经有22了，所以直接存堆中的引用
+        s3.intern();
+        // s4指向常量池中的引用（s3堆的引用）
+        String s4="22";
+        // 所以相等
+        System.out.println(s3==s4);
+
+        String s5="33",s6="33";
+        System.out.println(s5==s6);
+
+        String s7=new String("44"),s8=new String("44");
+        System.out.println(s7==s8);
+    }
+
     public @Test void test(){}
 
 
