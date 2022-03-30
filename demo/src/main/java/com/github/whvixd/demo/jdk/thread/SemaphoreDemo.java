@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 
 /**
  * Semaphore 限流
+ * Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限
+ *
  * Created by wangzhx on 2020/4/20.
  */
 public class SemaphoreDemo {

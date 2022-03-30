@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 /**
  * 等待其他线程减一操作，到0，会执行 await方法
+ * CountDownLatch 一般用于某个线程 A 等待若干个其他线程执行完任务之后，执行任务
  * Created by wangzhx on 2020/3/7.
  */
 public class CountDownLatchDemo {

@@ -7,6 +7,7 @@ import java.util.concurrent.CyclicBarrier;
 
 /**
  * 回环栅栏
+ *  CyclicBarrier 一般用于一组线程互相等待至某个状态
  * Created by wangzhixiang on 2022/03/30.
  */
 public class CyclicBarrierDemo {
