@@ -3,9 +3,7 @@ package com.github.whvixd.demo.algorithm.leetcode.moderate;
 import cn.hutool.core.util.RandomUtil;
 import com.github.whvixd.demo.algorithm.leetcode.LinkedNode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -58,11 +56,18 @@ public enum Q146 {
 
         private void moveToHead(LinkedNode node) {
             if(node==null||node.prev==head) return;
-            LinkedNode prevNode=node.prev;
-            prevNode.next=node.next;
-            node.next.prev=prevNode;
+            LinkedNode prev=node.prev;
+            LinkedNode next = node.next;
+
+            // 先将当前节点的上个节点与当前节点的下个节点建立链接
+            prev.next=next;
+            next.prev=prev;
+
+            // 再将当前节点与头节点建立链接
             node.next=head.next;
             node.prev=head;
+
+            // 最后头节点自身和他下个节点的前链接与当前节点建立链接
             head.next.prev=node;
             head.next=node;
         }
@@ -98,10 +103,10 @@ public enum Q146 {
             LinkedNode node=tail.prev.prev;
             if(node!=null){
                 LinkedNode removeNode=tail.prev;
-               node.next=tail;
-               tail.prev=node;
-               length--;
-               return removeNode;
+                node.next=tail;
+                tail.prev=node;
+                length--;
+                return removeNode;
             }
             return null;
         }
@@ -112,6 +117,25 @@ public enum Q146 {
          * int param_1 = obj.get(key);
          * obj.put(key,value);
          */
+    }
+
+    static class LRUSimpleCache extends LinkedHashMap<Integer,Integer>{
+
+        private int size;
+
+        public int get(int key){
+            return super.getOrDefault(key,-1);
+        }
+
+        public LRUSimpleCache(int size){
+            super(size,0.75F,true);
+            this.size=size;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+            return size()>this.size;
+        }
     }
 
     private void test1(){
@@ -141,6 +165,18 @@ public enum Q146 {
         System.out.println(lruCache.get(1));
         // 3
         System.out.println(lruCache.get(2));
+
+        // 4->2
+        LRUSimpleCache lruSimpleCache = new LRUSimpleCache(2);
+        lruSimpleCache.put(2,1);
+        lruSimpleCache.put(1,1);
+        lruSimpleCache.put(2,3);
+        lruSimpleCache.put(4,1);
+        // -1
+        System.out.println(lruSimpleCache.get(1));
+        // 3
+        System.out.println(lruSimpleCache.get(2));
+
     }
 
     private void testPerformance(){
@@ -161,9 +197,39 @@ public enum Q146 {
 
         System.out.println("put:"+(putEnd-putStart)+"ms");
         System.out.println("get:"+(getEnd-getStart)+"ms");
+
+//        100000
+//        put:125ms
+//        get:61ms
+    }
+
+    private void testPerformanceSimple(){
+        int size=100000;
+        // 初始化一万的容量，并添加
+        LRUSimpleCache lruCache = new LRUSimpleCache(size);
+        long putStart = System.currentTimeMillis();
+        IntStream.range(0,size).forEach(i->{
+            lruCache.put(i,i);
+        });
+        long putEnd = System.currentTimeMillis();
+        System.out.println(lruCache.size);
+        long getStart = System.currentTimeMillis();
+        IntStream.range(0,size).forEach(i->{
+            lruCache.get(RandomUtil.randomInt(size));
+        });
+        long getEnd = System.currentTimeMillis();
+
+        System.out.println("put:"+(putEnd-putStart)+"ms");
+        System.out.println("get:"+(getEnd-getStart)+"ms");
+
+//        100000
+//        put:24ms
+//        get:28ms
     }
 
     public static void main(String[] args) {
-        Q146.instance.testPerformance();
+//        Q146.instance.testPerformance();
+//        Q146.instance.testPerformanceSimple();
+        Q146.instance.test2();
     }
 }
