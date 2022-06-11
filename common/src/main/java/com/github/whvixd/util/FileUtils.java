@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.experimental.UtilityClass;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +94,31 @@ public class FileUtils {
 
     }
 
+
+    public static String getFileContent(String fileName) {
+        // mmap
+        try (RandomAccessFile file = new RandomAccessFile(fileName, "r")) {
+            FileChannel channel = file.getChannel();
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(1024);
+            int read = channel.read(byteBuffer);
+            StringBuilder stringBuffer = new StringBuilder();
+            while (read != -1) {
+                byteBuffer.flip();
+                while (byteBuffer.hasRemaining()) {
+                    char c = (char) byteBuffer.get();
+                    stringBuffer.append(c);
+                }
+                byteBuffer.compact();
+                read = channel.read(byteBuffer);
+            }
+
+            return stringBuffer.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Data
     static class A {

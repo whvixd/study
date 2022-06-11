@@ -30,7 +30,7 @@ public class ConfigUtil {
         URL config = ConfigUtil.class.getClassLoader().getResource(CONFIG);
         String path = config == null ? EMPTY : config.getPath();
         log.info("file path:{}", path);
-        consumer.accept(FileChannelUtil.getFileContent(path + fileName));
+        consumer.accept(FileUtils.getFileContent(path + fileName));
         WatchService watchService = null;
         try {
             watchService = FileSystems.getDefault().newWatchService();
@@ -59,7 +59,7 @@ public class ConfigUtil {
                 finalWatchService.poll(3, TimeUnit.SECONDS);
                 List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
                 watchEvents.forEach(watchEvent -> {
-                    consumer.accept(FileChannelUtil.getFileContent(path + fileName));
+                    consumer.accept(FileUtils.getFileContent(path + fileName));
                     log.info("url:{},action:{}", path + fileName, watchEvent.kind());
                 });
                 watchKey.reset();
