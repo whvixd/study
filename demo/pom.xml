@@ -521,6 +521,21 @@
             <version>3.18.2</version>
         </dependency>
 
+        <!-- json 转换 -->
+        <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>snack3</artifactId>
+            <version>3.2.24</version>
+        </dependency>
+
+        <!--json 校验-->
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.0.53</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

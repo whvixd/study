@@ -48,8 +48,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.stringtemplate.v4.ST;
-import ucar.ma2.*;
-import ucar.nc2.*;
+//import ucar.ma2.*;
+//import ucar.nc2.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -1374,6 +1374,9 @@ public class TempTest {
         System.out.println(writeBuffer.position());
 
     }
+/*
+
+
     public @Test void testNCIO(){
         // fixme https://mvnrepository.com/artifact/edu.ucar/netcdfAll/4.6.16.1
         // 自行下载jar包，加入的classpath中
@@ -1413,6 +1416,8 @@ public class TempTest {
                 }
         }
     }
+
+     */
 
     /**
      * LDAP:Light directory access protocol 轻量级目录访问协议
