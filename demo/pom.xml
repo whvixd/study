@@ -480,11 +480,11 @@
         </dependency>
 
         <!--读取气象文件 .nc-->
-        <dependency>
-            <groupId>edu.ucar</groupId>
-            <artifactId>netcdfAll</artifactId>
+        <!--<dependency>-->
+            <!--<groupId>edu.ucar</groupId>-->
+            <!--<artifactId>netcdfAll</artifactId>-->
             <!--<version>4.6.16.1</version>-->
-        </dependency>
+        <!--</dependency>-->
 
         <!--ldap 协议-->
         <dependency>

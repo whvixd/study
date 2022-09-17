@@ -32,6 +32,7 @@
 			<version>1.0.0</version>
 		</dependency>
 
+		<!--https://github.com/whvixd/restful-client-spring-boot-starter-->
 		<dependency>
 			<groupId>com.github.whvixd</groupId>
 			<artifactId>restful-client-spring-boot-starter</artifactId>
@@ -40,11 +41,11 @@
 		<!--将本地jar包打成依赖 https://mp.weixin.qq.com/s/Ou8MZyG5uxgqpA5pPuD2Xg-->
 		<!--mvn install:install-file -DgroupId=com.github.xk4848123 -DartifactId=monitor-spring-boot-starter -Dversion=2.3.1
 		-Dpackaging=jar -Dfile=/Users/didi/Tools/jars/monitor-spring-boot-starter.jar-->
-		<dependency>
-			<groupId>com.github.xk4848123</groupId>
-			<artifactId>monitor-spring-boot-starter</artifactId>
-			<version>2.3.1</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.github.xk4848123</groupId>-->
+			<!--<artifactId>monitor-spring-boot-starter</artifactId>-->
+			<!--<version>2.3.1</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
