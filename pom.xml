@@ -14,12 +14,15 @@
         <module>spring-web-demo</module>
         <module>spring-boot-demo</module>
         <module>spring-boot-starter-demo</module>
+        <module>spring-cloud-eureka-server1</module>
+        <module>spring-cloud-eureka-server2</module>
     </modules>
 
     <packaging>pom</packaging>
 
     <name>study</name>
     <url>http://maven.apache.org</url>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

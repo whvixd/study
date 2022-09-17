@@ -1,0 +1,20 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: eureka-server1 # 应用名称，会在Eureka中显示
+eureka:
+  instance:
+#    hostname: www.eureka01.com # eureka服务端的实例名称, 修改host文件映射的主机名(域名)
+    instance-id: eureka-server1
+    prefer-ip-address: true
+  server:
+    enable-self-preservation: true
+  client:
+    #是否将自己注册到Eureka Server,默认为true。由于当前就是server，故而设置成false，表明该服务不会向eureka注册自己的信息
+    register-with-eureka: true
+    #是否从eureka server获取注册信息，默认为true。由于单节点，不需要同步其他节点数据，用false
+    fetch-registry: true
+    #设置服务注册中心的URL，用于client和server端交互
+    service-url:
+      defaultZone: http://localhost:9090/eureka/,http://localhost:9091/eureka/
