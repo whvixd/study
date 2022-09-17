@@ -81,5 +81,6 @@
 
 1. 学习spring-boot-starter，并搭建 spring-boot-starter-demo模块（2-17）
 2. MBeanServer可打印jvm参数 @see ManagementFactoryDemo
+3. 添加eureka客服端和服务端集群模块,spring-boot-demo,spring-cloud-eureka-server1/2 (9-17)
 
 ...
