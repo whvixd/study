@@ -15,6 +15,7 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
+    // todo 动态路由可参考：https://www.jianshu.com/p/490739b183af
     @Bean
     public RouteLocator helloRoute(RouteLocatorBuilder builder) {
         return builder.routes()
