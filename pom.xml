@@ -16,6 +16,7 @@
         <module>spring-boot-starter-demo</module>
         <module>spring-cloud-eureka-server1</module>
         <module>spring-cloud-eureka-server2</module>
+        <module>spring-cloud-gateway-demo</module>
     </modules>
 
     <packaging>pom</packaging>

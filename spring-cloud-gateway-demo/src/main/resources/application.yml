@@ -1,0 +1,15 @@
+server:
+  port: 19999
+spring:
+  application:
+    name: spring-cloud-gateway-demo
+
+#  cloud:
+#      gateway:
+#        routes:
+#        - id: Method_route
+#          uri: http://localhost:9998
+#          predicates:
+#          - Method=GET
+#          filters:
+#          - StripPrefix=1
