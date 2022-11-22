@@ -9,6 +9,7 @@ import spock.lang.Specification
 
 import com.github.whvixd.util.GsonUtil
 
+// 新项目记得加groovy的maven插件
 class BaseTest<T> extends Specification {
 
     def getEntityFromFile(String fileName, Class<T> clazz) {
