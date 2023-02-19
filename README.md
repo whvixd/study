@@ -1,6 +1,6 @@
 # study
 
-> course of growth
+> demos
 
 ---
 
